@@ -25,5 +25,9 @@ npm run test
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### TODO
+
+-[ ] Add router
+-[ ] Add login page
+-[ ] Create Dockerfile
+-[ ] Build and fix routing problem
