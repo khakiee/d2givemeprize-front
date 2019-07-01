@@ -27,7 +27,7 @@ npm run lint
 
 ### TODO
 
--[ ] Add router
+-[x] Add router
 -[ ] Add login page
 -[ ] Create Dockerfile
 -[ ] Build and fix routing problem
