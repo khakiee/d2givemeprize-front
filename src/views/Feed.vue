@@ -18,6 +18,7 @@
     </div>
     <div class="recent-activity-box" style="">
       <RightBox></RightBox>
+      <Footer></Footer>
     </div>
   </div>
 </template>
@@ -26,9 +27,11 @@
   import Card from "../components/Card";
   import scrollList from 'vue-scroll-list';
   import RightBox from "../components/RightBox";
+  import Footer from "../components/Footer";
 
   export default {
     components: {
+      Footer,
       RightBox,
       Card,
       scrollList
