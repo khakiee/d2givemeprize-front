@@ -28,12 +28,21 @@ npm run lint
 ### TODO
 
 -[x] Add router
+
 -[x] Add login page
+
 -[ ] Add axios
+
 -[ ] Add navigation bar
+
 -[ ] Add Footer
+
 -[ ] Redirect to feed page
+
 -[ ] Add feed page
+
 -[ ] Add Vuex, SPA login system
+
 -[ ] Create Dockerfile
+
 -[ ] Build and fix routing problem
