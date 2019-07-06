@@ -32,8 +32,7 @@
 
 <style scoped>
   .card {
-    width: 500px;
-    height: auto;
+    margin-bottom: 50px;
   }
 
   p.card-text {
