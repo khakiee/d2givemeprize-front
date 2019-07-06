@@ -1,8 +1,6 @@
-# build environment
 FROM node:12.2.0-alpine as build
-EXPOSE 80 80
-EXPOSE 8080 8080
-EXPOSE 8888 8888
+
+EXPOSE 80
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json /app/package.json
@@ -11,12 +9,8 @@ RUN npm install @vue/cli@3.7.0 -g
 COPY . /app
 RUN npm run build
 
-# production environment
 FROM nginx:1.16.0-alpine
 COPY --from=build /app/dist /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx/nginx.conf /etc/nginx/conf.d
-EXPOSE 80 80
-EXPOSE 8080 8080
-EXPOSE 8888 8888
 CMD ["nginx", "-g", "daemon off;"]
