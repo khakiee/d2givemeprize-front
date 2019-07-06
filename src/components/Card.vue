@@ -1,5 +1,4 @@
 <template>
-  <container>
     <div class="card">
       <div class="header border-bottom">
         <img class="card-author-profile" src="../assets/logo.png" alt="">
@@ -13,16 +12,15 @@
           <button type="button" class="btn">share</button>
         </div>
         <div class="card-text p-4">
-          <div class="card-text">Lorem ipsum dolor</div>
+          <div class="card-text">{{this.text}}</div>
         </div>
       </div>
     </div>
-  </container>
 </template>
 
 <script>
   export default {
-    name: "TimeLine",
+    name: "Card",
     props: {
       imgSrc: String,
       text: String

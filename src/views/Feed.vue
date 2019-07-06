@@ -10,27 +10,27 @@
                      @toBottom="onBottom"
                      @scrolling="onScroll">
 
-          <time-line v-for="item in list" :key="item.index"
+          <Card v-for="item in list" :key="item.index"
                      img-src=""
-                     text="item.index"></time-line>
+                     text="temp scroller, TODO : make virtual list"></Card>
         </scroll-list>
       </div>
     </div>
     <div class="recent-activity-box" style="">
-      <div style="width: 300px; background-color: #111111">
-        dfasfddfsdasfdaasdfadsffadsadsfadsadsadfssfafsfdffasdasfdfadsadsdsafddfadsafsdf
-      </div>
+      <RightBox></RightBox>
     </div>
   </div>
 </template>
 
 <script>
-  import TimeLine from "../components/TimeLine";
+  import Card from "../components/Card";
   import scrollList from 'vue-scroll-list';
+  import RightBox from "../components/RightBox";
 
   export default {
     components: {
-      TimeLine,
+      RightBox,
+      Card,
       scrollList
     },
     data() {
@@ -41,15 +41,8 @@
       }
     },
     methods: {
-      onTop() {
-        console.log('[demo]:page to top.');
-      },
       onBottom() {
-        console.log('[demo]:page to bottom.');
-        !window.__stopLoadData && this.createData();
-      },
-      onScroll(event) {
-        window.__showScrollEvent && console.log(event);
+        this.createData()
       },
       createData() {
         let size = window.__createSize || 40;
@@ -62,7 +55,6 @@
           });
           // this.heightList.push(itemHeight);
         }
-        console.log('[demo]:' + size + ' items are created.')
       }
     },
     created() {
