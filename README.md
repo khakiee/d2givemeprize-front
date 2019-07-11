@@ -31,9 +31,9 @@ npm run lint
 - [x] Add login page
 - [x] Add axios
 - [x] Add navigation bar
-- [ ] Add Footer
+- [x] Add Footer
 - [x] Redirect to feed page
-- [ ] Add feed page
+- [x] Add feed page
 - [ ] Add Vuex, SPA login system
 - [x] Create Dockerfile
 - [x] Build and fix routing problem
