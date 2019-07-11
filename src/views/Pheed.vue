@@ -8,8 +8,8 @@
                      :keep="true">
 
           <Card v-for="item in list" :key="item.index"
-                     img-src=""
-                     text="temp scroller, TODO : make virtual list"></Card>
+                img-src=""
+                text="temp scroller, TODO : make virtual list"></Card>
         </scroll-list>
       </div>
     </div>
@@ -53,7 +53,6 @@
             index: i,
             itemHeight: itemHeight
           });
-          // this.heightList.push(itemHeight);
         }
       }
     },
@@ -64,7 +63,10 @@
       this.createData();
     },
     mounted() {
-
+      this.$http.post('post/loadMyPheed')
+          .then((res) => {
+            console.log(res.data)
+          })
     }
   }
 </script>

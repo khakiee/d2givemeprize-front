@@ -1,5 +1,5 @@
 <template>
-  <container class="r-box">
+  <div class="r-box">
     <div>
       <div>
         recent action
@@ -10,7 +10,6 @@
         <button type="button" class="btn btn-secondary">dolor</button>
       </div>
     </div>
-
     <div>
       <div>
         add friends
@@ -21,7 +20,7 @@
         <button type="button" class="btn btn-secondary">dolor</button>
       </div>
     </div>
-  </container>
+  </div>
 </template>
 
 <script>
@@ -33,6 +32,5 @@
 <style>
   .r-box {
     width: 300px;
-    background-color: gray;
   }
 </style>

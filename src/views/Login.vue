@@ -6,10 +6,10 @@
       </div>
       <div class="d-inline-block">
         <div class="login-box">
-          <form class="form-group form-control-lg" @submit="submitLogin" style="padding-top: 20px">
-            <input class="input-group-text" type="text" name="id" v-model="input.id" placeholder="ID"/>
+          <form class="form-group form-control-lg" @submit="Login" style="padding-top: 20px">
+            <input class="input-group-text" type="text" name="id" v-model="input.userId" placeholder="ID"/>
             <p></p>
-            <input class="input-group-text" type="text" name="password" v-model="input.password"
+            <input class="input-group-text" type="password" name="password" v-model="input.userPwd"
                    placeholder="Password"/>
             <p></p>
             <button class="btn btn-primary">Login</button>
@@ -28,6 +28,7 @@
 <script>
   import Router from 'vue-router';
   import Vue from 'vue'
+  import login from '../api/session'
 
   Vue.use(Router);
 
@@ -37,15 +38,26 @@
     data() {
       return {
         input: {
-          id: "",
-          password: ""
+          userId: "",
+          userPwd: ""
         }
       }
     },
     methods: {
-      submitLogin: function (e) {
+      Login: function (e) {
         e.preventDefault();
-        this.$router.push('/feed')
+        login.submitLogin(this.input.userId, this.input.userPwd)
+            .then(function (response) {
+              if (response.data) {
+                console.log(response)
+                this.$router.push('/')
+              } else {
+                window.alert('login failed')
+              }
+            }.bind(this)).catch(function () {
+          window.alert('unknown error')
+        }).finally(function () {
+        })
       }
     }
   }

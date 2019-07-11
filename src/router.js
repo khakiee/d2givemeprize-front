@@ -9,7 +9,7 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: 'login',
       component: Login
     },
@@ -19,9 +19,9 @@ export default new Router({
       component: () => import('./views/SignUp.vue')
     },
     {
-      path: '/feed',
-      name: 'feed',
-      component: () => import('./views/Feed.vue')
+      path: '/',
+      name: 'pheed',
+      component: () => import('./views/Pheed.vue')
     }
   ]
 })
