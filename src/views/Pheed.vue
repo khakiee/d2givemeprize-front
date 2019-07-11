@@ -5,10 +5,7 @@
         <scroll-list :debounce="50"
                      :remain="10"
                      :enabled="true"
-                     :keep="true"
-                     @toTop="onTop"
-                     @toBottom="onBottom"
-                     @scrolling="onScroll">
+                     :keep="true">
 
           <Card v-for="item in list" :key="item.index"
                      img-src=""
@@ -65,6 +62,9 @@
       window.__stopLoadData = false;
       window.__showScrollEvent = false;
       this.createData();
+    },
+    mounted() {
+
     }
   }
 </script>
