@@ -7,7 +7,6 @@ Vue.use(Router)
 
 const requireAuth = () => (from, to, next) => {
   const isAuthenticated = store.getters.getIsAuth
-  console.log(store.getters.getIsAuth)
   if (isAuthenticated) return next()
   next('/login')
 }
@@ -30,6 +29,12 @@ export default new Router({
       path: '/',
       name: 'pheed',
       component: () => import('./views/Pheed.vue'),
+      beforeEnter: requireAuth()
+    },
+    {
+      path: '/user/*',
+      name: 'MyPage',
+      component: () => import('./views/MyPage.vue'),
       beforeEnter: requireAuth()
     }
   ]

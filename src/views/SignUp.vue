@@ -10,7 +10,8 @@
         <input class="input-group-text" type="password" name="password" v-model="input.password"
                placeholder="Password"/>
         <p></p>
-        <input class="input-group-text" type="password" name="re-password" v-model="input.re_password" placeholder="re enter Password" v-on:keyup="checkPwMatch"/>
+        <input class="input-group-text" type="password" name="re-password" v-model="input.re_password"
+               placeholder="re enter Password" v-on:keyup="checkPwMatch"/>
 
         <div v-if="pwMatchCheck === true" class="text-success"> 사용 가능!</div>
         <div v-if="pwMatchCheck === false" class="text-danger"> pw 불일치!</div>
@@ -52,7 +53,8 @@
       },
       checkIdDup: function (e) {
         e.preventDefault();
-        this.axios.post('/', {
+        this.idDupCheck = true
+        /*this.axios.post('/', {
           jsonData: JSON.stringify({
             userId: this.input.userId
           })
@@ -66,7 +68,7 @@
           }
         }).catch(function () {
           this.idDupCheck = true
-        });
+        });*/
       },
       submitSignin: function (e) {
         e.preventDefault();
