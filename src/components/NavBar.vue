@@ -25,4 +25,7 @@
     height: auto;
     margin-left: 20px;
   }
+  .navbar {
+    background-color: white;
+  }
 </style>

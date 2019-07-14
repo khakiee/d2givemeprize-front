@@ -63,7 +63,7 @@
       this.createData();
     },
     mounted() {
-      this.$http.post('post/loadMyPheed')
+      this.$http.post('/Timeline/post/loadMyPheed')
           .then((res) => {
             console.log(res.data)
           })
