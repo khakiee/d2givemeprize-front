@@ -1,5 +1,5 @@
 // src/vuex/actions.js
-import {UID, IS_AUTH, ERROR_STATE} from './mutation_types'
+import {ERROR_STATE, IS_AUTH, LID, UID} from './mutation_types'
 import api from '../api/session'
 
 let setUID = ({commit}, data) => {
@@ -13,8 +13,10 @@ let setErrorState = ({commit}, data) => {
 let setIsAuth = ({commit}, data) => {
   commit(IS_AUTH, data)
 }
+let setLID = ({commit}, data) => {
+  commit(LID, data)
+}
 
-// 백엔드에서 반환한 결과값을 가지고 로그인 성공 실패 여부를 vuex에 넣어준다.
 let processResponse = (store, loginResponse) => {
   switch (loginResponse) {
     case 'noAuth':
@@ -23,15 +25,15 @@ let processResponse = (store, loginResponse) => {
       break
     default:
       setUID(store, loginResponse.data.userNo)
+      setLID(store, loginResponse.data.userId)
       setErrorState(store, '')
       setIsAuth(store, true)
   }
 }
 
 export default {
-  async login (store, {uid, password}) {
+  async login(store, {uid, password}) {
     let loginResponse = await api.login(uid, password)
-    console.log(loginResponse)
     processResponse(store, loginResponse)
     return store.getters.getIsAuth  // 로그인 결과를 리턴한다
   }
