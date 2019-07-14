@@ -1,8 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from './views/Login.vue'
+import store from './store/store'
 
 Vue.use(Router)
+
+const requireAuth = () => (from, to, next) => {
+  const isAuthenticated = store.getters.getIsAuth
+  console.log(store.getters.getIsAuth)
+  if (isAuthenticated) return next()
+  next('/login')
+}
 
 export default new Router({
   mode: 'history',
@@ -21,7 +29,8 @@ export default new Router({
     {
       path: '/',
       name: 'pheed',
-      component: () => import('./views/Pheed.vue')
+      component: () => import('./views/Pheed.vue'),
+      beforeEnter: requireAuth()
     }
   ]
 })

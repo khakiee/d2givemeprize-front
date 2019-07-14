@@ -6,7 +6,16 @@ const submitLogin = (userId, userPwd) => {
         userPwd: userPwd
       }
   )
-}
+};
+
 export default {
-  submitLogin
+  async login(uid, password) {
+    try {
+      const getUserInfoPromise = await submitLogin(uid, password)
+      if (getUserInfoPromise.data.length === 0) return 'noAuth' // 로그인 결과에 따른 분기 처리를 해준다
+      return getUserInfoPromise
+    } catch (err) {
+      console.log(err)
+    }
+  }
 }

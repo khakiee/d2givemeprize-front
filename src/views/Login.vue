@@ -6,7 +6,7 @@
       </div>
       <div class="d-inline-block">
         <div class="login-box">
-          <form class="form-group form-control-lg" @submit="Login" style="padding-top: 20px">
+          <form class="form-group form-control-lg" @submit.prevent="onSubmit" style="padding-top: 20px">
             <input class="input-group-text" type="text" name="id" v-model="input.userId" placeholder="ID"/>
             <p></p>
             <input class="input-group-text" type="password" name="password" v-model="input.userPwd"
@@ -28,7 +28,7 @@
 <script>
   import Router from 'vue-router';
   import Vue from 'vue'
-  import login from '../api/session'
+  import {mapActions} from 'vuex'
 
   Vue.use(Router);
 
@@ -44,19 +44,23 @@
       }
     },
     methods: {
-      Login: function (e) {
-        e.preventDefault();
-        login.submitLogin(this.input.userId, this.input.userPwd)
-            .then(function (response) {
-              if (response.data) {
-                console.log(response)
-                this.$router.push('/')
-              } else {
-                window.alert('login failed')
-              }
-            }.bind(this)).catch(function () {
-          window.alert('unknown error')
-        }).finally(function () {
+
+      ...mapActions(['login']),
+      async onSubmit() {
+        try {
+          let loginResult = await this.login({uid: this.input.userId, password: this.input.userPwd})
+          if (loginResult) {
+            this.goToPages()
+          } else {
+            window.alert('login failed')
+          }
+        } catch (err) {
+          console.error(err)
+        }
+      },
+      goToPages() {
+        this.$router.push({
+          name: 'pheed'
         })
       }
     }
