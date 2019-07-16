@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="tab-pane fade" id="tagged">
-          <p>Nunc vitae turpis </p>
+          <p>Nunc vitae turpis</p>
         </div>
       </div>
     </div>

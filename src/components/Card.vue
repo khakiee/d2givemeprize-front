@@ -1,21 +1,21 @@
 <template>
-    <div class="card">
-      <div class="header border-bottom">
-        <img class="card-author-profile" src="../assets/logo.png" alt="">
-        <div class="card-author">author</div>
+  <div class="card">
+    <div class="header border-bottom">
+      <img class="card-author-profile" src="../assets/logo.png" alt="">
+      <div class="card-author">{{this.author}}</div>
+    </div>
+    <div class="card-body">
+      <img v-if="imgSrc" class="card-img border-bottom" src="../assets/logo.png" alt=""/>
+      <div class="card-text p-4">
+        <div class="card-text">{{this.text}}</div>
       </div>
-      <div class="card-body">
-        <img class="card-img border-bottom" src="../assets/logo.png" alt=""/>
-        <div class="btn-group border-top" role="group">
-          <button type="button" class="btn">like</button>
-          <button type="button" class="btn">comment</button>
-          <button type="button" class="btn">share</button>
-        </div>
-        <div class="card-text p-4">
-          <div class="card-text">{{this.text}}</div>
-        </div>
+      <div class="btn-group border-top" role="group">
+        <button type="button" class="btn">like</button>
+        <button type="button" class="btn">comment</button>
+        <button type="button" class="btn">Details</button>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -23,7 +23,8 @@
     name: "Card",
     props: {
       imgSrc: String,
-      text: String
+      text: String,
+      author: String
     }
   }
 </script>
@@ -31,6 +32,10 @@
 <style scoped>
   .card {
     margin-bottom: 50px;
+  }
+
+  .card-text {
+    text-align: left;
   }
 
   p.card-text {

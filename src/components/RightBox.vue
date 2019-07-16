@@ -5,21 +5,15 @@
         <a :href="getMyPageUrl()">
           <img class="profile-img" src="../assets/logo.png" alt=""/>
           <div class="profile-namecard">
-            <div class="name">{{userName}}</div>
-            <div class="id">{{userId}}</div>
+            <div class="name">{{this.userName}}</div>
+            <div class="id">{{this.userId}}</div>
           </div>
         </a>
       </div>
-    </div>
-    <div>
-      <div>
-        add friends
-      </div>
-      <div class="btn-group " role="group">
-        <button type="button" class="btn btn-secondary">ipsum</button>
-        <button type="button" class="btn btn-secondary">lorem</button>
-        <button type="button" class="btn btn-secondary">dolor</button>
-      </div>
+
+      <button class="btn write-post border bg-white" v-on:click="onClickWriteBox">
+        게시글 작성하기
+      </button>
     </div>
   </div>
 </template>
@@ -33,16 +27,19 @@
       userProfileImg: String
     },
     data() {
-      return {}
+      return {
+        write_box: false
+      }
     },
     methods: {
       getMyPageUrl: function () {
         return "/user/" + this.userId
+      },
+      onClickWriteBox: function () {
+        this.write_box = !this.write_box
       }
     },
     mounted() {
-      this.userName = '김지환'
-      this.userId = 'eric967712'
     }
   }
 </script>
@@ -75,6 +72,12 @@
   .id {
     font-size: smaller;
     color: gray;
+  }
+
+  .write-post {
+    border-radius: 0.5rem;
+    width: 100%;
+    height: 10%;
   }
 
   .r-box {

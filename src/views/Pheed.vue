@@ -7,14 +7,19 @@
                      :enabled="true"
                      :keep="true">
 
-          <Card v-for="item in list" :key="item.index"
-                img-src=""
-                text="temp scroller, TODO : make virtual list"></Card>
+          <Card v-for="item in postList" :key="item.postNo"
+                :img-sr="item.postImg"
+                :text="item.postContent"
+                :author="item.userName"
+          ></Card>
         </scroll-list>
       </div>
     </div>
     <div class="recent-activity-box" style="">
-      <RightBox></RightBox>
+      <RightBox :user-id="userId"
+                :user-name="userName"
+
+      ></RightBox>
       <Footer></Footer>
     </div>
   </div>
@@ -25,6 +30,7 @@
   import scrollList from 'vue-scroll-list';
   import RightBox from "../components/RightBox";
   import Footer from "../components/Footer";
+  import store from "../store/store"
 
   export default {
     components: {
@@ -35,38 +41,32 @@
     },
     data() {
       return {
-        list: [],
-        heightList: [],
-        count: 0
+        count: 0,
+        postList: [],
+        userId: String,
+        userName: String
       }
     },
     methods: {
-      onBottom() {
-        this.createData()
-      },
-      createData() {
-        let size = window.__createSize || 40;
-        this.count += size;
-        for (let i = this.count - size; i < this.count; i++) {
-          let itemHeight = Math.round(Math.random() * 100) + 40;
-          this.list.push({
-            index: i,
-            itemHeight: itemHeight
-          });
-        }
+      getUserInfo: function () {
+        this.userId = store.getters.getLid
+        this.userName = store.getters.getUname
       }
     },
     created() {
       window.__createSize = 40;
       window.__stopLoadData = false;
       window.__showScrollEvent = false;
-      this.createData();
+      this.getUserInfo()
+      console.log(this.userName, this.userId)
     },
     mounted() {
       this.$http.post('/Timeline/post/loadMyPheed')
           .then((res) => {
-            console.log(res.data)
-          })
+            this.postList = res.data
+          }).catch((err) => {
+            err.print()
+      })
     }
   }
 </script>
