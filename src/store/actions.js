@@ -1,5 +1,5 @@
 // src/vuex/actions.js
-import {ERROR_STATE, IS_AUTH, LID, UID} from './mutation_types'
+import {ERROR_STATE, IS_AUTH, LID, UID, UNAME} from './mutation_types'
 import api from '../api/session'
 
 let setUID = ({commit}, data) => {
@@ -17,6 +17,10 @@ let setLID = ({commit}, data) => {
   commit(LID, data)
 }
 
+let setUNAME = ({commit}, data) => {
+  commit(UNAME, data)
+}
+
 let processResponse = (store, loginResponse) => {
   switch (loginResponse) {
     case 'noAuth':
@@ -26,6 +30,7 @@ let processResponse = (store, loginResponse) => {
     default:
       setUID(store, loginResponse.data.userNo)
       setLID(store, loginResponse.data.userId)
+      setUNAME(store, loginResponse.data.userName)
       setErrorState(store, '')
       setIsAuth(store, true)
   }

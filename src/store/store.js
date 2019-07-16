@@ -9,6 +9,8 @@ Vue.use(Vuex)
 
 const state = {
   uid: '',
+  uname: '',
+  lid: '',
   errorState: '',
   isAuth: false
 }
@@ -21,6 +23,6 @@ export default new Vuex.Store({
   plugins: [createPersist({
     namespace: 'd2sns',
     initialState: {},
-    expires: 7 * 24 * 60 * 60 * 1000 // a week
+    expires: 7 * 24 * 60 * 60 * 1000
   })]
 })

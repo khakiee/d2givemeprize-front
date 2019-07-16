@@ -13,7 +13,7 @@ export default {
   [types.IS_AUTH](state, isAuth) {
     state.isAuth = isAuth
   },
-  [types.COOKIE](state, cookie) {
-    state.cookie = cookie
+  [types.UNAME](state, uname) {
+    state.uname = uname
   }
 }
