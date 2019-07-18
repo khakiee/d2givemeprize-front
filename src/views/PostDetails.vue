@@ -9,9 +9,14 @@
       <div class="card-body">
         <img v-if="postImgSrc" class="card-img border-bottom" :src="getImgUrl" alt=""/>
         <div class="card-mid bg-white">
-          <button class="btn ui-icon-heart d-inline-block float-left">
-            like btn
-          </button>
+          <img v-if="!likedByAuth" class="not-like-btn m-2"
+               src="../assets/like_btn_img/not_like.png"
+               v-on:click="onClickLikeBtn"
+               alt=""/>
+          <img v-if="likedByAuth" class="like-btn m-2"
+               src="../assets/like_btn_img/like.png"
+               v-on:click="onClickLikeBtn"
+               alt=""/>
           <div class="d-inline-block float-right">
             조회수 : {{this.postHit}}
           </div>
@@ -31,6 +36,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
   export default {
     name: "PostDetails",
     data() {
@@ -38,6 +44,7 @@
         postInfo: {},
         postId: Number,
         likeCount: Number,
+        likedByAuth: Boolean,
         postContent: String,
         postHit: Number,
         postImgSrc: String,
@@ -54,6 +61,7 @@
 //          this.postInfo = res.data
 
           this.likeCount = res.data.liked
+          this.likedByAuth = res.data.likedByAuth
           this.postContent = res.data.postContent
           this.postHit = res.data.postHit
           this.postImgSrc = res.data.postImg
@@ -62,8 +70,17 @@
         }).catch((err) => {
           err.print()
         })
+      },
+      onClickLikeBtn: function () {
+        const kk = this
+        axios.post('/Timeline/post/likePheed',
+            {postNo: this.postId})
+            .then(function (res) {
+              if (res) {
+                kk.likedByAuth = !kk.likedByAuth
+              }
+            })
       }
-
     },
     computed: {
       getImgUrl: function () {
@@ -118,6 +135,11 @@
     height: auto;
     float: left;
     vertical-align: center;
+  }
+
+  .not-like-btn, .like-btn {
+    width: 40px;
+    height: 40px;
   }
 
   .card-author {

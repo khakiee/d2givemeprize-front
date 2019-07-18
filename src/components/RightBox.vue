@@ -48,8 +48,7 @@
   import axios from 'axios'
 
   const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
-
-  var s3 = new AWS.S3({
+  const s3 = new AWS.S3({
     accessKeyId: process.env.VUE_APP_AWS_ACCESS_KEY,
     secretAccessKey: process.env.VUE_APP_AWS_SECRET_KEY,
     region: 'ap-northeast-2'

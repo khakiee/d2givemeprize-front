@@ -12,6 +12,7 @@
                 :post-id="item.postNo"
                 :text="item.postContent"
                 :author="item.userName"
+                :liked="item.likedByAuth"
                 :on-click-like="onClickLike"
           />
         </scroll-list>

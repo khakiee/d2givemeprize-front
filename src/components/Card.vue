@@ -11,23 +11,43 @@
           <div class="card-text">{{this.text}}</div>
         </div>
       </a>
-      <div class="btn-group border-top" role="group">
-        <button type="button" class="btn">like</button>
-        <button type="button" class="btn">comment</button>
+      <div class="" role="group">
+        <img v-if="!liked" class="not-like-btn mb-4 pt-0"
+             src="../assets/like_btn_img/not_like.png"
+             v-on:click="onClickLikeBtn"
+             alt=""/>
+        <img v-if="liked" class="like-btn mb-4 pt-0"
+             src="../assets/like_btn_img/like.png"
+             v-on:click="onClickLikeBtn"
+             alt=""/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import axios from "axios";
 
   export default {
     name: "Card",
     props: {
+      liked: Boolean,
       postId: Number,
       imgSrc: String,
       text: String,
       author: String,
+    },
+    methods: {
+      onClickLikeBtn: function () {
+        const kk = this
+        axios.post('/Timeline/post/likePheed',
+            {postNo: this.postId})
+            .then(function (res) {
+              if (res) {
+                kk.liked = !kk.liked
+              }
+            })
+      }
     },
     computed: {
       getDetailUrl: function () {
@@ -43,7 +63,7 @@
 <style scoped>
   a {
     color: inherit;
-      text-decoration: none; /* no underline */
+    text-decoration: none; /* no underline */
   }
 
   .card {
@@ -83,6 +103,11 @@
     height: auto;
     float: left;
     vertical-align: center;
+  }
+
+  .not-like-btn, .like-btn {
+    width: 40px;
+    height: 40px;
   }
 
   .card-author {
