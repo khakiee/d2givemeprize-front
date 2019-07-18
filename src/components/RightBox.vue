@@ -79,10 +79,18 @@
       },
       submitPheed: function () {
         console.log(this.postText, this.imagePaths)
-        axios.post('/Timeline/post/writepheed', {
+        axios.post('/Timeline/post/writePheed', {
           postTitle: 'asdf',
           postContent: this.postText,
-          postImg: ""
+          postImg: this.imagePaths
+        }).then(function (res) {
+          if(res) {
+            window.alert('포스팅이 업로드 되었습니다.')
+            this.showWriteBox = false
+          }
+          else{
+            window.alter('failed')
+          }
         })
       }
     },
@@ -104,8 +112,8 @@
                     return;
                   }
                   load(data.Key);
-                  kk.imagePaths.push(data.Key.toString())
-
+                  //kk.imagePaths.push(data.Key.toString())
+                  kk.imagePaths = data.Key
                 });
 
           }

@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar border-bottom p-4" style="height: 80px;">
+  <div class="navbar border-bottom p-4 pl-lg-5 pr-lg-5" style="height: 80px;">
     <div>
       <a href="/">
         <img src="../assets/logo.png" alt="" style="width: 30px; height: auto;"/>
