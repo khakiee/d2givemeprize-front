@@ -31,7 +31,7 @@
   export default {
     name: "Card",
     props: {
-      liked: Boolean,
+      liked: Number,
       postId: Number,
       imgSrc: String,
       text: String,

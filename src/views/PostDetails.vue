@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card m-lg-5">
+    <div class="card mr-lg-5 ml-lg-5 mt-lg-5">
       <div class="header border-bottom mb-2">
         <img class="card-author-profile" src="../assets/logo.png" alt="">
         <div class="card-author">{{this.author}}</div>
@@ -21,15 +21,17 @@
             조회수 : {{this.postHit}}
           </div>
         </div>
-        <div class="card-text p-4">
+        <div class="card-text p-4 comment-box">
           <div class="card-text">{{this.postContent}}</div>
         </div>
       </div>
     </div>
-    <div class="card m-lg-5">
-      write comment
+    <div class="bg-white mr-lg-5 ml-lg-5 p-3 border">
+      <input class="input-group-text d-inline-block text-xl-left" type="text" name="id" v-model="comment" placeholder="Comment here...">
+
+      <button class="btn bg-light ml-3" v-on:click="onClickCommentBtn">comment</button>
     </div>
-    <div class="card m-lg-5">
+    <div class="card mr-lg-5 ml-lg-5">
       comments
     </div>
   </div>
@@ -37,6 +39,7 @@
 
 <script>
   import axios from 'axios'
+
   export default {
     name: "PostDetails",
     data() {
@@ -47,9 +50,10 @@
         likedByAuth: Boolean,
         postContent: String,
         postHit: Number,
-        postImgSrc: String,
+        postImgSrc: "",
         postRegDate: String,
         author: String,
+        comment: ""
       }
     },
     methods: {
@@ -76,8 +80,19 @@
         axios.post('/Timeline/post/likePheed',
             {postNo: this.postId})
             .then(function (res) {
-              if (res) {
+              if (res.statusCode === 200) {
                 kk.likedByAuth = !kk.likedByAuth
+              }
+            })
+      },
+      onClickCommentBtn: function () {
+        const kk = this
+        axios.post('/Timeline/reply/writeReply',
+            [[], {postNo: this.postId, replyContent: this.comment}])
+            .then(function (res) {
+              if (res) {
+                window.alert('write comment success')
+                kk.comment = ""
               }
             })
       }
@@ -94,12 +109,16 @@
 </script>
 
 <style scoped>
-  .card-mid {
-    padding: 2rem;
+  .comment-box {
+    text-align: left;
   }
 
-  .card {
-    margin-bottom: 50px;
+  .input-group-text {
+    width: 50%;
+  }
+
+  .card-mid {
+    padding: 2rem;
   }
 
   .card-text {

@@ -7,13 +7,12 @@
                      :enabled="true"
                      :keep="true">
 
-          <Card v-for="item in postList" :key="item.postRegDate"
+          <Card v-for="item in postList" :key="item.postNo"
                 :img-src="item.postImg"
                 :post-id="item.postNo"
                 :text="item.postContent"
                 :author="item.userName"
                 :liked="item.likedByAuth"
-                :on-click-like="onClickLike"
           />
         </scroll-list>
       </div>
