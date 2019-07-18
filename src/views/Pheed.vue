@@ -11,7 +11,11 @@
                 :img-sr="item.postImg"
                 :text="item.postContent"
                 :author="item.userName"
-          ></Card>
+                :on-click-detail="onClickDetail"
+                :on-click-like="onClickLike"
+          >
+
+          </Card>
         </scroll-list>
       </div>
     </div>
@@ -31,9 +35,11 @@
   import RightBox from "../components/RightBox";
   import Footer from "../components/Footer";
   import store from "../store/store"
+  import Modal from "../components/Modal";
 
   export default {
     components: {
+      Modal,
       Footer,
       RightBox,
       Card,
@@ -44,13 +50,18 @@
         count: 0,
         postList: [],
         userId: String,
-        userName: String
+        userName: String,
+        visible: false
       }
     },
     methods: {
       getUserInfo: function () {
         this.userId = store.getters.getLid
         this.userName = store.getters.getUname
+      },
+      onClickDetail: function () {
+        this.visible = true
+        console.log('work!')
       }
     },
     created() {
@@ -61,17 +72,17 @@
       console.log(this.userName, this.userId)
     },
     mounted() {
-      this.$http.post('/Timeline/post/loadMyPheed')
+      this.$http.get('/Timeline/post/loadMyPheed')
           .then((res) => {
             this.postList = res.data
           }).catch((err) => {
-            err.print()
+        err.print()
       })
     }
   }
 </script>
 
-<style>
+<style scoped>
   .feed {
     display: inline-block;
     text-align: center;
@@ -104,6 +115,16 @@
     width: 300px;
     margin-left: 1rem;
     padding-top: 30px;
+  }
+
+  .card-detail {
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .card-img {
+    width: 80%;
+    height: 100%;
   }
 
   ::-webkit-scrollbar {

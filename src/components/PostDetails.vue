@@ -4,7 +4,7 @@
 
 <script>
   export default {
-    name: "CardDetails.vue"
+    name: "PostDetails.vue"
   }
 </script>
 

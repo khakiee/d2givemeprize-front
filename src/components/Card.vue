@@ -12,7 +12,7 @@
       <div class="btn-group border-top" role="group">
         <button type="button" class="btn">like</button>
         <button type="button" class="btn">comment</button>
-        <button type="button" class="btn">Details</button>
+        <button type="button" class="btn" v-on:click="onClickDetail">Details</button>
       </div>
     </div>
   </div>
@@ -24,7 +24,8 @@
     props: {
       imgSrc: String,
       text: String,
-      author: String
+      author: String,
+      onClickDetail : function() {}
     }
   }
 </script>

@@ -44,7 +44,6 @@
       }
     },
     methods: {
-
       ...mapActions(['login']),
       async onSubmit() {
         try {
