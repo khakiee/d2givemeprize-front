@@ -5,32 +5,47 @@
       <div class="card-author">{{this.author}}</div>
     </div>
     <div class="card-body">
-      <img v-if="imgSrc" class="card-img border-bottom" src="../assets/logo.png" alt=""/>
-      <div class="card-text p-4">
-        <div class="card-text">{{this.text}}</div>
-      </div>
+      <img v-if="imgSrc" class="card-img border-bottom" :src="getImgUrl" alt=""/>
+      <a :href="getDetailUrl">
+        <div class="card-text p-4">
+          <div class="card-text">{{this.text}}</div>
+        </div>
+      </a>
       <div class="btn-group border-top" role="group">
         <button type="button" class="btn">like</button>
         <button type="button" class="btn">comment</button>
-        <button type="button" class="btn" v-on:click="onClickDetail">Details</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+
   export default {
     name: "Card",
     props: {
+      postId: Number,
       imgSrc: String,
       text: String,
       author: String,
-      onClickDetail : function() {}
+    },
+    computed: {
+      getDetailUrl: function () {
+        return '/post/' + this.postId
+      },
+      getImgUrl: function () {
+        return process.env.VUE_APP_S3_BUCKET_NAME + this.imgSrc
+      }
     }
   }
 </script>
 
 <style scoped>
+  a {
+    color: inherit;
+      text-decoration: none; /* no underline */
+  }
+
   .card {
     margin-bottom: 50px;
   }

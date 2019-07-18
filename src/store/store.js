@@ -23,6 +23,6 @@ export default new Vuex.Store({
   plugins: [createPersist({
     namespace: 'd2sns',
     initialState: {},
-    expires: 7 * 24 * 60 * 60 * 1000
+    expires: 30 * 60 * 1000
   })]
 })

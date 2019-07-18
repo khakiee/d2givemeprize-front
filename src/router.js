@@ -36,6 +36,12 @@ export default new Router({
       name: 'MyPage',
       component: () => import('./views/MyPage.vue'),
       beforeEnter: requireAuth()
-    }
+    },
+    {
+      path: '/post/:postId',
+      name: 'Post',
+      component: () => import('./views/PostDetails.vue'),
+      beforeEnter: requireAuth()
+    },
   ]
 })

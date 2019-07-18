@@ -7,15 +7,13 @@
                      :enabled="true"
                      :keep="true">
 
-          <Card v-for="item in postList" :key="item.postNo"
-                :img-sr="item.postImg"
+          <Card v-for="item in postList" :key="item.postRegDate"
+                :img-src="item.postImg"
+                :post-id="item.postNo"
                 :text="item.postContent"
                 :author="item.userName"
-                :on-click-detail="onClickDetail"
                 :on-click-like="onClickLike"
-          >
-
-          </Card>
+          />
         </scroll-list>
       </div>
     </div>
@@ -35,11 +33,9 @@
   import RightBox from "../components/RightBox";
   import Footer from "../components/Footer";
   import store from "../store/store"
-  import Modal from "../components/Modal";
 
   export default {
     components: {
-      Modal,
       Footer,
       RightBox,
       Card,
@@ -58,10 +54,6 @@
       getUserInfo: function () {
         this.userId = store.getters.getLid
         this.userName = store.getters.getUname
-      },
-      onClickDetail: function () {
-        this.visible = true
-        console.log('work!')
       }
     },
     created() {
