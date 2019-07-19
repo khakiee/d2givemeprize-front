@@ -79,7 +79,7 @@
       },
       submitPheed: function () {
         console.log(this.postText, this.imagePaths)
-        axios.post('/Timeline/post/writePheed', {
+        axios.post('/Timeline/post', {
           postTitle: 'asdf',
           postContent: this.postText,
           postImg: this.imagePaths

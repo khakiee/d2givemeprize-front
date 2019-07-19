@@ -40,8 +40,7 @@
     methods: {
       onClickLikeBtn: function () {
         const kk = this
-        axios.post('/Timeline/post/likePheed',
-            {postNo: this.postId})
+        axios.put('/Timeline/post/' + this.postId)
             .then(function (res) {
               if (res) {
                 kk.liked = !kk.liked

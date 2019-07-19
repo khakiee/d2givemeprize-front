@@ -67,7 +67,7 @@
       console.log(this.userName, this.userId)
     },
     mounted() {
-      this.$http.get('/Timeline/post/loadMyPheed')
+      this.$http.get('/Timeline/post')
           .then((res) => {
             this.postList = res.data
           }).catch((err) => {

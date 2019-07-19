@@ -77,9 +77,7 @@
     methods: {
       async getPostDetails() {
         this.postId = this.$route.params.postId
-        this.$http.post('/Timeline/post/detailPheed', {
-          postNo: this.postId
-        }).then((res) => {
+        this.$http.get('/Timeline/post/' + this.postId).then((res) => {
 //          this.postInfo = res.data
           let post = res.data.post
 
@@ -98,7 +96,7 @@
       },
       onClickLikeBtn: function () {
         let kk = this
-        axios.post('/Timeline/post/likePheed',
+        axios.put('/Timeline/post/' + this.postId,
             {postNo: this.postId})
             .then(function (res) {
               if (res) {
