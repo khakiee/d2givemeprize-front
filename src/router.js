@@ -2,6 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from './views/Login.vue'
 import store from './store/store'
+import SignUp from "./views/SignUp";
+import Pheed from "./views/Pheed";
+import MyPage from "./views/MyPage";
+import PostDetails from "./views/PostDetails";
 
 Vue.use(Router)
 
@@ -23,25 +27,25 @@ export default new Router({
     {
       path: '/signup',
       name: 'signup',
-      component: () => import('./views/SignUp.vue')
+      component: SignUp
     },
     {
       path: '/',
       name: 'pheed',
-      component: () => import('./views/Pheed.vue'),
+      component: Pheed,
       beforeEnter: requireAuth()
     },
     {
-      path: '/user/*',
+      path: '/user/:userNo',
       name: 'MyPage',
-      component: () => import('./views/MyPage.vue'),
+      component: MyPage,
       beforeEnter: requireAuth()
     },
     {
       path: '/post/:postId',
       name: 'Post',
-      component: () => import('./views/PostDetails.vue'),
+      component: PostDetails,
       beforeEnter: requireAuth()
-    },
+    }
   ]
 })

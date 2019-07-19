@@ -81,13 +81,9 @@
     word-wrap: break-word;
   }
 
-  .btn-group {
-    width: 100%;
-  }
-
-  .btn {
-    border-radius: 0;
-    background-color: white;
+  a:hover {
+    color: inherit;
+    text-decoration: none;
   }
 
   .header {

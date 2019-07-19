@@ -19,6 +19,7 @@
     </div>
     <div class="recent-activity-box" style="">
       <RightBox :user-id="userId"
+                :user-no="userNo"
                 :user-name="userName"
 
       ></RightBox>
@@ -46,12 +47,14 @@
         count: 0,
         postList: [],
         userId: String,
+        userNo: Number,
         userName: String,
         visible: false
       }
     },
     methods: {
       getUserInfo: function () {
+        this.userNo = store.getters.getUid
         this.userId = store.getters.getLid
         this.userName = store.getters.getUname
       }
@@ -107,16 +110,6 @@
     width: 300px;
     margin-left: 1rem;
     padding-top: 30px;
-  }
-
-  .card-detail {
-    text-align: left;
-    vertical-align: top;
-  }
-
-  .card-img {
-    width: 80%;
-    height: 100%;
   }
 
   ::-webkit-scrollbar {

@@ -27,33 +27,51 @@
       </div>
     </div>
     <div class="bg-white mr-lg-5 ml-lg-5 p-3 border">
-      <input class="input-group-text d-inline-block text-xl-left" type="text" name="id" v-model="comment" placeholder="Comment here...">
+      <input class="input-group-text d-inline-block text-xl-left" type="text" name="id" v-model="comment"
+             placeholder="Comment here...">
 
       <button class="btn bg-light ml-3" v-on:click="onClickCommentBtn">comment</button>
     </div>
-    <div class="card mr-lg-5 ml-lg-5">
-      comments
+    <div class="wrapper card mr-lg-5 ml-lg-5">
+      <scroll-list :debounce="50"
+                   :remain="10"
+                   :enabled="true"
+                   :keep="true">
+
+        <CommentBox v-for="item in commentList" :key="item.replyNo"
+                    :author="item.writerName"
+                    :author-id="item.writerNo"
+                    :content="item.replyContent"
+        />
+      </scroll-list>
     </div>
   </div>
 </template>
 
 <script>
   import axios from 'axios'
+  import scrollList from 'vue-scroll-list';
+  import CommentBox from "../components/CommentBox";
 
   export default {
     name: "PostDetails",
+    components: {
+      CommentBox,
+      scrollList
+    },
     data() {
       return {
         postInfo: {},
         postId: Number,
         likeCount: Number,
-        likedByAuth: Boolean,
+        likedByAuth: Number,
         postContent: String,
         postHit: Number,
         postImgSrc: "",
         postRegDate: String,
         author: String,
-        comment: ""
+        comment: "",
+        commentList: Array
       }
     },
     methods: {
@@ -63,24 +81,27 @@
           postNo: this.postId
         }).then((res) => {
 //          this.postInfo = res.data
+          let post = res.data.post
 
-          this.likeCount = res.data.liked
-          this.likedByAuth = res.data.likedByAuth
-          this.postContent = res.data.postContent
-          this.postHit = res.data.postHit
-          this.postImgSrc = res.data.postImg
-          this.postRegDate = res.data.postRegDate
-          this.author = res.data.userName
+          this.likeCount = post.liked
+          this.likedByAuth = post.likedByAuth
+          this.postContent = post.postContent
+          this.postHit = post.postHit
+          this.postImgSrc = post.postImg
+          this.postRegDate = post.postRegDate
+          this.author = post.userName
+
+          this.commentList = res.data.replyList
         }).catch((err) => {
           err.print()
         })
       },
       onClickLikeBtn: function () {
-        const kk = this
+        let kk = this
         axios.post('/Timeline/post/likePheed',
             {postNo: this.postId})
             .then(function (res) {
-              if (res.statusCode === 200) {
+              if (res) {
                 kk.likedByAuth = !kk.likedByAuth
               }
             })
@@ -101,6 +122,11 @@
       getImgUrl: function () {
         return process.env.VUE_APP_S3_BUCKET_NAME + this.postImgSrc
       }
+    },
+    created() {
+      window.__createSize = 40;
+      window.__stopLoadData = false;
+      window.__showScrollEvent = false;
     },
     mounted() {
       this.getPostDetails()
@@ -130,10 +156,6 @@
     display: inline-block;
     border: 1px solid #111;
     word-wrap: break-word;
-  }
-
-  .btn-group {
-    width: 100%;
   }
 
   .btn {
@@ -167,4 +189,29 @@
     margin-left: 10px;
     font-weight: bold;
   }
+
+  .wrapper {
+    height: 400px;
+    padding: 0;
+    border: 1px solid #eee;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .item {
+    border-bottom: 1px solid #eee;
+    overflow: hidden;
+  }
+
+  .item:last-child {
+    border-bottom: 0;
+  }
+
+  .scroll-container {
+    transform: translate3d(0, 0, 0);
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
 </style>

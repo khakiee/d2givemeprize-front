@@ -59,6 +59,7 @@
     components: {Modal, FilePond},
     props: {
       userName: String,
+      userNo: Number,
       userId: String,
       userProfileImg: String
     },
@@ -71,7 +72,7 @@
     },
     methods: {
       getMyPageUrl: function () {
-        return "/user/" + this.userId
+        return "/user/" + this.userNo
       },
       onClickWriteBox: function () {
         this.showWriteBox = !this.showWriteBox

@@ -68,78 +68,34 @@
         }
       }
     },
+    methods: {
+      async getUserInfo() {
+        this.userId = this.$route.params.userNo
+        this.$http.get('/Timeline/user/' + this.userId).then((res) => {
+//          this.postInfo = res.data
+          let post = res.data.post
+
+          this.likeCount = post.liked
+          this.likedByAuth = post.likedByAuth
+          this.postContent = post.postContent
+          this.postHit = post.postHit
+          this.postImgSrc = post.postImg
+          this.postRegDate = post.postRegDate
+          this.author = post.userName
+
+          this.commentList = res.data.replyList
+        }).catch((err) => {
+          err.print()
+        })
+      }
+    },
     computed: {
       getPostUrl: function (postid) {
         return '/posts/' + postid
       }
     },
     mounted() {
-      this.userName = '김지환'
-      this.userId = 'jh@test.com'
-      this.tagged = 999
-      this.follower = 999
-      this.following = 999
-      this.posts = 999
-
-      this.userPosts = [
-        {
-          imgsrc: 'https://scontent-icn1-1.cdninstagram.com/vp/d82afca2c6312b9b964911ea5bdcb7a1' +
-              '/5DB8244B/t51.2885-19/s320x320/29400751_1866960876708737_1195845111410327552_n.jpg?_nc_ht=scontent-icn1-1.cdninstagram.com',
-          postid: 1,
-        },
-        {
-          imgsrc: 'https://scontent-icn1-1.cdninstagram.com/vp/d82afca2c6312b9b964911ea5bdcb7a1' +
-              '/5DB8244B/t51.2885-19/s320x320/29400751_1866960876708737_1195845111410327552_n.jpg?_nc_ht=scontent-icn1-1.cdninstagram.com',
-          postid: 2,
-        },
-        {
-          imgsrc: 'https://scontent-icn1-1.cdninstagram.com/vp/d82afca2c6312b9b964911ea5bdcb7a1' +
-              '/5DB8244B/t51.2885-19/s320x320/29400751_1866960876708737_1195845111410327552_n.jpg?_nc_ht=scontent-icn1-1.cdninstagram.com',
-          postid: 3,
-        }, {
-          imgsrc: 'https://scontent-icn1-1.cdninstagram.com/vp/d82afca2c6312b9b964911ea5bdcb7a1' +
-              '/5DB8244B/t51.2885-19/s320x320/29400751_1866960876708737_1195845111410327552_n.jpg?_nc_ht=scontent-icn1-1.cdninstagram.com',
-          postid: 1,
-        },
-        {
-          imgsrc: 'https://scontent-icn1-1.cdninstagram.com/vp/d82afca2c6312b9b964911ea5bdcb7a1' +
-              '/5DB8244B/t51.2885-19/s320x320/29400751_1866960876708737_1195845111410327552_n.jpg?_nc_ht=scontent-icn1-1.cdninstagram.com',
-          postid: 2,
-        },
-        {
-          imgsrc: 'https://scontent-icn1-1.cdninstagram.com/vp/d82afca2c6312b9b964911ea5bdcb7a1' +
-              '/5DB8244B/t51.2885-19/s320x320/29400751_1866960876708737_1195845111410327552_n.jpg?_nc_ht=scontent-icn1-1.cdninstagram.com',
-          postid: 3,
-        }, {
-          imgsrc: 'https://scontent-icn1-1.cdninstagram.com/vp/d82afca2c6312b9b964911ea5bdcb7a1' +
-              '/5DB8244B/t51.2885-19/s320x320/29400751_1866960876708737_1195845111410327552_n.jpg?_nc_ht=scontent-icn1-1.cdninstagram.com',
-          postid: 1,
-        },
-        {
-          imgsrc: 'https://scontent-icn1-1.cdninstagram.com/vp/d82afca2c6312b9b964911ea5bdcb7a1' +
-              '/5DB8244B/t51.2885-19/s320x320/29400751_1866960876708737_1195845111410327552_n.jpg?_nc_ht=scontent-icn1-1.cdninstagram.com',
-          postid: 2,
-        },
-        {
-          imgsrc: 'https://scontent-icn1-1.cdninstagram.com/vp/d82afca2c6312b9b964911ea5bdcb7a1' +
-              '/5DB8244B/t51.2885-19/s320x320/29400751_1866960876708737_1195845111410327552_n.jpg?_nc_ht=scontent-icn1-1.cdninstagram.com',
-          postid: 3,
-        }, {
-          imgsrc: 'https://scontent-icn1-1.cdninstagram.com/vp/d82afca2c6312b9b964911ea5bdcb7a1' +
-              '/5DB8244B/t51.2885-19/s320x320/29400751_1866960876708737_1195845111410327552_n.jpg?_nc_ht=scontent-icn1-1.cdninstagram.com',
-          postid: 1,
-        },
-        {
-          imgsrc: 'https://scontent-icn1-1.cdninstagram.com/vp/d82afca2c6312b9b964911ea5bdcb7a1' +
-              '/5DB8244B/t51.2885-19/s320x320/29400751_1866960876708737_1195845111410327552_n.jpg?_nc_ht=scontent-icn1-1.cdninstagram.com',
-          postid: 2,
-        },
-        {
-          imgsrc: 'https://scontent-icn1-1.cdninstagram.com/vp/d82afca2c6312b9b964911ea5bdcb7a1' +
-              '/5DB8244B/t51.2885-19/s320x320/29400751_1866960876708737_1195845111410327552_n.jpg?_nc_ht=scontent-icn1-1.cdninstagram.com',
-          postid: 3,
-        }
-      ]
+     this.getUserInfo()
     }
 
   }
