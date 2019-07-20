@@ -78,7 +78,6 @@
         this.showWriteBox = !this.showWriteBox
       },
       submitPheed: function () {
-        console.log(this.postText, this.imagePaths)
         axios.post('/Timeline/post', {
           postTitle: 'asdf',
           postContent: this.postText,

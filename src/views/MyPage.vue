@@ -109,23 +109,16 @@
       onClickFollow() {
         //alter
         axios.get('/Timeline/user/' + this.userNo + '/follow\n')
-            .then((res) => {
-              //alter
-            })
       },
       onClickUnFollow() {
         //alter
         axios.get('/Timeline/user/' + this.userNo + '/unfollow\n')
-            .then((res) => {
-              //alter
-            })
       }
     },
     computed: {},
     mounted() {
       this.getUserInfo()
       this.Uid = store.getters.getUid
-      console.log(this.userNo, this.Uid, this.userNo - this.Uid)
     }
   }
 </script>

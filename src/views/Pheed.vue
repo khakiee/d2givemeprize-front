@@ -64,7 +64,6 @@
       window.__stopLoadData = false;
       window.__showScrollEvent = false;
       this.getUserInfo()
-      console.log(this.userName, this.userId)
     },
     mounted() {
       this.$http.get('/Timeline/post')

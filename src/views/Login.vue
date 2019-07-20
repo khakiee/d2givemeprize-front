@@ -54,7 +54,7 @@
             window.alert('login failed')
           }
         } catch (err) {
-          console.error(err)
+          err.toString()
         }
       },
       goToPages() {

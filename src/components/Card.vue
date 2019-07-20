@@ -43,6 +43,7 @@
         axios.put('/Timeline/post/' + this.postId)
             .then(function (res) {
               if (res) {
+                console.log(res)
                 kk.liked = !kk.liked
               }
             })

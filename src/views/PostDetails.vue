@@ -77,20 +77,21 @@
     methods: {
       async getPostDetails() {
         this.postId = this.$route.params.postId
-        this.$http.get('/Timeline/post/' + this.postId).then((res) => {
+        this.$http.get('/Timeline/post/' + this.postId)
+            .then((res) => {
 //          this.postInfo = res.data
-          let post = res.data.post
+              let post = res.data.post
 
-          this.likeCount = post.liked
-          this.likedByAuth = post.likedByAuth
-          this.postContent = post.postContent
-          this.postHit = post.postHit
-          this.postImgSrc = post.postImg
-          this.postRegDate = post.postRegDate
-          this.author = post.userName
+              this.likeCount = post.liked
+              this.likedByAuth = post.likedByAuth
+              this.postContent = post.postContent
+              this.postHit = post.postHit
+              this.postImgSrc = post.postImg
+              this.postRegDate = post.postRegDate
+              this.author = post.userName
 
-          this.commentList = res.data.replyList
-        }).catch((err) => {
+              this.commentList = res.data.replyList
+            }).catch((err) => {
           err.print()
         })
       },
