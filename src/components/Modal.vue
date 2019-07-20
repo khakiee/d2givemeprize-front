@@ -2,7 +2,7 @@
   <div class="my-modal"
        v-if="visible" @click.self="handleWrapperClick">
     <div class="my-modal__dialog">
-        <button class="close" @click="$emit('update:visible', !visible)">x</button>
+      <button class="close" @click="$emit('update:visible', !visible)">x</button>
       <div class="my-modal__body">
         <slot></slot>
       </div>
@@ -32,9 +32,8 @@
   }
 </script>
 
-<style lang="scss">
-  $module: 'my-modal';
-  .#{$module} {
+<style>
+  .my-modal {
     text-align: center;
     background-color: rgba(0, 0, 0, .7);
     top: 0;
@@ -44,32 +43,23 @@
     position: fixed;
     overflow: auto;
     margin: 0;
+  }
 
+  .my-modal__dialog {
+    display: inline-block;
+    left: 15%;
+    vertical-align: center;
+    top: 75px;
+    width: 70%;
+    height: 80%;
+    position: absolute;
+    background: #fff;
+    margin-bottom: 50px;
+    padding: 20px;
+  }
 
-    &__dialog {
-      display: inline-block;
-      left: 15%;
-      vertical-align: center;
-      top: 75px;
-      width: 70%;
-      height: 80%;
-      position: absolute;
-      background: #fff;
-      margin-bottom: 50px;
-      padding: 20px;
-    }
-
-    &__header {
-      font-size: 28px;
-      font-weight: bold;
-      line-height: 1.29;
-      padding: 16px 16px 0 25px;
-      position: relative;
-    }
-
-    &__body {
-      height: 100%;
-      overflow-y: scroll;
-    }
+  .my-modal__body {
+    height: 100%;
+    overflow-y: scroll;
   }
 </style>
