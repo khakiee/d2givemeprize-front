@@ -13,7 +13,7 @@ Vue.use(VueAxios, axios);
 
 Vue.config.productionTip = false;
 axios.defaults.headers.common['Authorization'] = `${store.getters.getAccessToken}`
-
+axios.defaults.baseURL = 'http://13.209.7.36'
 new Vue({
   router,
   store,

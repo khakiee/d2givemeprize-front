@@ -57,7 +57,7 @@
       },
       submitSignup: function (e) {
         e.preventDefault();
-        this.axios.post('http://13.209.7.36' + '/Timeline/user', {
+        this.axios.post('/Timeline/user', {
           userId: this.input.id,
           userPwd: this.input.password,
           userName: '김지환',

@@ -66,7 +66,7 @@
       this.getUserInfo()
     },
     mounted() {
-      this.$http.get('http://13.209.7.36' + '/Timeline/post')
+      this.$http.get('/Timeline/post')
           .then((res) => {
             this.postList = res.data
           }).catch((err) => {

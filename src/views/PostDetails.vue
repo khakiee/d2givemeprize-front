@@ -77,7 +77,7 @@
     methods: {
       async getPostDetails() {
         this.postId = this.$route.params.postId
-        this.$http.get('http://13.209.7.36' + '/Timeline/post/' + this.postId)
+        this.$http.get('/Timeline/post/' + this.postId)
             .then((res) => {
               let post = res.data.post
 
@@ -96,7 +96,7 @@
       },
       onClickLikeBtn: function () {
         let kk = this
-        axios.put('http://13.209.7.36' + '/Timeline/post/' + this.postId,
+        axios.put('/Timeline/post/' + this.postId,
             {postNo: this.postId})
             .then(function (res) {
               if (res) {
@@ -106,7 +106,7 @@
       },
       onClickCommentBtn: function () {
         const kk = this
-        axios.post('http://13.209.7.36' + '/Timeline/reply/writeReply',
+        axios.post('/Timeline/reply/writeReply',
             [[], {postNo: this.postId, replyContent: this.comment}])
             .then((res) => {
               if (res) {
