@@ -1,8 +1,8 @@
 <template>
   <div class="login">
     <div>
-      <div class="d-inline-block align-top">
-        <img alt="Vue logo" src="../assets/logo.png">
+      <div class="d-inline-block align-top logo-box">
+        <img class="login-logo" alt="Vue logo" src="../assets/logo.png">
       </div>
       <div class="d-inline-block">
         <div class="login-box">
@@ -69,6 +69,17 @@
 <style>
   p {
     white-space: nowrap;
+  }
+
+  .logo-box {
+    width: 30%;
+    height: auto;
+  }
+
+  .login-logo {
+    display: inline-block;
+    width: 100%;
+    height: auto;
   }
 
   .login {

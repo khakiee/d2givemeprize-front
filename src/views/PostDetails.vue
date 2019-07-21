@@ -77,9 +77,8 @@
     methods: {
       async getPostDetails() {
         this.postId = this.$route.params.postId
-        this.$http.get('/Timeline/post/' + this.postId)
+        this.$http.get(process.env.VUE_APP_API_SERVER + '/Timeline/post/' + this.postId)
             .then((res) => {
-//          this.postInfo = res.data
               let post = res.data.post
 
               this.likeCount = post.liked
@@ -97,7 +96,7 @@
       },
       onClickLikeBtn: function () {
         let kk = this
-        axios.put('/Timeline/post/' + this.postId,
+        axios.put(process.env.VUE_APP_API_SERVER + '/Timeline/post/' + this.postId,
             {postNo: this.postId})
             .then(function (res) {
               if (res) {
@@ -107,12 +106,13 @@
       },
       onClickCommentBtn: function () {
         const kk = this
-        axios.post('/Timeline/reply/writeReply',
+        axios.post(process.env.VUE_APP_API_SERVER + '/Timeline/reply/writeReply',
             [[], {postNo: this.postId, replyContent: this.comment}])
-            .then(function (res) {
+            .then((res) => {
               if (res) {
                 window.alert('write comment success')
                 kk.comment = ""
+                this.getPostDetails()
               }
             })
       }

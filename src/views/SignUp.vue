@@ -54,29 +54,14 @@
       checkIdDup: function (e) {
         e.preventDefault();
         this.idDupCheck = true
-        /*this.axios.post('/', {
-          jsonData: JSON.stringify({
-            userId: this.input.userId
-          })
-        }).then(function (response) {
-          if (response) {
-            // on available
-            this.idDupCheck = true
-          } else {
-            // on not available
-            this.idDupCheck = false
-          }
-        }).catch(function () {
-          this.idDupCheck = true
-        });*/
       },
       submitSignin: function (e) {
         e.preventDefault();
-        this.axios.post('/', {
-          jsonData: JSON.stringify({
-            userId: this.input.userId,
-            userPwd: this.input.userPwd
-          })
+        this.axios.post(process.env.VUE_APP_API_SERVER + '/Timeline/user', {
+          userId: this.input.id,
+          userPwd: this.input.password,
+          userName: '김지환',
+          userImg: ''
         }).then(function (response) {
           if (response) {
             this.$router.push('/feed')

@@ -78,16 +78,14 @@
         this.showWriteBox = !this.showWriteBox
       },
       submitPheed: function () {
-        axios.post('/Timeline/post', {
-          postTitle: 'asdf',
+        axios.post(process.env.VUE_APP_API_SERVER + '/Timeline/post', {
           postContent: this.postText,
           postImg: this.imagePaths
-        }).then(function (res) {
-          if(res) {
+        }).then((res) => {
+          if (res) {
             window.alert('포스팅이 업로드 되었습니다.')
             this.showWriteBox = false
-          }
-          else{
+          } else {
             window.alter('failed')
           }
         })
