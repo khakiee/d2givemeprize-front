@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 const submitLogin = (userId, userPwd) => {
-  return axios.post('http://13.209.7.36/Timeline/user/login', {
+  const url = process.env.VUE_APP_API_SERVER + 'Timeline/user/login'
+  return axios.post(url, {
         userId: userId,
         userPwd: userPwd
       }
