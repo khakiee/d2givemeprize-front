@@ -12,7 +12,8 @@ const state = {
   uname: '',
   lid: '',
   errorState: '',
-  isAuth: false
+  isAuth: false,
+  accessToken: '',
 }
 
 export default new Vuex.Store({

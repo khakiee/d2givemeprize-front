@@ -15,5 +15,8 @@ export default {
   },
   [types.UNAME](state, uname) {
     state.uname = uname
+  },
+  [types.UNAME](state, accessToken) {
+    state.accessToken = accessToken
   }
 }

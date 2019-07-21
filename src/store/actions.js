@@ -1,6 +1,7 @@
 // src/vuex/actions.js
-import {ERROR_STATE, IS_AUTH, LID, UID, UNAME} from './mutation_types'
+import {ACCESSTOKEN, ERROR_STATE, IS_AUTH, LID, UID, UNAME} from './mutation_types'
 import api from '../api/session'
+import axios from 'axios'
 
 let setUID = ({commit}, data) => {
   commit(UID, data)
@@ -21,6 +22,9 @@ let setUNAME = ({commit}, data) => {
   commit(UNAME, data)
 }
 
+let setAccessToken = ({commit}, data) => {
+  commit(ACCESSTOKEN, data)
+}
 let processResponse = (store, loginResponse) => {
   switch (loginResponse) {
     case 'noAuth':
@@ -31,8 +35,10 @@ let processResponse = (store, loginResponse) => {
       setUID(store, loginResponse.data.userNo)
       setLID(store, loginResponse.data.userId)
       setUNAME(store, loginResponse.data.userName)
+      setAccessToken(store, loginResponse.header)
       setErrorState(store, '')
       setIsAuth(store, true)
+      axios.defaults.headers.common['Authorization'] = `Bearer ${store.getAccessToken}`
   }
 }
 
