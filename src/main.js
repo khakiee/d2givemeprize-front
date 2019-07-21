@@ -12,6 +12,7 @@ import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios);
 
 Vue.config.productionTip = false;
+axios.defaults.headers.common['Authorization'] = `${store.getters.getAccessToken}`
 
 new Vue({
   router,

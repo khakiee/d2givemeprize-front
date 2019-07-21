@@ -35,10 +35,10 @@ let processResponse = (store, loginResponse) => {
       setUID(store, loginResponse.data.userNo)
       setLID(store, loginResponse.data.userId)
       setUNAME(store, loginResponse.data.userName)
-      setAccessToken(store, loginResponse.header.Authorization)
       setErrorState(store, '')
+      setAccessToken(store, loginResponse.headers.authorization)
       setIsAuth(store, true)
-      axios.defaults.headers.common['Authorization'] = `Bearer ${store.getAccessToken}`
+      axios.defaults.headers.common['Authorization'] = `${store.getters.getAccessToken}`
   }
 }
 

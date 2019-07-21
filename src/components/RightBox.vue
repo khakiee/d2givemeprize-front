@@ -37,6 +37,7 @@
 
 <script>
   import Modal from "./Modal";
+  import store from "../store/store"
 
   import vueFilePond, {setOptions} from 'vue-filepond';
   import 'filepond/dist/filepond.min.css';
@@ -84,6 +85,7 @@
         }).then((res) => {
           if (res) {
             window.alert('포스팅이 업로드 되었습니다.')
+            store.
             this.showWriteBox = false
           } else {
             window.alter('failed')

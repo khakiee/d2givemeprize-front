@@ -55,7 +55,7 @@
         e.preventDefault();
         this.idDupCheck = true
       },
-      submitSignin: function (e) {
+      submitSignup: function (e) {
         e.preventDefault();
         this.axios.post(process.env.VUE_APP_API_SERVER + '/Timeline/user', {
           userId: this.input.id,
