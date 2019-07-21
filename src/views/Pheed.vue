@@ -66,7 +66,7 @@
       this.getUserInfo()
     },
     mounted() {
-      this.$http.get(process.env.VUE_APP_API_SERVER + '/Timeline/post')
+      this.$http.get('http://13.209.7.36' + '/Timeline/post')
           .then((res) => {
             this.postList = res.data
           }).catch((err) => {

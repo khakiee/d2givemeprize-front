@@ -85,7 +85,7 @@
     methods: {
       async getUserInfo() {
         this.profileId = parseInt(this.$route.params.userNo)
-        this.$http.get(process.env.VUE_APP_API_SERVER + '/Timeline/user/' + this.profileId).then((res) => {
+        this.$http.get('http://13.209.7.36' + '/Timeline/user/' + this.profileId).then((res) => {
 //          this.postInfo = res.data
           const selectedUser = res.data.selectedUser
 
@@ -107,10 +107,10 @@
         return process.env.VUE_APP_S3_BUCKET_NAME + imgsrc
       },
       onClickFollow() {
-        axios.get(process.env.VUE_APP_API_SERVER + '/Timeline/user/' + this.userNo + '/follow\n')
+        axios.get('http://13.209.7.36' + '/Timeline/user/' + this.userNo + '/follow\n')
       },
       onClickUnFollow() {
-        axios.get(process.env.VUE_APP_API_SERVER + '/Timeline//user/' + this.userNo + '/unfollow\n')
+        axios.get('http://13.209.7.36' + '/Timeline//user/' + this.userNo + '/unfollow\n')
       }
     },
     computed: {},

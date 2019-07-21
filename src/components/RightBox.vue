@@ -79,7 +79,7 @@
         this.showWriteBox = !this.showWriteBox
       },
       submitPheed: function () {
-        axios.post(process.env.VUE_APP_API_SERVER + '/Timeline/post', {
+        axios.post('http://13.209.7.36' + '/Timeline/post', {
           postContent: this.postText,
           postImg: this.imagePaths
         }).then((res) => {

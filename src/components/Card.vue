@@ -40,7 +40,7 @@
     methods: {
       onClickLikeBtn: function () {
         const kk = this
-        axios.put(process.env.VUE_APP_API_SERVER + '/Timeline/post/' + this.postId)
+        axios.put('http://13.209.7.36' + '/Timeline/post/' + this.postId)
             .then(function (res) {
               if (res) {
                 kk.liked = !kk.liked
