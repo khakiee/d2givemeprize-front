@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const submitLogin = (userId, userPwd) => {
-  return axios.post('http://13.209.7.36' + '/Timeline/user/login', {
+  return axios.post('http://13.209.7.36/Timeline/user/login', {
         userId: userId,
         userPwd: userPwd
       }
