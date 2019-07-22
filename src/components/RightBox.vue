@@ -98,21 +98,20 @@
       let kk = this
       setOptions({
         server: {
-          process: function (fieldName, file, metadata, load, error) {
+          process: function (fieldName, file, metadata, load) {
             s3.upload({
                   Bucket: 'd2-resources',
-                  Key: 'postimg_folder/' + Date.now(),
+                  Key: '/postimg_folder/' + Date.now(),
                   Body: file,
                   ContentType: file.type,
                   ACL: 'public-read'
                 },
                 function (err, data) {
                   if (err) {
-                    error('Something went wrong');
+                    console.log("errerr", data)
                     return;
                   }
                   load(data.Key);
-                  //kk.imagePaths.push(data.Key.toString())
                   kk.imagePaths = data.Key
                 });
 

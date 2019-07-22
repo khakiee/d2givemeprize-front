@@ -120,7 +120,7 @@
     },
     computed: {
       getImgUrl: function () {
-        return env.apiUrl + this.postImgSrc
+        return env.awsS3BucketName + this.postImgSrc
       }
     },
     created() {

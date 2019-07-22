@@ -105,7 +105,7 @@
         })
       },
       getImgUrl(imgsrc) {
-        return env.apiUrl + imgsrc
+        return env.awsS3BucketName + imgsrc
       },
       onClickFollow() {
         axios.post('/Timeline/user/' + this.userNo)
