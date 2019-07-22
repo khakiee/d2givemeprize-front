@@ -108,10 +108,10 @@
         return env.apiUrl + imgsrc
       },
       onClickFollow() {
-        axios.get('/Timeline/user/' + this.userNo + '/follow\n')
+        axios.post('/Timeline/user/' + this.userNo)
       },
       onClickUnFollow() {
-        axios.get('/Timeline//user/' + this.userNo + '/unfollow\n')
+        axios.delete('/Timeline//user/' + this.userNo)
       }
     },
     computed: {},

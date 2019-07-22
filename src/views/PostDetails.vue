@@ -107,7 +107,7 @@
       },
       onClickCommentBtn: function () {
         const kk = this
-        axios.post('/Timeline/reply/writeReply',
+        axios.post('/Timeline/reply',
             [[], {postNo: this.postId, replyContent: this.comment}])
             .then((res) => {
               if (res) {
