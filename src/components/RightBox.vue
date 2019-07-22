@@ -80,10 +80,7 @@
         this.showWriteBox = !this.showWriteBox
       },
       submitPheed: function () {
-        axios.post('/Timeline/post', {
-          postContent: this.postText,
-          postImg: this.imagePaths
-        }).then((res) => {
+        axios.post('/Timeline/post', [this.imagePaths, {postContent: this.postContent}]).then((res) => {
           if (res) {
             window.alert('포스팅이 업로드 되었습니다.')
             store.
@@ -112,7 +109,7 @@
                     return;
                   }
                   load(data.Key);
-                  kk.imagePaths = data.Key
+                  kk.imagePaths.push(data.Key)
                 });
 
           }
