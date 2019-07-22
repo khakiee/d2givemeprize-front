@@ -80,7 +80,7 @@
         this.showWriteBox = !this.showWriteBox
       },
       submitPheed: function () {
-        axios.post('/Timeline/post', [this.imagePaths, {postContent: this.postContent}]).then((res) => {
+        axios.post('/Timeline/post', [this.imagePaths, {postContent: this.postText}]).then((res) => {
           if (res) {
             window.alert('포스팅이 업로드 되었습니다.')
             store.this.showWriteBox = false
@@ -104,12 +104,11 @@
                 {},
                 function (err, data) {
                   if (err) {
-                    console.log("errerr", data)
                     return;
                   }
                   load(data.Key);
-                  this.imagePaths.push(data.Key)
-                });
+                  this.imagePaths.push(data.Key.toString())
+                })
 
           }
         }
