@@ -83,8 +83,7 @@
         axios.post('/Timeline/post', [this.imagePaths, {postContent: this.postContent}]).then((res) => {
           if (res) {
             window.alert('포스팅이 업로드 되었습니다.')
-            store.
-            this.showWriteBox = false
+            store.this.showWriteBox = false
           } else {
             window.alter('failed')
           }
@@ -92,24 +91,24 @@
       }
     },
     mounted() {
-      let kk = this
       setOptions({
         server: {
-          process: function (fieldName, file, metadata, load) {
+          process: (fieldName, file, metadata, load) => {
             s3.upload({
                   Bucket: 'd2-resources',
-                  Key: '/postimg_folder/' + Date.now(),
+                  Key: 'postimg_folder/' + Date.now(),
                   Body: file,
                   ContentType: file.type,
                   ACL: 'public-read'
                 },
+                {},
                 function (err, data) {
                   if (err) {
                     console.log("errerr", data)
                     return;
                   }
                   load(data.Key);
-                  kk.imagePaths.push(data.Key)
+                  this.imagePaths.push(data.Key)
                 });
 
           }
