@@ -38,6 +38,7 @@
 <script>
   import Modal from "./Modal";
   import store from "../store/store"
+  import env from '../../static/settings_local'
 
   import vueFilePond, {setOptions} from 'vue-filepond';
   import 'filepond/dist/filepond.min.css';
@@ -50,8 +51,8 @@
 
   const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
   const s3 = new AWS.S3({
-    accessKeyId: process.env.VUE_APP_AWS_ACCESS_KEY,
-    secretAccessKey: process.env.VUE_APP_AWS_SECRET_KEY,
+    accessKeyId: env.awsAccessKey,
+    secretAccessKey: env.awsSecretKey,
     region: 'ap-northeast-2'
   });
 

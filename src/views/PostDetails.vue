@@ -52,6 +52,7 @@
   import axios from 'axios'
   import scrollList from 'vue-scroll-list';
   import CommentBox from "../components/CommentBox";
+  import env from '../../static/settings_local'
 
   export default {
     name: "PostDetails",
@@ -119,7 +120,7 @@
     },
     computed: {
       getImgUrl: function () {
-        return process.env.VUE_APP_S3_BUCKET_NAME + this.postImgSrc
+        return env.apiUrl + this.postImgSrc
       }
     },
     created() {

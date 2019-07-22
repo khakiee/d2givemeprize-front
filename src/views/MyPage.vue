@@ -64,6 +64,7 @@
 <script>
   import store from '../store/store'
   import axios from 'axios'
+  import env from '../../static/settings_local'
 
   export default {
     name: "MyPage.vue",
@@ -104,7 +105,7 @@
         })
       },
       getImgUrl(imgsrc) {
-        return process.env.VUE_APP_S3_BUCKET_NAME + imgsrc
+        return env.apiUrl + imgsrc
       },
       onClickFollow() {
         axios.get('/Timeline/user/' + this.userNo + '/follow\n')

@@ -27,6 +27,7 @@
 
 <script>
   import axios from "axios";
+  import env from '../../static/settings_local'
 
   export default {
     name: "Card",
@@ -53,7 +54,7 @@
         return '/post/' + this.postId
       },
       getImgUrl: function () {
-        return process.env.VUE_APP_S3_BUCKET_NAME + this.imgSrc
+        return env.awsS3BucketName + this.imgSrc
       }
     }
   }
