@@ -86,7 +86,7 @@
               this.likedByAuth = post.likedByAuth
               this.postContent = post.postContent
               this.postHit = post.postHit
-              this.postImgSrc = post.postImg
+              this.postImgSrc = post.postRepImg
               this.postRegDate = post.postRegDate
               this.author = post.userName
 

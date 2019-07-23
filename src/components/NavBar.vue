@@ -6,6 +6,9 @@
       </a>
     </div>
     <div>
+      search
+    </div>
+    <div>
       <img src="../assets/logo.png" alt="" class="nav-item"/>
       <img src="../assets/logo.png" alt="" class="nav-item"/>
       <img src="../assets/logo.png" alt="" class="nav-item"/>

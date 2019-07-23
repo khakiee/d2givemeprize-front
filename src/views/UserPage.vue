@@ -67,7 +67,7 @@
   import env from '../../static/settings_local'
 
   export default {
-    name: "MyPage.vue",
+    name: "UserPage.vue",
     props: {},
     data() {
       return {

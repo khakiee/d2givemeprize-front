@@ -4,7 +4,7 @@ import Login from './views/Login.vue'
 import store from './store/store'
 import SignUp from "./views/SignUp";
 import Pheed from "./views/Pheed";
-import MyPage from "./views/MyPage";
+import UserPage from "./views/UserPage";
 import PostDetails from "./views/PostDetails";
 
 Vue.use(Router)
@@ -36,8 +36,8 @@ export default new Router({
     },
     {
       path: '/user/:userNo',
-      name: 'MyPage',
-      component: MyPage,
+      name: 'UserPage',
+      component: UserPage,
       beforeEnter: requireAuth()
     },
     {

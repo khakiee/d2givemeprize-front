@@ -2,7 +2,7 @@
   <div class="r-box">
     <div>
       <div class="profile">
-        <a :href="getMyPageUrl()">
+        <a :href="getUserPageUrl()">
           <img class="profile-img" src="../assets/logo.png" alt=""/>
           <div class="profile-namecard">
             <div class="name">{{this.userName}}</div>
@@ -73,7 +73,7 @@
       }
     },
     methods: {
-      getMyPageUrl: function () {
+      getUserPageUrl: function () {
         return "/user/" + this.userNo
       },
       onClickWriteBox: function () {

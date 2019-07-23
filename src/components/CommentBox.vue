@@ -1,6 +1,6 @@
 <template>
   <div class="comment-box border">
-    <a :href="getMyPageUrl" class="d-inline-block pl-5 pt-2 pr-4">
+    <a :href="getUserPageUrl" class="d-inline-block pl-5 pt-2 pr-4">
       <div class="profile">
         <img class="profile-img" src="../assets/logo.png" alt=""/>
         <div class="profile-namecard">
@@ -23,7 +23,7 @@
       content: String,
     },
     computed: {
-      getMyPageUrl: function () {
+      getUserPageUrl: function () {
         return "/user/" + this.userId
       }
     }

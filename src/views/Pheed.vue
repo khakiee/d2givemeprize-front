@@ -8,7 +8,7 @@
                      :keep="true">
 
           <Card v-for="item in postList" :key="item.postNo"
-                :img-src="item.postImg"
+                :img-src="item.postRepImg"
                 :post-id="item.postNo"
                 :text="item.postContent"
                 :author="item.userName"
@@ -34,7 +34,7 @@
   import RightBox from "../components/RightBox";
   import Footer from "../components/Footer";
   import store from "../store/store"
-  import env from "../../static/settings_local"
+
   export default {
     components: {
       Footer,
@@ -71,9 +71,6 @@
             this.postList = res.data
           }).catch((err) => {
         err.print()
-      })
-      this.postList.each(function (item) {
-        item.imgSrc = env.awsS3BucketName + item.imgSrc
       })
     }
   }
