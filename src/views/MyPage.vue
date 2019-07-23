@@ -108,10 +108,10 @@
         return env.awsS3BucketName + imgsrc
       },
       onClickFollow() {
-        axios.post('/Timeline/user/' + this.userNo)
+        axios.get('/Timeline/user/' + this.userNo + '/follow')
       },
       onClickUnFollow() {
-        axios.delete('/Timeline//user/' + this.userNo)
+        axios.get('/Timeline//user/' + this.userNo + '/unfollow')
       }
     },
     computed: {},
