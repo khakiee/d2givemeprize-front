@@ -111,7 +111,7 @@
         axios.get('/Timeline/user/' + this.userNo + '/follow')
       },
       onClickUnFollow() {
-        axios.get('/Timeline//user/' + this.userNo + '/unfollow')
+        axios.get('/Timeline/user/' + this.userNo + '/unfollow')
       }
     },
     computed: {},
