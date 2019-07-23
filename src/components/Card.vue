@@ -5,7 +5,7 @@
       <div class="card-author">{{this.author}}</div>
     </div>
     <div class="card-body">
-      <img v-if="imgSrc" class="card-img border-bottom" :src="getImgUrl" alt=""/>
+      <img v-if="imgSrc" class="card-img border-bottom" :src="imgSrc" alt=""/>
       <a :href="getDetailUrl">
         <div class="card-text p-4">
           <div class="card-text">{{this.text}}</div>
@@ -27,7 +27,6 @@
 
 <script>
   import axios from "axios";
-  import env from '../../static/settings_local'
 
   export default {
     name: "Card",
@@ -52,9 +51,6 @@
     computed: {
       getDetailUrl: function () {
         return '/post/' + this.postId
-      },
-      getImgUrl: function () {
-        return env.awsS3BucketName + this.imgSrc
       }
     }
   }

@@ -29,6 +29,7 @@
   import Router from 'vue-router';
   import Vue from 'vue'
   import {mapActions} from 'vuex'
+  import env from '../../static/settings_local'
 
   Vue.use(Router);
 
@@ -36,6 +37,7 @@
 
     name: 'login',
     data() {
+      url: ''
       return {
         input: {
           userId: "",
@@ -62,7 +64,7 @@
           name: 'pheed'
         })
       }
-    }
+    },
   }
 </script>
 
