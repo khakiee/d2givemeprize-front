@@ -91,6 +91,7 @@
       }
     },
     mounted() {
+      const context = this
       setOptions({
         server: {
           process: (fieldName, file, metadata, load) => {
@@ -107,7 +108,7 @@
                     return;
                   }
                   load(data.Key);
-                  this.imagePaths.push(data.Key.toString())
+                  context.imagePaths.push(data.Key.toString())
                 })
 
           }
