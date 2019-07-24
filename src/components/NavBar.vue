@@ -6,9 +6,8 @@
       </a>
     </div>
     <div style="padding-right: 8rem;">
-      <img src="../assets/logo.png" alt="" class="nav-item"/>
-      <img src="../assets/logo.png" alt="" class="nav-item"/>
-      <img src="../assets/logo.png" alt="" class="nav-item"/>
+      <img src="../assets/NavBarIcon/RecommendFriends.png" alt="" class="nav-item"/>
+      <img src="../assets/NavBarIcon/user.png" alt="" class="nav-item"/>
     </div>
   </div>
 </template>
@@ -44,7 +43,7 @@
 <style scoped>
   .nav-item {
     width: 40px;
-    height: auto;
+    height: 40px;
     margin-left: 20px;
   }
 
