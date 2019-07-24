@@ -2,7 +2,7 @@
   <div>
     <div class="pf-box pb-lg-5">
       <img v-if="userImg" class="pf-img d-inline-block pr-3" :src="getImgUrl(this.userImg)" alt="../assets/logo.png">
-      <img v-if="!userImg" class="pf-img d-inline-block pr-3" src="../assets/logo.png" alt="">
+      <img v-if="!userImg" class="pf-img d-inline-block pr-3" src="../assets/profile.png" alt="">
       <div class="pf-info-box d-inline-block align-center">
         <div class="pf-id-box">
           <div class="font-weight-bold d-inline-block text-lg-center">
@@ -53,9 +53,7 @@
             <a :href="getPostUrl(post.postNo)">
               <img v-if="post.postRepImg" class="post-box shadow img-thumbnail" :src="getImgUrl(post.postRepImg)"
                    alt="">
-              <div v-if="!post.postRepImg" class="post-box shadow img-thumbnail text-overflow-ellipsis">
-                {{post.postContent}}
-              </div>
+              <img v-if="!post.postRepImg" class="post-box shadow img-thumbnail" src="../assets/logo.png">
             </a>
           </div>
         </div>
@@ -163,7 +161,7 @@
   }
 
   .post-box {
-    height: 150px;
+    height: 200px;
     width: 200px;
   }
 

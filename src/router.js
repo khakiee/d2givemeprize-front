@@ -49,7 +49,7 @@ export default new Router({
       beforeEnter: requireAuth()
     },
     {
-      path: '/post/:postId',
+      path: '/post/:postNo',
       name: 'Post',
       component: PostDetails,
       beforeEnter: requireAuth()

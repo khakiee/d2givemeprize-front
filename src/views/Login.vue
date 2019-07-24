@@ -2,7 +2,7 @@
   <div class="login">
     <div>
       <div class="d-inline-block align-top logo-box">
-        <img class="login-logo" alt="Vue logo" src="../assets/logo.png">
+        <img class="login-logo" alt="Vue logo" src="../assets/NavBarIcon/logo.png">
       </div>
       <div class="d-inline-block">
         <div class="login-box">

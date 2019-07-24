@@ -2,7 +2,7 @@
   <div class="card">
     <div class="header border-bottom">
       <a :href="getAuthorUrl">
-        <img class="card-author-profile" src="../assets/logo.png" alt="">
+        <img class="card-author-profile" src="../assets/profile.png" alt="">
         <div class="card-author">{{this.author}}</div>
       </a>
     </div>

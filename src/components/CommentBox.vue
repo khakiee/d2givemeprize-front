@@ -1,8 +1,9 @@
 <template>
   <div class="comment-box border">
-    <a :href="getUserPageUrl" class="d-inline-block pl-5 pt-2 pr-4">
+    <a :href="getUserPageUrl(authorNo)" class="d-inline-block pl-5 pt-2 pr-4">
       <div class="profile">
-        <img class="profile-img" src="../assets/logo.png" alt=""/>
+        <img v-if="authorImg" class="profile-img" :src="getImgSrc(authorImg)" alt=""/>
+        <img v-if="!authorImg" class="profile-img" src="../assets/NavBarIcon/logo.png" alt=""/>
         <div class="profile-namecard">
           <div class="author">{{author}}</div>
         </div>
@@ -18,26 +19,26 @@
       >show replies
       </button>
     </div>
-    <div class="d-inline-block float-right mt-3 mr-5 ml-5">
-      reples : 3
-    </div>
     <div v-if="isRecommentsShown" class="bg-white mr-lg-5 ml-lg-5 p-3 border">
-      <div class="bg-white mr-lg-5 ml-lg-5 p-3 border">
+      <div class="bg-white mr-lg-5 ml-lg-5 p-3">
         <input class="input-group-text d-inline-block text-xl-left" type="text" v-model="comment"
                placeholder="Comment here...">
         <button class="btn bg-light ml-3" v-on:click="onClickCommentBtn">comment</button>
       </div>
-      <div v-for="ii in [1,2,3,4,5,6]">
-        <a :href="getUserPageUrl" class="d-inline-block pl-5 pt-2 pr-4">
-          <div class="profile">
-            <img class="profile-img" src="../assets/logo.png" alt=""/>
-            <div class="profile-namecard">
-              <div class="author">{{author}}</div>
+      <div v-if="recommentsList">
+        <div v-for="reply in recommentsList">
+          <a :href="getUserPageUrl(reply.writerNo)" class="d-inline-block pl-5 pt-2 pr-4">
+            <div class="profile">
+              <img v-if="reply.writerRepImg" class="profile-img" :src="getImgSrc(reply.writerRepImg)" alt=""/>
+              <img v-if="!reply.writerRepImg" class="profile-img" src="../assets/NavBarIcon/logo.png" alt=""/>
+              <div class="profile-namecard">
+                <div class="author">{{reply.writerName}}</div>
+              </div>
             </div>
+          </a>
+          <div class="d-inline-block">
+            {{reply.replyContent}}
           </div>
-        </a>
-        <div class="d-inline-block">
-          recomments-{{ii}}
         </div>
       </div>
     </div>
@@ -46,12 +47,13 @@
 
 <script>
   import axios from 'axios'
+  import env from '../../static/settings_local'
 
   export default {
     name: "CommentBox",
     props: {
       author: String,
-      authorId: Number,
+      authorNo: Number,
       authorImg: String,
       content: String,
       postNo: Number,
@@ -65,24 +67,34 @@
     },
     methods: {
       toggleShowRecomments: function () {
+        if (this.isRecommentsShown === false) {
+          this.getRecomments()
+        }
         this.isRecommentsShown = !this.isRecommentsShown
       },
       onClickCommentBtn: function () {
         const kk = this
-        axios.post('/Timeline/reply/rereply',
-            [[], {postNo: this.postNo, replyNo: this.replyNo ,replyContent: this.comment}])
+        axios.post('/Timeline/reply/' + this.replyNo,
+            [[], {postNo: this.postNo, replyContent: this.comment}])
             .then((res) => {
               if (res) {
                 window.alert('write comment success')
                 kk.comment = ""
-                this.getPostDetails()
+                this.getRecomments()
               }
             })
-      }
-    },
-    computed: {
-      getUserPageUrl: function () {
-        return "/user/" + this.authorId
+      },
+      getImgSrc: function (src) {
+        return env.awsS3BucketName + src
+      },
+      getRecomments: function () {
+        axios.get('/Timeline/reply/' + this.replyNo)
+            .then((res) => {
+              this.recommentsList = res.data
+            })
+      },
+      getUserPageUrl: function (authorNo) {
+        return "/user/" + authorNo
       }
     }
   }
@@ -106,6 +118,9 @@
 
   .profile-img {
     width: 3rem;
+    height: 3rem;
+    border: 1px gray solid;
+    border-radius: 50%;
     display: inline-block;
     vertical-align: top;
   }

@@ -2,10 +2,10 @@
   <div class="navbar border-bottom position-relative p-4" style="height: 80px;">
     <div style="padding-left: 5rem;">
       <a href="/">
-        <img src="../assets/logo.png" alt="" class="nav-item"/>
+        <img src="../assets/NavBarIcon/logo.png" alt="" class="nav-item"/>
       </a>
     </div>
-    <div>
+    <div class="search-box">
       <input v-model="query" v-on:keyup="getUserList" class="input-group-text"/>
       <div v-if="query" class="autocomplete">
         <div v-for="item in searchList">
@@ -18,7 +18,6 @@
         </div>
       </div>
     </div>
-
     <div style="padding-right: 8rem;">
       <img src="../assets/NavBarIcon/RecommendFriends.png" alt="" class="nav-item"/>
       <a :href="getUserPage">
@@ -76,6 +75,14 @@
     z-index: 99;
     position: absolute;
     background-color: white;
-    width: 200px;
+    width: 500px;
+  }
+
+  .search-box {
+    width: 500px;
+  }
+
+  .input-group-text {
+    width: 100%;
   }
 </style>

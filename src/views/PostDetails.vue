@@ -2,7 +2,7 @@
   <div class="ml-lg-5 mr-lg-5">
     <div class="card mr-lg-5 ml-lg-5 mt-lg-5">
       <div class="header border-bottom mb-2">
-        <img class="card-author-profile" src="../assets/logo.png" alt="">
+        <img class="card-author-profile" src="../assets/NavBarIcon/logo.png" alt="">
         <div class="card-author">{{this.author}}</div>
         <div class="card-subtitle">{{this.postRegDate}}</div>
       </div>
@@ -42,7 +42,8 @@
                     :author-id="item.writerNo"
                     :content="item.replyContent"
                     :reply-no="item.replyNo"
-                    :post-no="postId"
+                    :author-img="item.writerRepImg"
+                    :post-no="postNo"
         />
       </scroll-list>
     </div>
@@ -64,7 +65,7 @@
     data() {
       return {
         postInfo: {},
-        postId: Number,
+        postNo: Number,
         likeCount: Number,
         likedByAuth: Number,
         postContent: String,
@@ -78,8 +79,8 @@
     },
     methods: {
       async getPostDetails() {
-        this.postId = this.$route.params.postId
-        this.$http.get('/Timeline/post/' + this.postId)
+        this.postNo = this.$route.params.postNo
+        this.$http.get('/Timeline/post/' + this.postNo)
             .then((res) => {
               let post = res.data.post
 
@@ -98,8 +99,8 @@
       },
       onClickLikeBtn: function () {
         let kk = this
-        axios.put('/Timeline/post/' + this.postId,
-            {postNo: this.postId})
+        axios.put('/Timeline/post/' + this.postNo,
+            {postNo: this.postNo})
             .then(function (res) {
               if (res) {
                 kk.likedByAuth = !kk.likedByAuth
@@ -109,7 +110,7 @@
       onClickCommentBtn: function () {
         const kk = this
         axios.post('/Timeline/reply',
-            [[], {postNo: this.postId, replyContent: this.comment}])
+            [[], {postNo: this.postNo, replyContent: this.comment}])
             .then((res) => {
               if (res) {
                 window.alert('write comment success')

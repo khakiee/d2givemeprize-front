@@ -68,7 +68,7 @@
         this.$emit('update:showWriteBox', false)
       },
       submitPheed: function () {
-        axios.post('/Timeline/post', [this.imagePaths, {postContent: this.postText}]).then((res) => {
+        axios.post('/Timeline/post', [this.imagePaths, [], {postContent: this.postText}]).then((res) => {
           if (res) {
             window.alert('포스팅이 업로드 되었습니다.')
             this.visible = false

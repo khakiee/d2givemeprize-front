@@ -2,7 +2,7 @@
   <div class="profile">
     <a :href="getUserPageUrl">
       <img v-if="userImg" class="profile-img" :src="getImgUrl" alt=""/>
-      <img v-if="!userImg" class="profile-img" src="../assets/logo.png" alt=""/>
+      <img v-if="!userImg" class="profile-img" src="../assets/profile.png" alt=""/>
       <div class="profile-namecard">
         <div class="name overflow-hidden">{{this.userName}}</div>
         <div class="id">{{this.userId}}</div>
