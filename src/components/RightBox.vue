@@ -10,7 +10,6 @@
           </div>
         </a>
       </div>
-
       <button class="btn write-post border bg-white" v-on:click="onClickWriteBox">
         게시글 작성하기
       </button>
@@ -54,7 +53,7 @@
             window.alter('failed')
           }
         })
-      }
+      },
     },
     mounted() {
 

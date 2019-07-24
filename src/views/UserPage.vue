@@ -25,12 +25,14 @@
           <div class="d-inline-block p-2">
             게시물 {{this.postList.length}}
           </div>
-          <div class="d-inline-block p-2">
-            팔로잉 {{this.following}}
-          </div>
-          <div class="d-inline-block p-2">
-            팔로워 {{this.follower}}
-          </div>
+          <a href="/follows">
+            <div class="d-inline-block p-2">
+              팔로잉 {{this.following}}
+            </div>
+            <div class="d-inline-block p-2">
+              팔로워 {{this.follower}}
+            </div>
+          </a>
         </div>
       </div>
     </div>
