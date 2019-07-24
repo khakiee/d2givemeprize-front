@@ -11,11 +11,14 @@
             </div>
           </div>
           <button v-if="relation" v-on:click="onClickUnFollow" class="btn btn-primary d-inline-block m-3 align-top">
-            Already
+            Alread
             Followed!
           </button>
           <button v-if="!relation && userNo !== Uid" v-on:click="onClickFollow"
                   class="btn btn-primary d-inline-block m-3 align-top">Follow
+          </button>
+          <button v-if="!relation && userNo === Uid" v-on:click="onClickEdit"
+                  class="btn btn-primary d-inline-block m-3 align-top">회원 정보 수정
           </button>
         </div>
         <div class="pf-cnt-box mt-lg-3">
@@ -44,10 +47,13 @@
         <div class="tab-pane fade show active" id="post">
 
           <div class="d-inline-block " v-for="post in postList" v-bind:key="post.postId">
-            <img v-if="post.postImg" class="post-box shadow img-thumbnail" :src="getImgUrl(post.postImg)" alt="">
-            <div v-if="!post.postImg" class="post-box shadow img-thumbnail text-overflow-ellipsis">
-              {{post.postContent}}
-            </div>
+            <a :href="getPostUrl(post.postNo)">
+              <img v-if="post.postRepImg" class="post-box shadow img-thumbnail" :src="getImgUrl(post.postRepImg)"
+                   alt="">
+              <div v-if="!post.postRepImg" class="post-box shadow img-thumbnail text-overflow-ellipsis">
+                {{post.postContent}}
+              </div>
+            </a>
           </div>
         </div>
         <div class="tab-pane fade" id="tagged">
@@ -86,33 +92,51 @@
     methods: {
       async getUserInfo() {
         this.profileId = parseInt(this.$route.params.userNo)
-        this.$http.get('/Timeline/user/' + this.profileId).then((res) => {
-//          this.postInfo = res.data
-          const selectedUser = res.data.selectedUser
+        this.$http.get('/Timeline/user/' + this.profileId)
+            .then((res) => {
+              if (res.status === 200 && res.data) {
+                const selectedUser = res.data.selectedUser
+                this.postList = res.data.postList
+                this.relation = res.data.relation
 
-          this.postList = res.data.postList
-          this.relation = res.data.relation
+                this.following = selectedUser.followings
+                this.follower = selectedUser.followers
+                this.userId = selectedUser.userId
+                this.userImg = selectedUser.userImg
+                this.userName = selectedUser.userName
+                this.userNo = selectedUser.userNo
+              } else {
+                window.alert('User not found!')
+                this.$router.push('/')
+              }
+            })
+            .catch((error) => {
+              window.alert('error' + error)
+              this.$router.push('/')
+            })
+      },
 
-          this.following = selectedUser.followings
-          this.follower = selectedUser.followers
-          this.userId = selectedUser.userId
-          this.userImg = selectedUser.userImg
-          this.userName = selectedUser.userName
-          this.userNo = selectedUser.userNo
-
-        }).catch((err) => {
-          err.print()
-        })
+      onClickFollow() {
+        if (confirm("팔로우 하시겠습니까?")) {
+          axios.get('/Timeline/user/' + this.userNo + '/follow')
+          this.getUserInfo()
+        }
+      },
+      onClickUnFollow() {
+        if (confirm("팔로우를 취소하시겠습니까?")) {
+          axios.get('/Timeline/user/' + this.userNo + '/unfollow')
+          this.getUserInfo()
+        }
+      },
+      onClickEdit() {
+        this.$router.push('/edit')
+      },
+      getPostUrl(postId) {
+        return '/post/' + postId
       },
       getImgUrl(imgsrc) {
         return env.awsS3BucketName + imgsrc
       },
-      onClickFollow() {
-        axios.get('/Timeline/user/' + this.userNo + '/follow')
-      },
-      onClickUnFollow() {
-        axios.get('/Timeline/user/' + this.userNo + '/unfollow')
-      }
     },
     computed: {},
     mounted() {

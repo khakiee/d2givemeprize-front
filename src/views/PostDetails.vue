@@ -8,6 +8,9 @@
       </div>
       <div class="card-body">
         <img v-if="postImgSrc" class="card-img border-bottom" :src="getImgUrl" alt=""/>
+        <div class="card-text p-4 comment-box">
+          <div class="card-text">{{this.postContent}}</div>
+        </div>
         <div class="card-mid bg-white">
           <img v-if="!likedByAuth" class="not-like-btn m-2"
                src="../assets/like_btn_img/not_like.png"
@@ -21,13 +24,10 @@
             조회수 : {{this.postHit}}
           </div>
         </div>
-        <div class="card-text p-4 comment-box">
-          <div class="card-text">{{this.postContent}}</div>
-        </div>
       </div>
     </div>
     <div class="bg-white mr-lg-5 ml-lg-5 p-3 border">
-      <input class="input-group-text d-inline-block text-xl-left" type="text" name="id" v-model="comment"
+      <input class="input-group-text d-inline-block text-xl-left" type="text" v-model="comment"
              placeholder="Comment here...">
 
       <button class="btn bg-light ml-3" v-on:click="onClickCommentBtn">comment</button>

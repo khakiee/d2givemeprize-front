@@ -6,6 +6,7 @@ import SignUp from "./views/SignUp";
 import Pheed from "./views/Pheed";
 import UserPage from "./views/UserPage";
 import PostDetails from "./views/PostDetails";
+import UserEdit from "./views/UserEdit";
 
 Vue.use(Router)
 
@@ -44,6 +45,12 @@ export default new Router({
       path: '/post/:postId',
       name: 'Post',
       component: PostDetails,
+      beforeEnter: requireAuth()
+    },
+    {
+      path: '/edit',
+      name: 'UserEdit',
+      component: UserEdit,
       beforeEnter: requireAuth()
     }
   ]

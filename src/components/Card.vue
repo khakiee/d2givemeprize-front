@@ -1,8 +1,10 @@
 <template>
   <div class="card">
     <div class="header border-bottom">
-      <img class="card-author-profile" src="../assets/logo.png" alt="">
-      <div class="card-author">{{this.author}}</div>
+      <a :href="getAuthorUrl">
+        <img class="card-author-profile" src="../assets/logo.png" alt="">
+        <div class="card-author">{{this.author}}</div>
+      </a>
     </div>
     <div class="card-body">
       <img v-if="imgSrc" class="card-img border-bottom" :src="getImgUrl" alt=""/>
@@ -37,6 +39,7 @@
       imgSrc: String,
       text: String,
       author: String,
+      authorNo: Number
     },
     methods: {
       onClickLikeBtn: function () {
@@ -52,6 +55,9 @@
     computed: {
       getDetailUrl: function () {
         return '/post/' + this.postId
+      },
+      getAuthorUrl: function () {
+        return 'user/' + this.authorNo
       },
       getImgUrl: function () {
         return env.awsS3BucketName + this.imgSrc

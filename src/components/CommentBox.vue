@@ -24,7 +24,7 @@
     },
     computed: {
       getUserPageUrl: function () {
-        return "/user/" + this.userId
+        return "/user/" + this.authorId
       }
     }
   }
