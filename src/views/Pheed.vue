@@ -7,7 +7,7 @@
                      :enabled="true"
                      :keep="true">
 
-          <Card v-for="item in postList" :key="item.postNo"
+          <Card v-for="item in postList" :key="item.postRegDate"
                 :img-src="item.postRepImg"
                 :post-id="item.postNo"
                 :text="item.postContent"
@@ -22,6 +22,7 @@
       <RightBox :user-id="userId"
                 :user-no="userNo"
                 :user-name="userName"
+                :user-profile-img="userImg"
 
       ></RightBox>
       <Footer></Footer>
@@ -34,7 +35,7 @@
   import scrollList from 'vue-scroll-list';
   import RightBox from "../components/RightBox";
   import Footer from "../components/Footer";
-  import store from "../store/store"
+  import axios from 'axios'
 
   export default {
     components: {
@@ -50,21 +51,25 @@
         userId: String,
         userNo: Number,
         userName: String,
-        visible: false
+        visible: false,
+        userImg: String
       }
     },
     methods: {
-      getUserInfo: function () {
-        this.userNo = store.getters.getUid
-        this.userId = store.getters.getLid
-        this.userName = store.getters.getUname
-      }
+      getAuthUserInfo: function () {
+        axios.get('/Timeline/user/authuserinfo').then((res) => {
+          this.userId = res.data.userId
+          this.userName = res.data.userName
+          this.userNo = res.data.userNo
+          this.userImg = res.data.userRepImg
+        })
+      },
     },
     created() {
       window.__createSize = 40;
       window.__stopLoadData = false;
       window.__showScrollEvent = false;
-      this.getUserInfo()
+      this.getAuthUserInfo()
     },
     mounted() {
       this.$http.get('/Timeline/post')

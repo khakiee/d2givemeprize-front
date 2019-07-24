@@ -111,32 +111,34 @@
             window.alert('sign up failed')
           }
         })
+      },
+      setS3Options: function () {
+        const context = this
+        setOptions({
+          server: {
+            process: (fieldName, file, metadata, load) => {
+              s3.upload({
+                    Bucket: 'd2-resources',
+                    Key: 'userimg_folder/' + Date.now(),
+                    Body: file,
+                    ContentType: file.type,
+                    ACL: 'public-read'
+                  },
+                  {},
+                  function (err, data) {
+                    if (err) {
+                      return;
+                    }
+                    load(data.Key);
+                    context.input.userImg = data.Key.toString()
+                  })
+            }
+          }
+        });
       }
     },
     mounted() {
-      const context = this
-      setOptions({
-        server: {
-          process: (fieldName, file, metadata, load) => {
-            s3.upload({
-                  Bucket: 'd2-resources',
-                  Key: 'userimg_folder/' + Date.now(),
-                  Body: file,
-                  ContentType: file.type,
-                  ACL: 'public-read'
-                },
-                {},
-                function (err, data) {
-                  if (err) {
-                    return;
-                  }
-                  load(data.Key);
-                  context.input.userImg = data.Key.toString()
-                })
-
-          }
-        }
-      });
+      this.setS3Options()
     }
   }
 </script>

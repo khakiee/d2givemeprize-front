@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="pf-box">
-      <img class="pf-img d-inline-block p-5" src="../assets/logo.png" alt="">
+      <img v-if="userImg" class="pf-img d-inline-block p-5" :src="getImgUrl(this.userImg)" alt="../assets/logo.png">
+      <img v-if="!userImg" class="pf-img d-inline-block p-5" src="../assets/logo.png" alt="">
       <div class="pf-info-box d-inline-block align-center">
         <div class="pf-id-box">
           <div class="font-weight-bold d-inline-block text-lg-center">
@@ -25,7 +26,7 @@
           <div class="d-inline-block p-2">
             게시물 {{this.postList.length}}
           </div>
-          <a href="/follows">
+          <a :href="getFollowersPageUrl">
             <div class="d-inline-block p-2">
               팔로잉 {{this.following}}
             </div>
@@ -48,7 +49,7 @@
       <div class="tab-content bg-white p-3">
         <div class="tab-pane fade show active" id="post">
 
-          <div class="d-inline-block " v-for="post in postList" v-bind:key="post.postId">
+          <div class="d-inline-block " v-for="post in postList" v-bind:key="post.postRegDate">
             <a :href="getPostUrl(post.postNo)">
               <img v-if="post.postRepImg" class="post-box shadow img-thumbnail" :src="getImgUrl(post.postRepImg)"
                    alt="">
@@ -79,16 +80,16 @@
     props: {},
     data() {
       return {
-        Uid: Number,
-        userId: String,
-        userImg: String,
-        userName: String,
-        userNo: Number,
-        postList: Array,
-        following: Number,
-        follower: Number,
+        Uid: null,
+        userId: "",
+        userImg: "",
+        userName: "",
+        userNo: null,
+        postList: [],
+        following: null,
+        follower: null,
         relation: {},
-        profileId: Number
+        profileId: null
       }
     },
     methods: {
@@ -104,7 +105,7 @@
                 this.following = selectedUser.followings
                 this.follower = selectedUser.followers
                 this.userId = selectedUser.userId
-                this.userImg = selectedUser.userImg
+                this.userImg = selectedUser.userRepImg
                 this.userName = selectedUser.userName
                 this.userNo = selectedUser.userNo
               } else {
@@ -117,7 +118,6 @@
               this.$router.push('/')
             })
       },
-
       onClickFollow() {
         if (confirm("팔로우 하시겠습니까?")) {
           axios.get('/Timeline/user/' + this.userNo + '/follow')
@@ -140,7 +140,11 @@
         return env.awsS3BucketName + imgsrc
       },
     },
-    computed: {},
+    computed: {
+      getFollowersPageUrl: function () {
+        return '/follows/' + this.userNo
+      }
+    },
     mounted() {
       this.getUserInfo()
       this.Uid = store.getters.getUid

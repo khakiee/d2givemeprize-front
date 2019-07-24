@@ -43,6 +43,12 @@ export default new Router({
       beforeEnter: requireAuth()
     },
     {
+      path: '/follows/:userNo',
+      name: 'UserFollows',
+      component: UserFollows,
+      beforeEnter: requireAuth()
+    },
+    {
       path: '/post/:postId',
       name: 'Post',
       component: PostDetails,
@@ -52,12 +58,6 @@ export default new Router({
       path: '/edit',
       name: 'UserEdit',
       component: UserEdit,
-      beforeEnter: requireAuth()
-    },
-    {
-      path: '/follows',
-      name: 'UserFollows',
-      component: UserFollows,
       beforeEnter: requireAuth()
     }
   ]
