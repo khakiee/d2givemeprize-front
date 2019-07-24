@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ml-lg-5 mr-lg-5">
     <div class="card mr-lg-5 ml-lg-5 mt-lg-5">
       <div class="header border-bottom mb-2">
         <img class="card-author-profile" src="../assets/logo.png" alt="">
@@ -29,7 +29,6 @@
     <div class="bg-white mr-lg-5 ml-lg-5 p-3 border">
       <input class="input-group-text d-inline-block text-xl-left" type="text" v-model="comment"
              placeholder="Comment here...">
-
       <button class="btn bg-light ml-3" v-on:click="onClickCommentBtn">comment</button>
     </div>
     <div class="wrapper card mr-lg-5 ml-lg-5">
@@ -42,6 +41,8 @@
                     :author="item.writerName"
                     :author-id="item.writerNo"
                     :content="item.replyContent"
+                    :reply-no="item.replyNo"
+                    :post-no="postId"
         />
       </scroll-list>
     </div>

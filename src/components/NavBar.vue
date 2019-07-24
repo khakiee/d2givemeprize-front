@@ -1,31 +1,63 @@
 <template>
-  <div class="navbar border-bottom p-4" style="height: 80px;">
+  <div class="navbar border-bottom position-relative p-4" style="height: 80px;">
     <div style="padding-left: 5rem;">
       <a href="/">
         <img src="../assets/logo.png" alt="" class="nav-item"/>
       </a>
     </div>
+    <div>
+      <input v-model="query" v-on:keyup="getUserList" class="input-group-text"/>
+      <div v-if="query" class="autocomplete">
+        <div v-for="item in searchList">
+          <profile-card class="border p-3"
+                        :user-no="item.userNo"
+                        :user-id="item.userId"
+                        :user-img="item.userRepImg"
+                        :user-name="item.userName"
+          />
+        </div>
+      </div>
+    </div>
+
     <div style="padding-right: 8rem;">
       <img src="../assets/NavBarIcon/RecommendFriends.png" alt="" class="nav-item"/>
-      <img src="../assets/NavBarIcon/user.png" alt="" class="nav-item"/>
+      <a :href="getUserPage">
+        <img src="../assets/NavBarIcon/user.png" alt="" class="nav-item"/>
+      </a>
     </div>
   </div>
 </template>
 
+
 <script>
+  import store from '../store/store'
+  import axios from 'axios'
+  import ProfileCard from "./ProfileCard";
+
   export default {
     name: "NavBar",
-    components: {
-
-    },
+    components: {ProfileCard},
     data() {
       return {
-        query: "김지환",
-        selectedUser: null
+        selectedUser: null,
+        searchList: [],
+        query: ""
       }
     },
     methods: {
-
+      getUserList() {
+        axios.post('/Timeline/tag/searchUsers'
+            , this.query)
+            .then((res) => {
+              this.searchList = res.data
+            })
+      }
+    },
+    computed: {
+      getUserPage: function () {
+        const uid = store.getters.getUid
+        return '/user/' + uid
+      }
     },
     mounted() {
     }
@@ -39,13 +71,11 @@
     margin-left: 20px;
   }
 
-  .navbar {
-    background-color: white;
-  }
-
   .autocomplete {
-    width: 20%;
-    height: 50%;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    z-index: 99;
+    position: absolute;
+    background-color: white;
+    width: 200px;
   }
 </style>

@@ -48,11 +48,11 @@
       return {
         count: 0,
         postList: [],
-        userId: String,
-        userNo: Number,
-        userName: String,
+        userId: "",
+        userNo: null,
+        userName: "",
         visible: false,
-        userImg: String
+        userImg: ""
       }
     },
     methods: {

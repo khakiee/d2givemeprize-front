@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="pf-box">
-      <img v-if="userImg" class="pf-img d-inline-block p-5" :src="getImgUrl(this.userImg)" alt="../assets/logo.png">
-      <img v-if="!userImg" class="pf-img d-inline-block p-5" src="../assets/logo.png" alt="">
+    <div class="pf-box pb-lg-5">
+      <img v-if="userImg" class="pf-img d-inline-block pr-3" :src="getImgUrl(this.userImg)" alt="../assets/logo.png">
+      <img v-if="!userImg" class="pf-img d-inline-block pr-3" src="../assets/logo.png" alt="">
       <div class="pf-info-box d-inline-block align-center">
         <div class="pf-id-box">
           <div class="font-weight-bold d-inline-block text-lg-center">
@@ -11,16 +11,6 @@
               {{this.userName}}
             </div>
           </div>
-          <button v-if="relation" v-on:click="onClickUnFollow" class="btn btn-primary d-inline-block m-3 align-top">
-            Alread
-            Followed!
-          </button>
-          <button v-if="!relation && userNo !== Uid" v-on:click="onClickFollow"
-                  class="btn btn-primary d-inline-block m-3 align-top">Follow
-          </button>
-          <button v-if="!relation && userNo === Uid" v-on:click="onClickEdit"
-                  class="btn btn-primary d-inline-block m-3 align-top">회원 정보 수정
-          </button>
         </div>
         <div class="pf-cnt-box mt-lg-3">
           <div class="d-inline-block p-2">
@@ -35,6 +25,16 @@
             </div>
           </a>
         </div>
+        <button v-if="relation" v-on:click="onClickUnFollow" class="btn btn-primary d-inline-block m-3 align-top">
+          Alread
+          Followed!
+        </button>
+        <button v-if="!relation && userNo !== Uid" v-on:click="onClickFollow"
+                class="btn btn-primary d-inline-block m-3 align-top">Follow
+        </button>
+        <button v-if="!relation && userNo === Uid" v-on:click="onClickEdit"
+                class="btn btn-primary d-inline-block m-3 align-top">회원 정보 수정
+        </button>
       </div>
     </div>
     <div class="post-cells">
@@ -186,6 +186,11 @@
   .pf-box {
     text-align: center;
     vertical-align: center;
+  }
+
+  .pf-info-box {
+    padding-top: 70px;
+    padding-left: 30px
   }
 
   .font-weight-bold {
