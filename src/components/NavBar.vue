@@ -13,8 +13,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
-
   export default {
     name: "NavBar",
     components: {
@@ -27,13 +25,7 @@
       }
     },
     methods: {
-      getUserList() {
-        console.log('work!')
-        axios.post('/Timeline/tag/searchUsers', {value: this.query})
-            .then((res) => {
-              console.log(res)
-            })
-      }
+
     },
     mounted() {
     }
