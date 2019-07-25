@@ -40,7 +40,7 @@
 
         <CommentBox v-for="item in commentList" :key="item.replyNo"
                     :author="item.writerName"
-                    :author-id="item.writerNo"
+                    :author-no="item.writerNo"
                     :content="item.replyContent"
                     :reply-no="item.replyNo"
                     :author-img="item.writerRepImg"
