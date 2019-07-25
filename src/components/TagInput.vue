@@ -11,7 +11,7 @@
              placeholder="tag friends..."
              type="text"
              v-model="input"/>
-      <div v-if="tagList" class="autocomplete" v-for="item in tagList" v-bind:key="item.userNo"
+      <div v-if="tagList" class="autocomplete shadow" v-for="item in tagList" v-bind:key="item.userNo"
            v-on:click="onClickTag(item)">
         <profile-card class="border p-3"
                       :user-no="item.userNo"

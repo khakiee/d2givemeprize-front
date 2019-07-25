@@ -225,25 +225,4 @@
     display: none;
   }
 
-  .hidden-input {
-    border: none;
-  }
-
-  .autocomplete {
-    margin-top: 4rem;
-    z-index: 99;
-    position: absolute;
-    background-color: white;
-    width: 100%;
-  }
-
-  .tag-box {
-    background-color: white;
-  }
-
-  .hidden-input {
-    width: 100%;
-  }
-
-
 </style>
