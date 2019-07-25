@@ -26,7 +26,7 @@
         <div v-if="showNotifi" class="wrapper notibox border flex-fill shadow">
           <div v-for="item in notificationList" class="border">
             <div class="noti-item-box align-text-top">
-              <a v-on:click="onClickNoti">
+              <a v-on:click="onClickNoti(item)">
                 <img v-if="!item.postRepImg" src="../assets/logo.png" class="noti-img border d-inline-block">
                 <img v-if="item.postRepImg" :src="getImgSrc(item.postRepImg)" class="noti-img border d-inline-block">
                 <div class="noti-text d-inline-block pt-3 pl-2">
@@ -90,9 +90,10 @@
           this.newNotifiCount = 0
           if (!val.checked) {
             this.newNotifi = true
-            this.newNotifiCount += 1
+            return
           }
         })
+        this.newNotifi = false
       },
       getNotifi() {
         console.log('get noti')
@@ -104,6 +105,9 @@
       },
       getImgSrc: function (src) {
         return env.awsS3BucketName + src
+      },
+      getPostUrl: function (postNo) {
+        return '/post/' + postNo
       },
       getNotiString: function (alarm) {
         let str = ""
@@ -117,8 +121,9 @@
         return str
       },
       onClickNoti: function (alarm) {
-        axios.put('/Timeline/tag/readAlarm', {alarmPheedNo: alarm.alarmPheedNo})
-        this.$router.push({name: 'Post', params: {"postNo": alarm.postNo}})
+        axios.put('/Timeline/tag/readAlarm', {alarmPheedNo: alarm.alarmPheedNo}).then(()=>{
+          this.$router.push('/post/'+alarm.postNo)
+        })
       }
     },
     computed: {
