@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button v-if="!isFollowed" type="button" v-on:click="onClickUnFollow"
+    <button v-if="!isFollowed" type="button" v-on:click="onClickFollow"
             class="btn d-inline-block btn-primary">follow
     </button>
     <button v-if="isFollowed" type="button" v-on:click="onClickUnFollow"

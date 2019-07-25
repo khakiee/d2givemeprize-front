@@ -15,7 +15,30 @@
         <div class="text-box m-3">
           <textarea class="form-control input-group-text" type="text"
                     v-model="postText"
-                    style="resize: none; text-align: left;"></textarea>
+                    placeholder="write stories..."
+                    style="resize: none; text-align: left;"
+          ></textarea>
+          <div class="input-group-text form-control mt-3 p-0 position-relative">
+            <div v-if="selectedTagNames">
+              <div class="d-inline-block tag-box btn border bg-light" v-for="tag in selectedTagNames">
+                {{tag}}
+                <div class="d-inline-block"> x</div>
+              </div>
+
+            </div>
+            <input class="hidden-input input-group-text form-control"
+                   placeholder="tag friends..."
+                   type="text"
+                   v-model="tagInput"/>
+            <div v-if="tagList" class="autocomplete" v-for="item in tagList" v-on:click="onClickTag(item)">
+              <profile-card class="border p-3"
+                            :user-no="item.userNo"
+                            :user-id="item.userId"
+                            :user-img="item.userRepImg"
+                            :user-name="item.userName"
+              />
+            </div>
+          </div>
         </div>
         <button class="btn bg-white border" v-on:click="submitPheed">submit</button>
       </div>
@@ -34,6 +57,7 @@
 
   import AWS from 'aws-sdk'
   import axios from 'axios'
+  import profileCard from './ProfileCard'
 
   const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
   const s3 = new AWS.S3({
@@ -44,7 +68,7 @@
 
   export default {
     name: 'modal',
-    components: {FilePond},
+    components: {FilePond, profileCard},
     props: {
       visible: {
         type: Boolean,
@@ -60,22 +84,47 @@
       return {
         showWriteBox: false,
         postText: "",
-        imagePaths: []
+        imagePaths: [],
+        tagList: [],
+        selectedTagList: [],
+        selectedTagNames: [],
+        tagInput: ""
       }
     },
     methods: {
       handleWrapperClick() {
         this.$emit('update:showWriteBox', false)
       },
-      submitPheed: function () {
-        axios.post('/Timeline/post', [this.imagePaths, [], {postContent: this.postText}]).then((res) => {
-          if (res) {
-            window.alert('포스팅이 업로드 되었습니다.')
-            this.visible = false
-          } else {
-            window.alter('failed')
-          }
-        })
+      submitPheed() {
+        axios.post('/Timeline/post', [this.imagePaths, this.selectedTagList, {postContent: this.postText}])
+            .then((res) => {
+              if (res) {
+                window.alert('포스팅이 업로드 되었습니다.')
+                this.visible = false
+              } else {
+                window.alter('failed')
+              }
+            })
+      },
+      onClickTag(val) {
+        this.selectedTagList.push(val.userNo)
+        this.selectedTagNames.push(val.userName)
+        this.tagInput = ""
+      }
+    },
+    watch: {
+      tagInput: function (val) {
+        if (!val.includes('@')) {
+          this.tagList = []
+        }
+
+        if (val.includes('@') && val.length > 1) {
+          console.log(this.tagInput.replace('@', ''))
+          axios.post('/Timeline/tag/searchFriends', this.tagInput.replace('@', ''))
+              .then((res) => {
+                this.tagList = res.data
+              })
+        }
       }
     },
     mounted() {
@@ -135,4 +184,22 @@
     height: 100%;
     overflow-y: scroll;
   }
+
+  .hidden-input {
+    border: none;
+  }
+
+  .autocomplete {
+    margin-top: 4rem;
+    z-index: 99;
+    position: absolute;
+    background-color: white;
+    width: 100%;
+  }
+
+  .tag-box {
+    background-color: white;
+    color: aqua;
+  }
+
 </style>

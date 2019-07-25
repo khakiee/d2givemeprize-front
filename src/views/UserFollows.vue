@@ -12,30 +12,31 @@
       <div class="tab-content bg-white p-3">
         <div class="tab-pane fade" id="follower">
           <div v-for="follower in followers" v-bind:key="follower.userName">
-            <ProfileCard class="d-inline-block"
-                         :user-no="follower.userNo"
-                         :user-id="follower.userId"
-                         :user-name="follower.userName"
-            ></ProfileCard>
-            <div class="action-group d-inline-block">
-              <follow-btn :user-no="followings.userNo"
-                          :is-followed=True
-              ></follow-btn>
+            <div v-if="sessionUserNo !== follower.userNo" class="d-inline-block">
+              <ProfileCard :user-no="follower.userNo"
+                           :user-id="follower.userId"
+                           :user-name="follower.userName"
+              />
+            </div>
+            <div v-if="sessionUserNo !== follower.userNo" class="action-group float-right d-inline-block">
+              <followBtn :user-no="follower.userNo"
+                         :is-followed="follower.followed"
+              />
             </div>
           </div>
         </div>
         <div class="tab-pane fade" id="followings">
-          <div v-for="(idx, following) in followings" v-bind:key="following.userName">
-            <div class="d-inline-block">
+          <div v-for="following in followings" v-bind:key="following.userName">
+            <div v-if="sessionUserNo !== following.userNo" class="d-inline-block">
               <ProfileCard :user-no="following.userNo"
                            :user-id="following.userId"
                            :user-name="following.userName"
-              ></ProfileCard>
+              />
             </div>
-            <div class="action-group float-right d-inline-block">
-              <follow-btn :user-no="followings.userNo"
-                          :is-followed=True
-              ></follow-btn>
+            <div v-if="sessionUserNo !== following.userNo" class="action-group float-right d-inline-block">
+              <followBtn :user-no="following.userNo"
+                         :is-followed="following.followed"
+              />
             </div>
           </div>
         </div>
@@ -50,27 +51,31 @@
   import axios from 'axios'
   import ProfileCard from "../components/ProfileCard";
   import FollowBtn from "../components/FollowBtn";
+  import store from "../store/store"
 
   export default {
     name: "UserFollows.vue",
     components: {FollowBtn, ProfileCard},
     data() {
       return {
-        followerList: [],
-        followingList: [],
+        followers: [],
+        followings: [],
         sessionUserNo: Number,
         thisUserNo: Number
       }
     },
+    watch: {
+      //https://www.npmjs.com/package/vue-loading-overlay
+    },
     methods: {
-      getFollowers() {
-        axios.get('/Timeline/user/' + this.sessionUserNo + '/followers')
+      async getFollowers() {
+        axios.get('/Timeline/user/' + this.thisUserNo + '/followers')
             .then((res) => {
               this.followers = res.data
             })
       },
-      getFollowings() {
-        axios.get('/Timeline/user/' + this.sessionUserNo + '/followings')
+      async getFollowings() {
+        axios.get('/Timeline/user/' + this.thisUserNo + '/followings')
             .then((res) => {
               this.followings = res.data
             })
@@ -88,10 +93,11 @@
         }
       },
     },
-    mounted() {
-      this.sessionUserNo = this.$route.params.userNo
-      this.getFollowers()
+    created() {
+      this.sessionUserNo = store.getters.getUid
+      this.thisUserNo = this.$route.params.userNo
       this.getFollowings()
+      this.getFollowers()
     }
   }
 </script>

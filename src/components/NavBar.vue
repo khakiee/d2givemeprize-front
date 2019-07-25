@@ -36,6 +36,9 @@
   export default {
     name: "NavBar",
     components: {ProfileCard},
+    props: {
+      sessionAlarm: Object
+    },
     data() {
       return {
         selectedUser: null,

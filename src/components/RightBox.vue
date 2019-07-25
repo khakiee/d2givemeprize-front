@@ -9,8 +9,17 @@
       <button class="btn write-post border bg-white" v-on:click="onClickWriteBox">
         게시글 작성하기
       </button>
+      <div class="card mt-4">
+        <div class="header border-bottom">
+          태그된 게시물
+        </div>
+        <div class="card-body">
+          asdfasdf
+        </div>
+      </div>
       <modal :visible.sync="showWriteBox">
       </modal>
+
     </div>
   </div>
 </template>

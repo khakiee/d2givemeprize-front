@@ -21,7 +21,7 @@
       userId: String,
       userImg: String,
       userNo: Number,
-      CardOn: Boolean
+      CardOn: Boolean,
     },
     computed: {
       getImgUrl: function () {
