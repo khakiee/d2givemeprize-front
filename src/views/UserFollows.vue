@@ -12,14 +12,14 @@
       <div class="tab-content bg-white p-3">
         <div class="tab-pane fade" id="follower">
           <div v-for="follower in followers" v-bind:key="follower.userName">
-            <div v-if="sessionUserNo !== follower.userNo" class="d-inline-block">
-              <ProfileCard :user-no="follower.userNo"
+            <div v-if="sessionUserNo !== follower.userNo" class="card-box">
+              <ProfileCard class="profile-card d-inline-block"
+                           :user-no="follower.userNo"
                            :user-id="follower.userId"
                            :user-name="follower.userName"
               />
-            </div>
-            <div v-if="sessionUserNo !== follower.userNo" class="action-group float-right d-inline-block">
-              <followBtn :user-no="follower.userNo"
+              <followBtn class="d-inline-block float-right"
+                         :user-no="follower.userNo"
                          :is-followed="follower.followed"
               />
             </div>
@@ -27,14 +27,14 @@
         </div>
         <div class="tab-pane fade" id="followings">
           <div v-for="following in followings" v-bind:key="following.userName">
-            <div v-if="sessionUserNo !== following.userNo" class="d-inline-block">
-              <ProfileCard :user-no="following.userNo"
+            <div v-if="sessionUserNo !== following.userNo" class="card-box">
+              <ProfileCard class="profile-card d-inline-block"
+                           :user-no="following.userNo"
                            :user-id="following.userId"
                            :user-name="following.userName"
               />
-            </div>
-            <div v-if="sessionUserNo !== following.userNo" class="action-group float-right d-inline-block">
-              <followBtn :user-no="following.userNo"
+              <followBtn class="d-inline-block float-right"
+                         :user-no="following.userNo"
                          :is-followed="following.followed"
               />
             </div>
@@ -111,5 +111,10 @@
 
   .action-group {
     margin-left: 10rem;
+    text-align: right;
+  }
+
+  .card-box {
+    text-align: left;
   }
 </style>

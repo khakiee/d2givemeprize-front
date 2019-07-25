@@ -21,14 +21,20 @@
     methods: {
       onClickFollow() {
         if (confirm("팔로우 하시겠습니까?")) {
-          axios.get('/Timeline/user/' + this.userNo + '/follow')
-          this.getFollowers()
+          axios.get('/Timeline/user/' + this.userNo + '/follow').then((res) => {
+            if(res.status === 200) {
+              this.isFollowed = !this.isFollowed
+            }
+          })
         }
       },
       onClickUnFollow() {
         if (confirm("팔로우를 취소하시겠습니까?")) {
-          axios.get('/Timeline/user/' + this.userNo + '/unfollow')
-          this.getFollowings()
+          axios.get('/Timeline/user/' + this.userNo + '/unfollow').then((res) => {
+            if(res.status === 200) {
+              this.isFollowed = !this.isFollowed
+            }
+          })
         }
       }
     }

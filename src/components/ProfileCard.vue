@@ -1,9 +1,9 @@
 <template>
   <div class="profile">
     <a :href="getUserPageUrl">
-      <img v-if="userImg" class="profile-img" :src="getImgUrl" alt=""/>
-      <img v-if="!userImg" class="profile-img" src="../assets/profile.png" alt=""/>
-      <div class="profile-namecard">
+      <img v-if="userImg" class="profile-img d-inline-block" :src="getImgUrl" alt=""/>
+      <img v-if="!userImg" class="profile-img d-inline-block" src="../assets/profile.png" alt=""/>
+      <div class="profile-namecard d-inline-block">
         <div class="name overflow-hidden">{{this.userName}}</div>
         <div class="id">{{this.userId}}</div>
       </div>

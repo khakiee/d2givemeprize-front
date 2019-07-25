@@ -27,8 +27,9 @@
       </div>
     </div>
     <div class="bg-white mr-lg-5 ml-lg-5 p-3 border">
-      <input class="input-group-text d-inline-block text-xl-left" type="text" v-model="comment"
-             placeholder="Comment here...">
+      <TagInput @selectedTags="selectedTags"
+                @input="getInput"/>
+
       <button class="btn bg-light ml-3" v-on:click="onClickCommentBtn">comment</button>
     </div>
     <div class="wrapper card mr-lg-5 ml-lg-5">
@@ -55,26 +56,29 @@
   import scrollList from 'vue-scroll-list';
   import CommentBox from "../components/CommentBox";
   import env from '../../static/settings_local'
+  import TagInput from "../components/TagInput";
 
   export default {
     name: "PostDetails",
     components: {
+      TagInput,
       CommentBox,
       scrollList
     },
     data() {
       return {
         postInfo: {},
-        postNo: Number,
-        likeCount: Number,
-        likedByAuth: Number,
-        postContent: String,
-        postHit: Number,
+        postNo: null,
+        likeCount: null,
+        likedByAuth: null,
+        postContent: "",
+        postHit: null,
         postImgSrc: "",
-        postRegDate: String,
-        author: String,
+        postRegDate: "",
+        author: "",
         comment: "",
-        commentList: Array
+        commentList: [],
+        tagList: []
       }
     },
     methods: {
@@ -83,6 +87,7 @@
         this.$http.get('/Timeline/post/' + this.postNo)
             .then((res) => {
               let post = res.data.post
+              this.commentList = res.data.replyList
 
               this.likeCount = post.liked
               this.likedByAuth = post.likedByAuth
@@ -91,8 +96,6 @@
               this.postImgSrc = post.postRepImg
               this.postRegDate = post.postRegDate
               this.author = post.userName
-
-              this.commentList = res.data.replyList
             }).catch((err) => {
           err.print()
         })
@@ -110,7 +113,7 @@
       onClickCommentBtn: function () {
         const kk = this
         axios.post('/Timeline/reply',
-            [[], {postNo: this.postNo, replyContent: this.comment}])
+            [this.tagList, {postNo: this.postNo, replyContent: this.comment}])
             .then((res) => {
               if (res) {
                 window.alert('write comment success')
@@ -118,6 +121,12 @@
                 this.getPostDetails()
               }
             })
+      },
+      selectedTags: function (list) {
+        this.tagList = list
+      },
+      getInput: function (val) {
+        this.comment = val
       }
     },
     computed: {
@@ -215,5 +224,26 @@
   ::-webkit-scrollbar {
     display: none;
   }
+
+  .hidden-input {
+    border: none;
+  }
+
+  .autocomplete {
+    margin-top: 4rem;
+    z-index: 99;
+    position: absolute;
+    background-color: white;
+    width: 100%;
+  }
+
+  .tag-box {
+    background-color: white;
+  }
+
+  .hidden-input {
+    width: 100%;
+  }
+
 
 </style>

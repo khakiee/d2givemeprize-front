@@ -19,6 +19,7 @@
       </div>
     </div>
     <div style="padding-right: 8rem;">
+      <img src="../assets/NavBarIcon/notification/off.png" alt="" class="nav-item"/>
       <img src="../assets/NavBarIcon/RecommendFriends.png" alt="" class="nav-item"/>
       <a :href="getUserPage">
         <img src="../assets/NavBarIcon/user.png" alt="" class="nav-item"/>
