@@ -60,6 +60,8 @@
           }
         })
       },
+    }, mounted() {
+      axios.get('/Timeline/user/recommend')
     }
   }
 </script>
