@@ -64,9 +64,6 @@
         thisUserNo: Number
       }
     },
-    watch: {
-      //https://www.npmjs.com/package/vue-loading-overlay
-    },
     methods: {
       async getFollowers() {
         axios.get('/Timeline/user/' + this.thisUserNo + '/followers')

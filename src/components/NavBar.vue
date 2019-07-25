@@ -20,8 +20,10 @@
     </div>
     <div style="padding-right: 8rem;">
       <div class="d-inline-block position-relative">
-        <img v-if="newNotifi" src="../assets/NavBarIcon/notification/on.png" alt="" class="nav-item" v-on:click="toggleNotifi"/>
-        <img v-if="!newNotifi" src="../assets/NavBarIcon/notification/off.png" alt="" class="nav-item" v-on:click="toggleNotifi"/>
+        <img v-if="newNotifi" src="../assets/NavBarIcon/notification/on.png" alt="" class="nav-item"
+             v-on:click="toggleNotifi"/>
+        <img v-if="!newNotifi" src="../assets/NavBarIcon/notification/off.png" alt="" class="nav-item"
+             v-on:click="toggleNotifi"/>
 
         <div v-if="showNotifi" class="wrapper notibox border flex-fill shadow">
           <div v-for="item in notificationList" class="border">
@@ -69,11 +71,6 @@
         newNotifiCount: null
       }
     },
-    watch: {
-      searchList: function () {
-        this.newNotifi = true
-      }
-    },
     methods: {
       getUserList() {
         axios.post('/Timeline/tag/searchUsers'
@@ -86,17 +83,16 @@
         this.showNotifi = !this.showNotifi
       },
       isNewNoti() {
-        this.notificationList.forEach((val) => {
-          this.newNotifiCount = 0
-          if (!val.checked) {
-            this.newNotifi = true
-            return
-          }
+        let isNew = this.notificationList.filter(function (alarm) {
+          return alarm.checked === 0
         })
-        this.newNotifi = false
+        if (isNew.length > 0) {
+          this.newNotifi = true
+        } else {
+          this.newNotifi = false
+        }
       },
       getNotifi() {
-        console.log('get noti')
         axios.get('/Timeline/tag/checkAlarm')
             .then((res) => {
               this.notificationList = res.data
@@ -121,8 +117,9 @@
         return str
       },
       onClickNoti: function (alarm) {
-        axios.put('/Timeline/tag/readAlarm', {alarmPheedNo: alarm.alarmPheedNo}).then(()=>{
-          this.$router.push('/post/'+alarm.postNo)
+        axios.put('/Timeline/tag/readAlarm', {alarmPheedNo: alarm.alarmPheedNo}).then(() => {
+          this.showNotifi = false
+          this.$router.push('/post/' + alarm.postNo)
         })
       }
     },
