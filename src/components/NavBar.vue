@@ -131,7 +131,6 @@
     },
     mounted() {
       this.getNotifi()
-      setInterval(this.getNotifi, 3000);
     }
   }
 </script>
