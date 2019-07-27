@@ -9,11 +9,12 @@
 
           <Card v-for="item in postList" :key="item.postRegDate"
                 :img-src="item.postRepImg"
-                :post-id="item.postNo"
+                :post-no="item.postNo"
                 :text="item.postContent"
                 :author="item.userName"
                 :author-no="item.userNo"
-                :liked="item.likedByAuth"
+                :liked-by-auth-user="item.likedByAuth"
+                :like-num="item.liked"
           />
         </scroll-list>
       </div>

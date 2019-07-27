@@ -7,21 +7,38 @@
       </a>
     </div>
     <div class="card-body">
-      <img v-if="imgSrc" class="card-img border-bottom" :src="getImgUrl" alt=""/>
+      <div>
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img class="d-block w-100" :src="getImgUrl" alt="First slide">
+            </div>
+          </div>
+          <a class="carousel-control-prev" v-on:click="onClickPreviousImgBtn" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" v-on:click="onClickNextImgBtn" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </div>
       <a :href="getDetailUrl">
         <div class="card-text p-4">
           <div class="card-text">{{this.text}}</div>
         </div>
       </a>
-      <div class="" role="group">
-        <img v-if="!liked" class="not-like-btn mb-4 pt-0"
+      <div class="" role="group" style="color:#FA3623;">
+        <img v-if="!likedByAuthUser" class="not-like-btn mb-4 pt-0"
              src="../assets/like_btn_img/not_like.png"
              v-on:click="onClickLikeBtn"
              alt=""/>
-        <img v-if="liked" class="like-btn mb-4 pt-0"
+        <img v-if="likedByAuthUser" class="like-btn mb-4 pt-0"
              src="../assets/like_btn_img/like.png"
              v-on:click="onClickLikeBtn"
              alt=""/>
+        {{likeNum}}
       </div>
     </div>
   </div>
@@ -34,33 +51,77 @@
   export default {
     name: "Card",
     props: {
-      liked: Number,
-      postId: Number,
+      likedByAuthUser: Number,
+      postNo: Number,
       imgSrc: String,
       text: String,
       author: String,
-      authorNo: Number
+      authorNo: Number,
+      likeNum: Number
+    },
+    data() {
+      return {
+        imgSrcList: [],
+        currentImgIndex: null,
+        isImgListLoaded: false
+      }
     },
     methods: {
       onClickLikeBtn: function () {
-        const kk = this
-        axios.put('/Timeline/post/' + this.postId)
-            .then(function (res) {
+        axios.put('/Timeline/post/' + this.postNo)
+            .then((res) => {
               if (res) {
-                kk.liked = !kk.liked
+                if (!this.likedByAuthUser) {
+                  this.likeNum += 1
+                } else {
+                  this.likeNum -= 1
+                }
+                this.likedByAuthUser = !this.likedByAuthUser
               }
             })
+      },
+      onClickImgBtn: function () {
+        axios.get('Timeline/post/' + this.postNo + '/loadPheedImg')
+            .then((res) => {
+              this.imgSrcList = res.data
+              this.isImgListLoaded = true
+              this.currentImgIndex += 1
+            })
+      },
+      onClickNextImgBtn: function () {
+        if (!this.isImgListLoaded) {
+          this.onClickImgBtn()
+        }
+        this.currentImgIndex += 1
+        if (this.currentImgIndex > this.imgSrcList.length - 1) {
+          this.currentImgIndex -= this.imgSrcList.length
+        }
+      },
+      onClickPreviousImgBtn: function () {
+        if (!this.isImgListLoaded) {
+          this.onClickImgBtn()
+        }
+        this.currentImgIndex -= 1
+        if (this.currentImgIndex < 0) {
+          this.currentImgIndex += this.imgSrcList.length
+        }
       }
     },
     computed: {
       getDetailUrl: function () {
-        return '/post/' + this.postId
+        return '/post/' + this.postNo
       },
       getAuthorUrl: function () {
         return 'user/' + this.authorNo
       },
       getImgUrl: function () {
-        return env.awsS3BucketName + this.imgSrc
+        return env.awsS3BucketName + this.imgSrcList[this.currentImgIndex]
+      },
+    },
+    mounted() {
+      if (this.imgSrc) {
+        this.imgSrcList.push(this.imgSrc)
+        this.currentImgIndex = 0
       }
     }
   }

@@ -3,15 +3,29 @@
     <div class="card mr-lg-5 ml-lg-5 mt-lg-5">
       <div class="header border-bottom mb-2">
         <img class="card-author-profile" src="../assets/NavBarIcon/logo.png" alt="">
-        <div class="card-author">{{this.author}}</div>
-        <div class="card-subtitle">{{this.postRegDate}}</div>
+        <div class="card-author">{{author}}</div>
+        <div class="card-subtitle">{{postRegDate}}</div>
       </div>
       <div class="card-body">
-        <img v-if="postImgSrc" class="card-img border-bottom" :src="getImgUrl" alt=""/>
-        <div class="card-text p-4 comment-box">
-          <div class="card-text">{{this.postContent}}</div>
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img class="d-block w-100" :src="getImgUrl" alt="First slide">
+            </div>
+          </div>
+          <a class="carousel-control-prev" v-on:click="onClickPreviousImgBtn" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" v-on:click="onClickNextImgBtn" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
         </div>
-        <div class="card-mid bg-white">
+        <div class="card-text p-4 comment-box">
+          <div class="card-text">{{postContent}}</div>
+        </div>
+        <div class="card-mid bg-white" style="color: #FA3623;">
           <img v-if="!likedByAuth" class="not-like-btn m-2"
                src="../assets/like_btn_img/not_like.png"
                v-on:click="onClickLikeBtn"
@@ -20,9 +34,11 @@
                src="../assets/like_btn_img/like.png"
                v-on:click="onClickLikeBtn"
                alt=""/>
-          <div class="d-inline-block float-right">
-            조회수 : {{this.postHit}}
-          </div>
+          {{likeCount}}
+        </div>
+
+        <div class="d-inline-block float-right">
+          조회수 : {{postHit}}
         </div>
       </div>
     </div>
@@ -78,7 +94,10 @@
         author: "",
         comment: "",
         commentList: [],
-        tagList: []
+        tagList: [],
+        imgSrcList: [],
+        currentImgIndex: null,
+        isImgListLoaded: false
       }
     },
     methods: {
@@ -96,17 +115,22 @@
               this.postImgSrc = post.postRepImg
               this.postRegDate = post.postRegDate
               this.author = post.userName
+
+              if (this.postImgSrc) {
+                this.imgSrcList.push(this.postImgSrc)
+                this.currentImgIndex = 0
+              }
             }).catch((err) => {
           err.print()
         })
       },
       onClickLikeBtn: function () {
-        let kk = this
         axios.put('/Timeline/post/' + this.postNo,
             {postNo: this.postNo})
-            .then(function (res) {
+            .then((res) => {
               if (res) {
-                kk.likedByAuth = !kk.likedByAuth
+                this.likedByAuth = !this.likedByAuth
+                this.getPostDetails()
               }
             })
       },
@@ -127,11 +151,38 @@
       },
       getInput: function (val) {
         this.comment = val
+      },
+      onClickImgBtn: function () {
+        axios.get('Timeline/post/' + this.postNo + '/loadPheedImg')
+            .then((res) => {
+              this.imgSrcList = res.data
+              this.isImgListLoaded = true
+            })
+      },
+      onClickNextImgBtn: function () {
+        if (!this.isImgListLoaded) {
+          this.onClickImgBtn()
+          this.currentImgIndex += 1
+        }
+        this.currentImgIndex += 1
+        if (this.currentImgIndex > this.imgSrcList.length - 1) {
+          this.currentImgIndex -= this.imgSrcList.length
+        }
+      },
+      onClickPreviousImgBtn: function () {
+        if (!this.isImgListLoaded) {
+          this.onClickImgBtn()
+          this.currentImgIndex += 1
+        }
+        this.currentImgIndex -= 1
+        if (this.currentImgIndex < 0) {
+          this.currentImgIndex += this.imgSrcList.length
+        }
       }
     },
     computed: {
       getImgUrl: function () {
-        return env.awsS3BucketName + this.postImgSrc
+        return env.awsS3BucketName + this.imgSrcList[this.currentImgIndex]
       }
     },
     created() {
