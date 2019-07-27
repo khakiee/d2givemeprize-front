@@ -7,11 +7,16 @@ import createPersist from 'vuex-localstorage'
 
 Vue.use(Vuex)
 
-const state = {
-  uid: '',
-  isAuth: false,
-  accessToken: '',
+const getdefaultState = () => {
+  return {
+    uid: '',
+    isAuth: false,
+    accessToken: '',
+    userAlarm: []
+  }
 }
+
+const state = getdefaultState()
 
 export default new Vuex.Store({
   state,

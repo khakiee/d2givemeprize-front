@@ -29,7 +29,6 @@
   import Router from 'vue-router';
   import Vue from 'vue'
   import {mapActions} from 'vuex'
-  import env from '../../static/settings_local'
 
   Vue.use(Router);
 
@@ -37,7 +36,6 @@
 
     name: 'login',
     data() {
-      url: ''
       return {
         input: {
           userId: "",
@@ -51,18 +49,15 @@
         try {
           let loginResult = await this.login({uid: this.input.userId, password: this.input.userPwd})
           if (loginResult) {
-            this.goToPages()
+            this.$router.push({
+              name: 'pheed'
+            })
           } else {
             window.alert('login failed')
           }
         } catch (err) {
           err.toString()
         }
-      },
-      goToPages() {
-        this.$router.push({
-          name: 'pheed'
-        })
       }
     },
   }

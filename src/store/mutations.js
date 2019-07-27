@@ -9,5 +9,8 @@ export default {
   },
   [types.ACCESSTOKEN](state, accessToken) {
     state.accessToken = accessToken
+  },
+  [types.USERALARM](state, userAlarm) {
+    state.userAlarm = userAlarm
   }
 }

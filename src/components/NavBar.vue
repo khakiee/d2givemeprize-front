@@ -1,14 +1,14 @@
 <template>
-  <div class="navbar border-bottom position-relative p-4" style="height: 80px;">
-    <div style="padding-left: 5rem;">
+  <nav class="navbar border-bottom">
+    <div class="d-inline-block">
       <a href="/">
-        <img src="../assets/NavBarIcon/logo.png" alt="" class="nav-item"/>
+        <img src="../assets/NavBarIcon/logo.png" alt="../assets/NavBarIcon/logo.png" class="logo nav-item"/>
       </a>
     </div>
-    <div class="search-box">
+    <div v-if="getAuthState" class="d-inline-block search-box">
       <input v-model="query" v-on:keyup="getUserList" class="input-group-text"/>
       <div v-if="query" class="autocomplete">
-        <div v-for="item in searchList">
+        <div v-for="item in searchList" v-bind:key="item.userNo">
           <profile-card class="border p-3"
                         :user-no="item.userNo"
                         :user-id="item.userId"
@@ -18,33 +18,39 @@
         </div>
       </div>
     </div>
-    <div style="padding-right: 8rem;">
+    <div v-if="getAuthState" class="d-inline-block">
       <div class="d-inline-block position-relative">
-        <img v-if="newNotifi" src="../assets/NavBarIcon/notification/on.png" alt="" class="nav-item"
+        <img v-if="isNewNoti" src="../assets/NavBarIcon/notification/on.png" alt="" class="nav-item"
              v-on:click="toggleNotifi"/>
-        <img v-if="!newNotifi" src="../assets/NavBarIcon/notification/off.png" alt="" class="nav-item"
+        <img v-if="!isNewNoti" src="../assets/NavBarIcon/notification/off.png" alt="" class="nav-item"
              v-on:click="toggleNotifi"/>
 
         <div v-if="showNotifi" class="wrapper notibox border flex-fill shadow">
-          <div v-for="item in notificationList" class="border">
-            <div class="noti-item-box align-text-top">
-              <a v-on:click="onClickNoti(item)">
-                <img v-if="!item.postRepImg" src="../assets/logo.png" class="noti-img border d-inline-block">
-                <img v-if="item.postRepImg" :src="getImgSrc(item.postRepImg)" class="noti-img border d-inline-block">
-                <div class="noti-text d-inline-block pt-3 pl-2">
-                  {{getNotiString(item)}}
-                </div>
-              </a>
+          <div v-for="item in getAlarmList" class="border" v-bind:key="item.alarmPheedNo">
+            <div class="noti-item-box align-text-top" :class="[!item.checked ? notCheckedNotiClass : '']"
+                 v-on:click="onClickNoti(item)">
+              <img v-if="!item.postRepImg" src="../assets/logo.png" class="noti-img border d-inline-block">
+              <img v-if="item.postRepImg" :src="getImgSrc(item.postRepImg)" class="noti-img border d-inline-block">
+              <div class="noti-text d-inline-block pt-3 pl-2">
+                {{getNotiString(item)}}
+              </div>
             </div>
           </div>
         </div>
       </div>
+
       <img src="../assets/NavBarIcon/RecommendFriends.png" alt="" class="nav-item"/>
-      <a :href="getUserPage">
-        <img src="../assets/NavBarIcon/user.png" alt="" class="nav-item"/>
-      </a>
+
+      <div class="d-inline-block dropdown nav-item">
+        <img src="../assets/NavBarIcon/RecommendFriends.png" id="dropdownMenuButton" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false" alt="" class="nav-item dropdown-toggle" style="margin: 0"/>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" :href="getUserPage">My Page</a>
+          <a class="dropdown-item" v-on:click="submitSignOut">Logout</a>
+        </div>
+      </div>
     </div>
-  </div>
+  </nav>
 </template>
 
 
@@ -53,13 +59,11 @@
   import axios from 'axios'
   import ProfileCard from "./ProfileCard";
   import env from '../../static/settings_local'
+  import {mapActions} from 'vuex'
 
   export default {
-    name: "NavBar",
+    name: "navigation",
     components: {ProfileCard},
-    props: {
-      sessionAlarm: Object
-    },
     data() {
       return {
         selectedUser: null,
@@ -68,10 +72,16 @@
         query: "",
         showNotifi: false,
         newNotifi: Boolean,
-        newNotifiCount: null
+        newNotifiCount: null,
+        notCheckedNotiClass: 'not-checked'
       }
     },
     methods: {
+      ...mapActions(['logout']),
+      submitSignOut() {
+        this.logout()
+        this.$router.push('/login')
+      },
       getUserList() {
         axios.post('/Timeline/tag/searchUsers'
             , this.query)
@@ -81,23 +91,6 @@
       },
       toggleNotifi() {
         this.showNotifi = !this.showNotifi
-      },
-      isNewNoti() {
-        let isNew = this.notificationList.filter(function (alarm) {
-          return alarm.checked === 0
-        })
-        if (isNew.length > 0) {
-          this.newNotifi = true
-        } else {
-          this.newNotifi = false
-        }
-      },
-      getNotifi() {
-        axios.get('/Timeline/tag/checkAlarm')
-            .then((res) => {
-              this.notificationList = res.data
-            })
-        this.isNewNoti()
       },
       getImgSrc: function (src) {
         return env.awsS3BucketName + src
@@ -118,24 +111,49 @@
       },
       onClickNoti: function (alarm) {
         axios.put('/Timeline/tag/readAlarm', {alarmPheedNo: alarm.alarmPheedNo}).then(() => {
+          alarm.checked = 1
           this.showNotifi = false
-          this.$router.push('/post/' + alarm.postNo)
+          window.location.href = '/post/' + alarm.postNo
         })
+      },
+      fetchNoti: function () {
+        store.actions.getNewNoti()
       }
     },
     computed: {
-      getUserPage: function () {
+      getUserPage: () => {
         const uid = store.getters.getUid
         return '/user/' + uid
+      },
+      getAuthState: () => {
+        return store.getters.getIsAuth
+      },
+      getAlarmList: () => {
+        return store.getters.getUserAlarm
+      },
+      isNewNoti: () => {
+        let isNew = store.getters.getUserAlarm.filter(
+            function (alarm) {
+              return alarm.checked === 0
+            })
+        if (isNew.length > 0) {
+          return true
+        } else {
+          return false
+        }
       }
-    },
-    mounted() {
-      this.getNotifi()
     }
   }
 </script>
 
 <style scoped>
+  .navbar {
+    text-align: center;
+    display: block;
+    height: 80px;
+    padding-top: 20px;
+  }
+
   .nav-item {
     width: 40px;
     height: 40px;
@@ -164,6 +182,8 @@
 
   .search-box {
     width: 500px;
+    margin-right: 100px;
+    margin-left: 100px;
   }
 
   .input-group-text {
@@ -171,14 +191,14 @@
   }
 
   .noti-img {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     margin: 5px;
   }
 
   .noti-item-box {
     text-align: left;
-    height: 60px;
+    height: 70px;
   }
 
   .noti-text {
@@ -189,6 +209,10 @@
 
   ::-webkit-scrollbar {
     display: none;
+  }
+
+  .not-checked {
+    background-color: lightskyblue;
   }
 
 </style>
