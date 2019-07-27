@@ -37,7 +37,6 @@
 
   import AWS from 'aws-sdk'
   import axios from 'axios'
-  import profileCard from './ProfileCard'
   import TagInput from "./TagInput";
 
   const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
@@ -49,7 +48,7 @@
 
   export default {
     name: 'modal',
-    components: {TagInput, FilePond, profileCard},
+    components: {TagInput, FilePond},
     props: {
       visible: {
         type: Boolean,

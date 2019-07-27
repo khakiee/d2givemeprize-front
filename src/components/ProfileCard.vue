@@ -39,11 +39,7 @@
     text-align: left;
     vertical-align: center;
     horiz-align: center;
-  }
-
-  .card {
-    padding: 20px;
-    text-align: center;
+    padding-bottom: 1rem;
   }
 
   .profile-namecard {

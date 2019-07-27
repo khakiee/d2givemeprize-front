@@ -26,7 +26,7 @@
                 :user-profile-img="userImg"
 
       ></RightBox>
-      <Footer></Footer>
+      <Footer/>
     </div>
   </div>
 </template>
@@ -78,6 +78,13 @@
             this.postList = res.data
           }).catch((err) => {
         err.print()
+      })
+      axios.get('/Timeline/post/test',{
+        params: {
+          pageNumber: 1
+        }
+      }).then((res) => {
+        console.log(res)
       })
     }
   }

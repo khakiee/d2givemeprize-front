@@ -65,17 +65,13 @@
       }
     },
     methods: {
-      async getFollowers() {
-        axios.get('/Timeline/user/' + this.thisUserNo + '/followers')
-            .then((res) => {
-              this.followers = res.data
-            })
-      },
       async getFollowings() {
-        axios.get('/Timeline/user/' + this.thisUserNo + '/followings')
+        axios.get('/Timeline/user/' + this.thisUserNo + '/relation')
             .then((res) => {
-              this.followings = res.data
+              this.followings = res.data.followingList
+              this.followers = res.data.followerList
             })
+
       },
       onClickFollow(userNo) {
         if (confirm("팔로우 하시겠습니까?")) {
@@ -90,11 +86,10 @@
         }
       },
     },
-    created() {
+    mounted() {
       this.sessionUserNo = store.getters.getUid
       this.thisUserNo = this.$route.params.userNo
       this.getFollowings()
-      this.getFollowers()
     }
   }
 </script>
