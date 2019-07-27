@@ -39,7 +39,6 @@
     text-align: left;
     vertical-align: center;
     horiz-align: center;
-    padding-bottom: 1rem;
   }
 
   .card {

@@ -12,7 +12,7 @@
       <div class="tab-content bg-white p-3">
         <div class="tab-pane fade" id="follower">
           <div v-for="follower in followers" v-bind:key="follower.userName">
-            <div v-if="sessionUserNo !== follower.userNo" class="card-box">
+            <div v-if="sessionUserNo !== follower.userNo" class="card-box pb-3">
               <ProfileCard class="profile-card d-inline-block"
                            :user-no="follower.userNo"
                            :user-id="follower.userId"
@@ -27,7 +27,7 @@
         </div>
         <div class="tab-pane fade" id="followings">
           <div v-for="following in followings" v-bind:key="following.userName">
-            <div v-if="sessionUserNo !== following.userNo" class="card-box">
+            <div v-if="sessionUserNo !== following.userNo" class="card-box pb-3">
               <ProfileCard class="profile-card d-inline-block"
                            :user-no="following.userNo"
                            :user-id="following.userId"

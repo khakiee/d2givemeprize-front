@@ -3,11 +3,11 @@
     <div class="header border-bottom">
       <a :href="getAuthorUrl">
         <img class="card-author-profile" src="../assets/profile.png" alt="">
-        <div class="card-author">{{this.author}}</div>
+        <div class="card-author">{{author}}</div>
       </a>
     </div>
     <div class="card-body">
-      <div>
+      <div v-if="imgSrc">
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active">
@@ -26,7 +26,7 @@
       </div>
       <a :href="getDetailUrl">
         <div class="card-text p-4">
-          <div class="card-text">{{this.text}}</div>
+          <div class="card-text">{{text}}</div>
         </div>
       </a>
       <div class="" role="group" style="color:#FA3623;">

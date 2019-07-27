@@ -42,7 +42,7 @@
       <img src="../assets/NavBarIcon/RecommendFriends.png" alt="" class="nav-item"/>
 
       <div class="d-inline-block dropdown nav-item">
-        <img src="../assets/NavBarIcon/RecommendFriends.png" id="dropdownMenuButton" data-toggle="dropdown"
+        <img src="../assets/NavBarIcon/user.png" id="dropdownMenuButton" data-toggle="dropdown"
              aria-haspopup="true" aria-expanded="false" alt="" class="nav-item dropdown-toggle" style="margin: 0"/>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <a class="dropdown-item" :href="getUserPage">My Page</a>

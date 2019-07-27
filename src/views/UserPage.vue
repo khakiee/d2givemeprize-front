@@ -43,7 +43,7 @@
           <a class="nav-link active" data-toggle="tab" href="#post">게시물</a>
         </li>
         <li class="nav-item d-inline-block">
-          <a class="nav-link" data-toggle="tab" href="#tagged">태그</a>
+          <a class="nav-link" data-toggle="tab" href="#tagged">태그된 게시물</a>
         </li>
       </ul>
       <div class="tab-content bg-white p-3">
@@ -57,8 +57,14 @@
             </a>
           </div>
         </div>
-        <div class="tab-pane fade" id="tagged">
-          <p>Nunc vitae turpis</p>
+        <div class="tab-pane fade show active" id="tagged">
+          <div class="d-inline-block " v-for="post in taggedList" v-bind:key="post.postRegDate">
+            <a :href="getPostUrl(post.postNo)">
+              <img v-if="post.postRepImg" class="post-box shadow img-thumbnail" :src="getImgUrl(post.postRepImg)"
+                   alt="">
+              <img v-if="!post.postRepImg" class="post-box shadow img-thumbnail" src="../assets/logo.png">
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -84,6 +90,7 @@
         userName: "",
         userNo: null,
         postList: [],
+        taggedList: [],
         following: null,
         follower: null,
         relation: {},
@@ -98,6 +105,7 @@
               if (res.status === 200 && res.data) {
                 const selectedUser = res.data.selectedUser
                 this.postList = res.data.postList
+                this.taggedList = res.data.taggedPostList
                 this.relation = res.data.relation
 
                 this.following = selectedUser.followings

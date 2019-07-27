@@ -7,7 +7,7 @@
         <div class="card-subtitle">{{postRegDate}}</div>
       </div>
       <div class="card-body">
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div v-if="postImgSrc" id="carouselExampleControls" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active">
               <img class="d-block w-100" :src="getImgUrl" alt="First slide">
