@@ -1,6 +1,3 @@
 export const UID = 'UID'
-export const LID = 'USERID'
-export const ERROR_STATE = 'ERROR_STATE'
 export const IS_AUTH = 'IS_AUTH'
-export const UNAME = 'USERNAME'
 export const ACCESSTOKEN = ''

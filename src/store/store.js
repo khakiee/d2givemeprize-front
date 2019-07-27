@@ -9,9 +9,6 @@ Vue.use(Vuex)
 
 const state = {
   uid: '',
-  uname: '',
-  lid: '',
-  errorState: '',
   isAuth: false,
   accessToken: '',
 }

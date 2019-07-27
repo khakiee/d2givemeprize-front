@@ -1,5 +1,5 @@
 // src/vuex/actions.js
-import {ACCESSTOKEN, ERROR_STATE, IS_AUTH, LID, UID, UNAME} from './mutation_types'
+import {ACCESSTOKEN, ERROR_STATE, IS_AUTH, UID} from './mutation_types'
 import api from '../api/session'
 import axios from 'axios'
 
@@ -14,14 +14,6 @@ let setErrorState = ({commit}, data) => {
 let setIsAuth = ({commit}, data) => {
   commit(IS_AUTH, data)
 }
-let setLID = ({commit}, data) => {
-  commit(LID, data)
-}
-
-let setUNAME = ({commit}, data) => {
-  commit(UNAME, data)
-}
-
 let setAccessToken = ({commit}, data) => {
   commit(ACCESSTOKEN, data)
 }
@@ -33,9 +25,6 @@ let processResponse = (store, loginResponse) => {
       break
     default:
       setUID(store, loginResponse.data.userNo)
-      setLID(store, loginResponse.data.userId)
-      setUNAME(store, loginResponse.data.userName)
-      setErrorState(store, '')
       setAccessToken(store, loginResponse.headers.authorization)
       setIsAuth(store, true)
       axios.defaults.headers.common['Authorization'] = `${store.getters.getAccessToken}`
