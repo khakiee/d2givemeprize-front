@@ -21,9 +21,14 @@
     overflow: scroll;
   }
 
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
 </style>
 <script>
   import NavBar from "./components/NavBar";
+
   export default {
     components: {NavBar}
   }
