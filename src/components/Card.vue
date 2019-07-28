@@ -35,10 +35,12 @@
       </a>
       <div class="" role="group" style="color:#FA3623;">
         <img v-if="!likedByAuthUser" class="not-like-btn mb-4 pt-0"
+             style="cursor: pointer"
              src="../assets/like_btn_img/not_like.png"
              v-on:click="onClickLikeBtn"
              alt=""/>
         <img v-if="likedByAuthUser" class="like-btn mb-4 pt-0"
+             style="cursor: pointer"
              src="../assets/like_btn_img/like.png"
              v-on:click="onClickLikeBtn"
              alt=""/>
@@ -118,7 +120,7 @@
         return '/post/' + this.postNo
       },
       getAuthorUrl() {
-        return 'user/' + this.authorNo
+        return '/user/' + this.authorNo
       },
       getImgUrl() {
         return env.awsS3BucketName + this.imgSrcList[this.currentImgIndex]

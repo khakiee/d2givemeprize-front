@@ -1,9 +1,12 @@
 <template>
   <div class="post-details text-center d-inline-block">
     <div class="card">
-      <div class="header border-bottom mb-2">
-        <img class="card-author-profile" src="../assets/NavBarIcon/logo.png" alt="">
-        <div class="card-author">{{author}}</div>
+      <div class="header border-bottom">
+        <a :href="getAuthorUrl">
+          <img v-if="!authorRepImg" class="card-author-profile" src="../assets/logo.png" alt="">
+          <img v-if="authorRepImg" class="card-author-profile" :src="getProfileImgUrl" alt="">
+          <div class="card-author">{{author}}</div>
+        </a>
         <div class="card-subtitle float-right">{{postRegDate}}</div>
       </div>
       <div class="card-body">
@@ -30,10 +33,12 @@
         </div>
         <div class="card-mid bg-white" style="color: #FA3623;">
           <img v-if="!likedByAuth" class="not-like-btn m-2"
+               style="cursor: pointer"
                src="../assets/like_btn_img/not_like.png"
                v-on:click="onClickLikeBtn"
                alt=""/>
           <img v-if="likedByAuth" class="like-btn m-2"
+               style="cursor: pointer"
                src="../assets/like_btn_img/like.png"
                v-on:click="onClickLikeBtn"
                alt=""/>
@@ -90,7 +95,9 @@
         imgSrcList: [],
         currentImgIndex: null,
         isImgListLoaded: false,
-        postImgCount: null
+        postImgCount: null,
+        authorNo: null,
+        authorRepImg: ""
       }
     },
     methods: {
@@ -108,6 +115,8 @@
               this.postImgSrc = post.postRepImg
               this.postRegDate = post.postRegDate
               this.author = post.userName
+              this.authorNo = post.userNo
+              this.authorRepImg = post.userRepImg
               this.postImgCount = post.postImgCount
 
               if (this.postImgSrc) {
@@ -177,8 +186,14 @@
       }
     },
     computed: {
-      getImgUrl: () => {
+      getImgUrl() {
         return env.awsS3BucketName + this.imgSrcList[this.currentImgIndex]
+      },
+      getAuthorUrl() {
+        return '/user/' + this.authorNo
+      },
+      getProfileImgUrl() {
+        return env.awsS3BucketName + this.authorRepImg
       }
     },
     mounted() {
@@ -188,6 +203,16 @@
 </script>
 
 <style scoped>
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: inherit;
+    text-decoration: none;
+  }
+
   .comment-box {
     text-align: left;
   }
@@ -241,7 +266,7 @@
 
   .post-details {
     padding-top: 20px;
-    width: 60%;
+    width: 800px;
     height: 90%;
     overflow: hidden;
     overflow-y: scroll;

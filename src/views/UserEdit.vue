@@ -8,6 +8,7 @@
               allow-multiple="true"
               accepted-file-types="image/jpeg, image/png"
       />
+      <img v-if="input.userImg" class="img-thumbnail" :src="getImgUrl" alt=""/>
       <div>your profile image here!</div>
       <form class="form-group form-control-lg" @submit="submitEdit" style="padding-top: 20px">
         <input class="input-group-text" type="text" name="name" v-model="input.userName"
@@ -103,6 +104,7 @@
           this.input.id = res.data.userId
           this.input.userName = res.data.userName
           this.input.userNo = res.data.userNo
+          this.input.userImg = res.data.userRepImg
         })
       },
       setS3Options() {
@@ -130,6 +132,11 @@
         });
       }
     },
+    computed: {
+      getImgUrl() {
+        return env.awsS3BucketName + this.input.userImg
+      }
+    },
     mounted() {
       this.getUserInfo()
       this.setS3Options()
@@ -138,5 +145,8 @@
 </script>
 
 <style scoped>
-
+  .img-thumbnail {
+    width: 200px;
+    height: 200px;
+  }
 </style>

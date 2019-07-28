@@ -4,7 +4,7 @@
       <div v-if="selectedTagNames">
         <div class="d-inline-block tag-box btn border bg-light" v-for="tag in selectedTagNames" v-bind:key="tag">
           {{tag}}
-          <div class="d-inline-block" onclick=""> x</div>
+          <div class="d-inline-block" onclick=""> x </div>
         </div>
       </div>
       <input class="input-group-text form-control"

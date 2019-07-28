@@ -19,13 +19,14 @@
           <div class="tab-content bg-white p-3">
             <div class="tab-pane fade show active" id="follower">
               <div v-for="follower in followers" v-bind:key="follower.userNo">
-                <div v-if="sessionUserNo !== follower.userNo" class="card-box pb-3">
+                <div class="card-box pb-3">
                   <ProfileCard class="profile-card d-inline-block"
                                :user-no="follower.userNo"
                                :user-id="follower.userId"
                                :user-name="follower.userName"
                   />
-                  <followBtn class="d-inline-block float-right"
+                  <followBtn v-if="sessionUserNo !== follower.userNo"
+                             class="d-inline-block float-right"
                              :user-no="follower.userNo"
                              :is-followed="follower.followed"
                   />
@@ -34,13 +35,14 @@
             </div>
             <div class="tab-pane fade" id="followings">
               <div v-for="following in followings" v-bind:key="following.userNo">
-                <div v-if="sessionUserNo !== following.userNo" class="card-box pb-3">
+                <div class="card-box pb-3">
                   <ProfileCard class="profile-card d-inline-block"
                                :user-no="following.userNo"
                                :user-id="following.userId"
                                :user-name="following.userName"
                   />
-                  <followBtn class="d-inline-block float-right"
+                  <followBtn v-if="sessionUserNo !== following.userNo"
+                             class="d-inline-block float-right"
                              :user-no="following.userNo"
                              :is-followed="following.followed"
                   />
@@ -73,6 +75,7 @@
     data() {
       return {
         showWriteBox: false,
+        profileUserNo: null,
         sessionUserNo: null,
         followers: [],
         followings: []
@@ -81,15 +84,19 @@
     methods: {
       handleWrapperClick() {
         this.$emit('update:showWriteBox', false)
+      },
+      getUserFollower() {
+        axios.get('/Timeline/user/' + this.profileUserNo + '/relation')
+            .then((res) => {
+              this.followers = res.data.followerList
+              this.followings = res.data.followingList
+            })
       }
     },
     mounted() {
       this.sessionUserNo = store.getters.getUid
-      axios.get('/Timeline/user/' + store.getters.getUid + '/relation')
-          .then((res) => {
-            this.followers = res.data.followerList
-            this.followings = res.data.followingList
-          })
+      this.profileUserNo = this.$route.params.userNo
+      this.getUserFollower()
     }
   }
 </script>
@@ -122,7 +129,7 @@
   }
 
   .my-modal__body {
-    height: 100%;
+    height: 85%;
     overflow-y: scroll;
   }
 

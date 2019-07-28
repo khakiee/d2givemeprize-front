@@ -47,7 +47,7 @@
         </li>
       </ul>
       <div class="tab-content bg-white p-3">
-        <div class="tab-pane fade text-left show active" id="post">
+        <div class="tab-pane fade show active" id="post">
           <div class="d-inline-block " v-for="post in postList" v-bind:key="post.postRegDate">
             <a :href="getPostUrl(post.postNo)">
               <img v-if="post.postRepImg" class="post-box shadow img-thumbnail" :src="getImgUrl(post.postRepImg)"
@@ -56,7 +56,7 @@
             </a>
           </div>
         </div>
-        <div class="tab-pane fade text-left" id="tagged">
+        <div class="tab-pane fade" id="tagged">
           <div class="d-inline-block " v-for="post in taggedList" v-bind:key="post.postRegDate">
             <a :href="getPostUrl(post.postNo)">
               <img v-if="post.postRepImg" class="post-box shadow img-thumbnail" :src="getImgUrl(post.postRepImg)"
@@ -102,7 +102,7 @@
     methods: {
       async getUserInfo() {
         this.profileId = parseInt(this.$route.params.userNo)
-        this.$http.get('/Timeline/user/' + this.profileId)
+        await this.$http.get('/Timeline/user/' + this.profileId)
             .then((res) => {
               if (res.status === 200 && res.data) {
                 const selectedUser = res.data.selectedUser

@@ -9,25 +9,33 @@
       <input v-model="query" v-on:keyup="getUserList" class="input-group-text"/>
       <div v-if="query" class="autocomplete">
         <div v-for="item in searchList" v-bind:key="item.userNo">
-          <profile-card class="border p-3"
-                        :user-no="item.userNo"
-                        :user-id="item.userId"
-                        :user-img="item.userRepImg"
-                        :user-name="item.userName"
-          />
+          <a :href="getUserUrl(item.userNo)">
+            <profile-card class="border p-3"
+                          :user-no="item.userNo"
+                          :user-id="item.userId"
+                          :user-img="item.userRepImg"
+                          :user-name="item.userName"
+            />
+          </a>
         </div>
       </div>
     </div>
 
     <div v-if="getAuthState" class="d-inline-block">
       <div class="d-inline-block position-relative">
-        <img v-if="isNewNoti" src="../assets/NavBarIcon/notification/on.png" alt="" class="nav-item"
+        <img v-if="isNewNoti" src="../assets/NavBarIcon/notification/on.png"
+             alt="" class="nav-item"
+             style="cursor: pointer"
              v-on:click="toggleNotifi"/>
-        <img v-if="!isNewNoti" src="../assets/NavBarIcon/notification/off.png" alt="" class="nav-item"
+        <img v-if="!isNewNoti" src="../assets/NavBarIcon/notification/off.png"
+             alt="" class="nav-item"
+             style="cursor: pointer"
              v-on:click="toggleNotifi"/>
         <div v-if="showNotifi" class="wrapper notibox border flex-fill shadow">
           <div v-for="item in getAlarmList" class="border" v-bind:key="item.alarmPheedNo">
-            <div class="noti-item-box align-text-top" :class="[!item.checked ? newNoti : '']"
+            <div class="noti-item-box align-text-top"
+                 :class="[!item.checked ? newNoti : '']"
+                 style="cursor: pointer"
                  v-on:click="onClickNoti(item)">
               <img v-if="!item.postRepImg" src="../assets/logo.png" class="noti-img border d-inline-block">
               <img v-if="item.postRepImg" :src="getImgSrc(item.postRepImg)" class="noti-img border d-inline-block">
@@ -39,12 +47,13 @@
         </div>
       </div>
 
-      <div class="d-inline-block dropdown nav-item">
+      <div class="d-inline-block dropdown nav-item" style="cursor: pointer">
         <img src="../assets/NavBarIcon/user.png" id="dropdownMenuButton" data-toggle="dropdown"
              aria-haspopup="true" aria-expanded="false" alt="" class="nav-item dropdown-toggle" style="margin: 0"/>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <a class="dropdown-item" :href="getUserPage">My Page</a>
-          <a class="dropdown-item" v-on:click="submitSignOut">Logout</a>
+          <a class="dropdown-item" style="cursor: pointer"
+             v-on:click="submitSignOut">Logout</a>
         </div>
       </div>
     </div>
@@ -93,6 +102,9 @@
       getImgSrc(src) {
         return env.awsS3BucketName + src
       },
+      getUserUrl(userNo) {
+        return '/user/' + userNo
+      },
       getPostUrl(postNo) {
         return '/post/' + postNo
       },
@@ -116,22 +128,21 @@
       }
     },
     computed: {
-      getUserPage: () => {
+      getUserPage() {
         const uid = store.getters.getUid
         return '/user/' + uid
       },
-      getAuthState: () => {
+      getAuthState() {
         return store.getters.getIsAuth
       },
-      getAlarmList: () => {
+      getAlarmList() {
         return store.getters.getUserAlarm
       },
-      isNewNoti: () => {
+      isNewNoti() {
         let isNew = store.getters.getUserAlarm.filter(
             function (alarm) {
               return alarm.checked === 0
             }).length
-
         if (isNew) {
           return true
         }
