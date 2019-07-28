@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <navigation></navigation>
+    <navigation id="nav-bar"/>
     <router-view/>
   </div>
 </template>
@@ -17,8 +17,9 @@
   }
 
   html, body {
+    margin: 0;
+    padding: 0;
     height: 100%;
-    overflow: scroll;
   }
 
   ::-webkit-scrollbar {
