@@ -5,7 +5,6 @@ import axios from 'axios'
 let setUID = ({commit}, data) => {
   commit(UID, data)
 }
-
 let setIsAuth = ({commit}, data) => {
   commit(IS_AUTH, data)
 }
@@ -36,7 +35,7 @@ export default {
     processResponse(store, loginResponse)
     let alarmList = await axios.get('/Timeline/tag/checkAlarm')
     setAlarmList(store, alarmList.data)
-    return store.getters.getIsAuth
+    return loginResponse
   },
   async getNewNoti(store) {
     let alarmList = await axios.get('/Timeline/tag/checkAlarm')
