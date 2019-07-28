@@ -176,7 +176,8 @@
   }
 
   .search-box {
-    width: 500px;
+    width: 50%;
+    max-width: 500px;
     margin-right: 100px;
     margin-left: 100px;
   }

@@ -242,7 +242,7 @@
   .post-details {
     padding-top: 20px;
     width: 60%;
-    height: 100%;
+    height: 90%;
     overflow: hidden;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;

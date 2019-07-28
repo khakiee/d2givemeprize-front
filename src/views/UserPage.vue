@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="user-page">
     <div class="pf-box pb-lg-5">
       <img v-if="userImg" class="pf-img d-inline-block" :src="getImgUrl(this.userImg)" alt="../assets/logo.png">
       <img v-if="!userImg" class="pf-img d-inline-block" src="../assets/profile.png" alt="">
@@ -159,6 +159,15 @@
 </script>
 
 <style scoped>
+  .user-page {
+    padding-top: 20px;
+    height: 90%;
+    overflow: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+  }
+
   a {
     color: inherit;
     text-decoration: none;
