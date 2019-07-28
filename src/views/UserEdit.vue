@@ -73,7 +73,7 @@
       }
     },
     methods: {
-      checkPwMatch: function (e) {
+      checkPwMatch(e) {
         e.preventDefault();
         if (this.input.password === this.input.re_password) {
           this.pwMatchCheck = true
@@ -81,7 +81,7 @@
           this.pwMatchCheck = false
         }
       },
-      submitEdit: function (e) {
+      submitEdit(e) {
         e.preventDefault();
         axios.put('/Timeline/user', {
           userId: this.input.id,
@@ -91,22 +91,21 @@
           userNo: this.input.userNo
         }).then((response) => {
           if (response.data.status === "success") {
-            window.alert('sign up success')
+            window.alert('user information edit success')
             this.$router.push('/login')
           } else {
-            window.alert('sign up failed')
+            window.alert('user information edit failed')
           }
         })
       },
-      getUserInfo: function () {
+      getUserInfo() {
         axios.get('/Timeline/user/authuserinfo').then((res) => {
-          console.log(res)
           this.input.id = res.data.userId
           this.input.userName = res.data.userName
           this.input.userNo = res.data.userNo
         })
       },
-      setS3Options: function () {
+      setS3Options() {
         const context = this
         setOptions({
           server: {

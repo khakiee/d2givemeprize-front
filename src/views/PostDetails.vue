@@ -1,10 +1,10 @@
 <template>
-  <div class="ml-lg-5 mr-lg-5">
-    <div class="card mr-lg-5 ml-lg-5 mt-lg-5">
+  <div class="post-details text-center d-inline-block">
+    <div class="card">
       <div class="header border-bottom mb-2">
         <img class="card-author-profile" src="../assets/NavBarIcon/logo.png" alt="">
         <div class="card-author">{{author}}</div>
-        <div class="card-subtitle">{{postRegDate}}</div>
+        <div class="card-subtitle float-right">{{postRegDate}}</div>
       </div>
       <div class="card-body">
         <div v-if="postImgSrc" id="carouselExampleControls" class="carousel slide" data-ride="carousel">
@@ -13,11 +13,14 @@
               <img class="d-block w-100" :src="getImgUrl" alt="First slide">
             </div>
           </div>
-          <a class="carousel-control-prev" v-on:click="onClickPreviousImgBtn" role="button" data-slide="prev">
+          <a v-if="postImgCount > 1" class="shadow carousel-control-prev" v-on:click="onClickPreviousImgBtn"
+             role="button"
+             data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
           </a>
-          <a class="carousel-control-next" v-on:click="onClickNextImgBtn" role="button" data-slide="next">
+          <a v-if="postImgCount > 1" class="shadow carousel-control-next" v-on:click="onClickNextImgBtn" role="button"
+             data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
           </a>
@@ -36,41 +39,31 @@
                alt=""/>
           {{likeCount}}
         </div>
-
-        <div class="d-inline-block float-right">
-          조회수 : {{postHit}}
-        </div>
       </div>
     </div>
-    <div class="bg-white mr-lg-5 ml-lg-5 p-3 border">
-      <TagInput @selectedTags="selectedTags"
+    <div class="bg-white p-3 border">
+      <TagInput style="width: 80%"
+                class="d-inline-block"
+                @selectedTags="selectedTags"
                 @input="getInput"/>
-
-      <button class="btn bg-light ml-3" v-on:click="onClickCommentBtn">comment</button>
+      <button class="btn bg-light ml-3 d-inline-block" v-on:click="onClickCommentBtn">comment</button>
     </div>
-    <div class="wrapper card mr-lg-5 ml-lg-5">
-      <scroll-list :debounce="50"
-                   :remain="10"
-                   :enabled="true"
-                   :keep="true">
-
-        <CommentBox v-for="item in commentList" :key="item.replyNo"
-                    :author="item.writerName"
-                    :author-no="item.writerNo"
-                    :content="item.replyContent"
-                    :reply-no="item.replyNo"
-                    :author-img="item.writerRepImg"
-                    :post-no="postNo"
-        />
-      </scroll-list>
+    <div class="card pb-4">
+      <Comment v-for="item in commentList" :key="item.replyNo"
+               :author="item.writerName"
+               :author-no="item.writerNo"
+               :content="item.replyContent"
+               :reply-no="item.replyNo"
+               :author-img="item.writerRepImg"
+               :post-no="parseInt(postNo)"
+      />
     </div>
   </div>
 </template>
 
 <script>
   import axios from 'axios'
-  import scrollList from 'vue-scroll-list';
-  import CommentBox from "../components/CommentBox";
+  import Comment from "../components/Comment";
   import env from '../../static/settings_local'
   import TagInput from "../components/TagInput";
 
@@ -78,8 +71,7 @@
     name: "PostDetails",
     components: {
       TagInput,
-      CommentBox,
-      scrollList
+      Comment
     },
     data() {
       return {
@@ -97,7 +89,8 @@
         tagList: [],
         imgSrcList: [],
         currentImgIndex: null,
-        isImgListLoaded: false
+        isImgListLoaded: false,
+        postImgCount: null
       }
     },
     methods: {
@@ -115,6 +108,7 @@
               this.postImgSrc = post.postRepImg
               this.postRegDate = post.postRegDate
               this.author = post.userName
+              this.postImgCount = post.postImgCount
 
               if (this.postImgSrc) {
                 this.imgSrcList.push(this.postImgSrc)
@@ -124,42 +118,44 @@
           err.print()
         })
       },
-      onClickLikeBtn: function () {
+      onClickLikeBtn() {
         axios.put('/Timeline/post/' + this.postNo,
             {postNo: this.postNo})
             .then((res) => {
-              if (res) {
+              if (res.status === 200) {
                 this.likedByAuth = !this.likedByAuth
                 this.getPostDetails()
               }
             })
       },
-      onClickCommentBtn: function () {
+      onClickCommentBtn() {
         const kk = this
         axios.post('/Timeline/reply',
             [this.tagList, {postNo: this.postNo, replyContent: this.comment}])
             .then((res) => {
-              if (res) {
+              if (res.status === 200) {
                 window.alert('write comment success')
                 kk.comment = ""
                 this.getPostDetails()
+              } else {
+                window.alert('write comment failed')
               }
             })
       },
-      selectedTags: function (list) {
+      selectedTags(list) {
         this.tagList = list
       },
-      getInput: function (val) {
+      getInput(val) {
         this.comment = val
       },
-      onClickImgBtn: function () {
+      onClickImgBtn() {
         axios.get('Timeline/post/' + this.postNo + '/loadPheedImg')
             .then((res) => {
               this.imgSrcList = res.data
               this.isImgListLoaded = true
             })
       },
-      onClickNextImgBtn: function () {
+      onClickNextImgBtn() {
         if (!this.isImgListLoaded) {
           this.onClickImgBtn()
           this.currentImgIndex += 1
@@ -169,7 +165,7 @@
           this.currentImgIndex -= this.imgSrcList.length
         }
       },
-      onClickPreviousImgBtn: function () {
+      onClickPreviousImgBtn() {
         if (!this.isImgListLoaded) {
           this.onClickImgBtn()
           this.currentImgIndex += 1
@@ -181,14 +177,9 @@
       }
     },
     computed: {
-      getImgUrl: function () {
+      getImgUrl: () => {
         return env.awsS3BucketName + this.imgSrcList[this.currentImgIndex]
       }
-    },
-    created() {
-      window.__createSize = 40;
-      window.__stopLoadData = false;
-      window.__showScrollEvent = false;
     },
     mounted() {
       this.getPostDetails()
@@ -199,10 +190,6 @@
 <style scoped>
   .comment-box {
     text-align: left;
-  }
-
-  .input-group-text {
-    width: 50%;
   }
 
   .card-mid {
@@ -252,28 +239,17 @@
     font-weight: bold;
   }
 
-  .wrapper {
-    height: 400px;
-    padding: 0;
-    border: 1px solid #eee;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .item {
-    border-bottom: 1px solid #eee;
+  .post-details {
+    padding-top: 20px;
+    width: 60%;
+    height: 100%;
     overflow: hidden;
-  }
-
-  .item:last-child {
-    border-bottom: 0;
-  }
-
-  .scroll-container {
-    transform: translate3d(0, 0, 0);
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
   }
 
   ::-webkit-scrollbar {
     display: none;
   }
-
 </style>

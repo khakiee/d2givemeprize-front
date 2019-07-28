@@ -28,6 +28,7 @@
 <script>
   import Router from 'vue-router';
   import Vue from 'vue'
+  import store from '../store/store'
   import {mapActions} from 'vuex'
 
   Vue.use(Router);
@@ -47,8 +48,8 @@
       ...mapActions(['login']),
       async onSubmit() {
         try {
-          let loginResult = await this.login({uid: this.input.userId, password: this.input.userPwd})
-          if (loginResult) {
+          await this.login({uid: this.input.userId, password: this.input.userPwd})
+          if (store.getters.getAccessToken) {
             this.$router.push({
               name: 'pheed'
             })
@@ -56,10 +57,10 @@
             window.alert('login failed')
           }
         } catch (err) {
-          err.toString()
+          window.alert('login failed')
         }
       }
-    },
+    }
   }
 </script>
 

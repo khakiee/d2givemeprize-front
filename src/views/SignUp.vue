@@ -76,7 +76,7 @@
       }
     },
     methods: {
-      checkPwMatch: function (e) {
+      checkPwMatch(e) {
         e.preventDefault();
         if (this.input.password === this.input.re_password) {
           this.pwMatchCheck = true
@@ -84,7 +84,7 @@
           this.pwMatchCheck = false
         }
       },
-      checkIdDup: function (e) {
+      checkIdDup(e) {
         e.preventDefault();
         axios.post('/Timeline/user/checkdupid', {
           userId: this.input.id
@@ -96,7 +96,7 @@
           }
         })
       },
-      submitSignup: function (e) {
+      submitSignup(e) {
         e.preventDefault();
         this.axios.post('/Timeline/user', {
           userId: this.input.id,
@@ -112,7 +112,7 @@
           }
         })
       },
-      setS3Options: function () {
+      setS3Options() {
         const context = this
         setOptions({
           server: {

@@ -1,12 +1,8 @@
 <template>
-  <div class="feed">
+  <div class="pheed-page" v-on:scroll="onScroll" ref="pheed" style="height: 90%; overflow-y: scroll;">
     <div style="float: left;">
       <div class="wrapper">
-        <scroll-list :debounce="50"
-                     :remain="10"
-                     :enabled="true"
-                     :keep="true">
-
+        <div class="pheed">
           <Card v-for="item in postList" :key="item.postRegDate"
                 :img-src="item.postRepImg"
                 :post-no="item.postNo"
@@ -15,11 +11,13 @@
                 :author-no="item.userNo"
                 :liked-by-auth-user="item.likedByAuth"
                 :like-num="item.liked"
+                :post-img-count="item.postImgCount"
+                :author-rep-img="item.authorRepImg"
           />
-        </scroll-list>
+        </div>
       </div>
     </div>
-    <div class="recent-activity-box" style="">
+    <div class="right-box">
       <RightBox :user-id="userId"
                 :user-no="userNo"
                 :user-name="userName"
@@ -33,7 +31,6 @@
 
 <script>
   import Card from "../components/Card";
-  import scrollList from 'vue-scroll-list';
   import RightBox from "../components/RightBox";
   import Footer from "../components/Footer";
   import axios from 'axios'
@@ -42,8 +39,7 @@
     components: {
       Footer,
       RightBox,
-      Card,
-      scrollList
+      Card
     },
     data() {
       return {
@@ -53,11 +49,14 @@
         userNo: null,
         userName: "",
         visible: false,
-        userImg: ""
+        userImg: "",
+        pageNum: 0,
+        pheed: null,
+        maxPheedNum: null
       }
     },
     methods: {
-      getAuthUserInfo: function () {
+      getAuthUserInfo() {
         axios.get('/Timeline/user/authuserinfo').then((res) => {
           this.userId = res.data.userId
           this.userName = res.data.userName
@@ -65,69 +64,71 @@
           this.userImg = res.data.userRepImg
         })
       },
+      getPheedPosts() {
+        this.pageNum = this.pageNum + 1
+        if (this.maxPheedNum && this.pageNum > this.maxPheedNum) {
+          return
+        }
+        axios.get('/Timeline/post', {
+          params: {
+            pageNumber: this.pageNum
+          }
+        }).then((res) => {
+          this.maxPheedNum = res.data.maxPage
+          res.data.list.forEach((post) => {
+            this.postList.push(post)
+          })
+        })
+      },
+      onScroll() {
+        let bottomOfWindow = this.pheed.scrollTop + this.pheed.offsetHeight === this.pheed.scrollHeight;
+        if (bottomOfWindow) {
+          this.getPheedPosts()
+        }
+      },
     },
     created() {
-      window.__createSize = 40;
-      window.__stopLoadData = false;
-      window.__showScrollEvent = false;
       this.getAuthUserInfo()
-    },
+    }
+    ,
     mounted() {
-      this.$http.get('/Timeline/post')
-          .then((res) => {
-            this.postList = res.data
-          }).catch((err) => {
-        err.print()
-      })
-      axios.get('/Timeline/post/test',{
-        params: {
-          pageNumber: 1
-        }
-      }).then((res) => {
-        console.log(res)
-      })
+      this.pheed = this.$refs.pheed
+      this.getPheedPosts()
     }
   }
 </script>
 
 <style scoped>
-  .feed {
+  .pheed-page {
     display: inline-block;
     text-align: center;
   }
 
   .wrapper {
     width: 600px;
-    height: 800px;
+    height: 100%;
     padding: 0;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: none;
   }
 
-  .item {
-    border-bottom: 1px solid #eee;
-    overflow: hidden;
-  }
-
-  .item:last-child {
-    border-bottom: 0;
-  }
-
-  .scroll-container {
-    transform: translate3d(0, 0, 0);
-    padding-top: 30px;
-  }
-
-  .recent-activity-box {
+  .right-box {
     float: right;
     width: 300px;
     margin-left: 1rem;
     padding-top: 30px;
   }
 
+  .pheed {
+    padding-top: 20px;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+  }
+
   ::-webkit-scrollbar {
     display: none;
   }
-
-
 </style>

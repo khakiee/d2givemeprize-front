@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="pf-box pb-lg-5">
-      <img v-if="userImg" class="pf-img d-inline-block pr-3" :src="getImgUrl(this.userImg)" alt="../assets/logo.png">
-      <img v-if="!userImg" class="pf-img d-inline-block pr-3" src="../assets/profile.png" alt="">
+      <img v-if="userImg" class="pf-img d-inline-block" :src="getImgUrl(this.userImg)" alt="../assets/logo.png">
+      <img v-if="!userImg" class="pf-img d-inline-block" src="../assets/profile.png" alt="">
       <div class="pf-info-box d-inline-block align-center">
         <div class="pf-id-box">
           <div class="font-weight-bold d-inline-block text-lg-center">
@@ -16,24 +16,24 @@
           <div class="d-inline-block p-2">
             게시물 {{this.postList.length}}
           </div>
-          <a :href="getFollowersPageUrl">
-            <div class="d-inline-block p-2">
-              팔로잉 {{this.following}}
-            </div>
-            <div class="d-inline-block p-2">
-              팔로워 {{this.follower}}
-            </div>
-          </a>
+          <div class="view-follower-btn d-inline-block p-2" style="cursor: pointer"
+               v-on:click="toggleFollowersModal">
+            팔로잉 {{this.following}}
+          </div>
+          <div class="view-follower-btn d-inline-block p-2" style="cursor: pointer"
+               v-on:click="toggleFollowersModal">
+            팔로워 {{this.follower}}
+          </div>
         </div>
-        <button v-if="relation" v-on:click="onClickUnFollow" class="btn btn-primary d-inline-block m-3 align-top">
-          Alread
-          Followed!
+        <button v-if="relation" v-on:click="onClickUnFollow"
+                class="btn bg-white border text-black-50 d-inline-block m-3 align-top">
+          Unfollow
         </button>
         <button v-if="!relation && userNo !== Uid" v-on:click="onClickFollow"
                 class="btn btn-primary d-inline-block m-3 align-top">Follow
         </button>
         <button v-if="!relation && userNo === Uid" v-on:click="onClickEdit"
-                class="btn btn-primary d-inline-block m-3 align-top">회원 정보 수정
+                class="btn bg-white border text-black-50 d-inline-block m-3 align-top">정보 수정
         </button>
       </div>
     </div>
@@ -47,8 +47,7 @@
         </li>
       </ul>
       <div class="tab-content bg-white p-3">
-        <div class="tab-pane fade show active" id="post">
-
+        <div class="tab-pane fade text-left show active" id="post">
           <div class="d-inline-block " v-for="post in postList" v-bind:key="post.postRegDate">
             <a :href="getPostUrl(post.postNo)">
               <img v-if="post.postRepImg" class="post-box shadow img-thumbnail" :src="getImgUrl(post.postRepImg)"
@@ -57,7 +56,7 @@
             </a>
           </div>
         </div>
-        <div class="tab-pane fade show active" id="tagged">
+        <div class="tab-pane fade text-left" id="tagged">
           <div class="d-inline-block " v-for="post in taggedList" v-bind:key="post.postRegDate">
             <a :href="getPostUrl(post.postNo)">
               <img v-if="post.postRepImg" class="post-box shadow img-thumbnail" :src="getImgUrl(post.postRepImg)"
@@ -68,9 +67,7 @@
         </div>
       </div>
     </div>
-    <div>
-
-    </div>
+    <followers :visible.sync="showFollowersModal"/>
   </div>
 </template>
 
@@ -78,10 +75,14 @@
   import store from '../store/store'
   import axios from 'axios'
   import env from '../../static/settings_local'
+  import followers from '../components/FollowerModal'
 
   export default {
     name: "UserPage.vue",
     props: {},
+    components: {
+      followers
+    },
     data() {
       return {
         Uid: null,
@@ -94,7 +95,8 @@
         following: null,
         follower: null,
         relation: {},
-        profileId: null
+        profileId: null,
+        showFollowersModal: false,
       }
     },
     methods: {
@@ -145,10 +147,8 @@
       getImgUrl(imgsrc) {
         return env.awsS3BucketName + imgsrc
       },
-    },
-    computed: {
-      getFollowersPageUrl: function () {
-        return '/follows/' + this.userNo
+      toggleFollowersModal() {
+        this.showFollowersModal = !this.showFollowersModal
       }
     },
     mounted() {
@@ -159,13 +159,14 @@
 </script>
 
 <style scoped>
-  .text-overflow-ellipsis {
-    text-overflow: ellipsis;
-    -o-text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    word-wrap: normal !important;
-    display: block;
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #337BFF;
+    text-decoration: none;
   }
 
   .post-box {
@@ -186,7 +187,12 @@
   }
 
   .pf-img {
-    width: 35%;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 5px solid darkgray;
+    vertical-align: top;
+    margin-top: 20px;
   }
 
   .pf-box {
@@ -205,5 +211,10 @@
 
   .img-thumbnail {
     margin: 0.5rem;
+  }
+
+  div.view-follower-btn:hover {
+    color: #337BFF;
+    text-decoration: none;
   }
 </style>
