@@ -7,7 +7,6 @@ import Pheed from "./views/Pheed";
 import UserPage from "./views/UserPage";
 import PostDetails from "./views/PostDetails";
 import UserEdit from "./views/UserEdit";
-import UserFollows from "./views/UserFollows";
 
 Vue.use(Router)
 
@@ -40,12 +39,6 @@ export default new Router({
       path: '/user/:userNo',
       name: 'UserPage',
       component: UserPage,
-      beforeEnter: requireAuth()
-    },
-    {
-      path: '/follows/:userNo',
-      name: 'UserFollows',
-      component: UserFollows,
       beforeEnter: requireAuth()
     },
     {
