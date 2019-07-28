@@ -19,14 +19,15 @@
       >show replies
       </button>
     </div>
-    <div v-if="isRecommentsShown" class="bg-white mr-lg-5 ml-lg-5 p-3 border">
+
+    <div v-if="isRecommentsShown" class="bg-white p-3 border">
       <div class="bg-white mr-lg-5 ml-lg-5 p-3">
         <input class="input-group-text d-inline-block text-xl-left" type="text" v-model="comment"
                placeholder="Comment here...">
-        <button class="btn bg-light ml-3" v-on:click="onClickCommentBtn">comment</button>
+        <button class="btn bg-light ml-3 " v-on:click="onClickCommentBtn">comment</button>
       </div>
       <div v-if="recommentsList">
-        <div v-for="reply in recommentsList">
+        <div v-for="reply in recommentsList" v-bind:key="reply.orderNo">
           <a :href="getUserPageUrl(reply.writerNo)" class="d-inline-block pl-5 pt-2 pr-4">
             <div class="profile">
               <img v-if="reply.writerRepImg" class="profile-img" :src="getImgSrc(reply.writerRepImg)" alt=""/>
@@ -62,38 +63,41 @@
     data() {
       return {
         recommentsList: [],
-        isRecommentsShown: false
+        isRecommentsShown: false,
+        comment: ""
       }
     },
     methods: {
-      toggleShowRecomments: function () {
+      toggleShowRecomments() {
         if (this.isRecommentsShown === false) {
           this.getRecomments()
         }
         this.isRecommentsShown = !this.isRecommentsShown
       },
-      onClickCommentBtn: function () {
+      onClickCommentBtn() {
         const kk = this
         axios.post('/Timeline/reply/' + this.replyNo,
-            [[], {postNo: this.postNo, replyContent: this.comment}])
+            [[], {postNo: this.postNo.toString(), replyContent: this.comment}])
             .then((res) => {
-              if (res) {
+              if (res.status === 200) {
                 window.alert('write comment success')
                 kk.comment = ""
                 this.getRecomments()
+              } else {
+                window.alert('write comment failed')
               }
             })
       },
-      getImgSrc: function (src) {
+      getImgSrc(src) {
         return env.awsS3BucketName + src
       },
-      getRecomments: function () {
+      getRecomments() {
         axios.get('/Timeline/reply/' + this.replyNo)
             .then((res) => {
               this.recommentsList = res.data
             })
       },
-      getUserPageUrl: function (authorNo) {
+      getUserPageUrl(authorNo) {
         return "/user/" + authorNo
       }
     }

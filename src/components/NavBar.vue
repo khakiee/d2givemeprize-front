@@ -18,16 +18,16 @@
         </div>
       </div>
     </div>
+
     <div v-if="getAuthState" class="d-inline-block">
       <div class="d-inline-block position-relative">
         <img v-if="isNewNoti" src="../assets/NavBarIcon/notification/on.png" alt="" class="nav-item"
              v-on:click="toggleNotifi"/>
         <img v-if="!isNewNoti" src="../assets/NavBarIcon/notification/off.png" alt="" class="nav-item"
              v-on:click="toggleNotifi"/>
-
         <div v-if="showNotifi" class="wrapper notibox border flex-fill shadow">
           <div v-for="item in getAlarmList" class="border" v-bind:key="item.alarmPheedNo">
-            <div class="noti-item-box align-text-top" :class="[!item.checked ? notCheckedNotiClass : '']"
+            <div class="noti-item-box align-text-top" :class="[!item.checked ? newNoti : '']"
                  v-on:click="onClickNoti(item)">
               <img v-if="!item.postRepImg" src="../assets/logo.png" class="noti-img border d-inline-block">
               <img v-if="item.postRepImg" :src="getImgSrc(item.postRepImg)" class="noti-img border d-inline-block">
@@ -38,8 +38,6 @@
           </div>
         </div>
       </div>
-
-      <img src="../assets/NavBarIcon/RecommendFriends.png" alt="" class="nav-item"/>
 
       <div class="d-inline-block dropdown nav-item">
         <img src="../assets/NavBarIcon/user.png" id="dropdownMenuButton" data-toggle="dropdown"
@@ -73,7 +71,7 @@
         showNotifi: false,
         newNotifi: Boolean,
         newNotifiCount: null,
-        notCheckedNotiClass: 'not-checked'
+        newNoti: 'not-checked'
       }
     },
     methods: {
@@ -92,13 +90,13 @@
       toggleNotifi() {
         this.showNotifi = !this.showNotifi
       },
-      getImgSrc: function (src) {
+      getImgSrc(src) {
         return env.awsS3BucketName + src
       },
-      getPostUrl: function (postNo) {
+      getPostUrl(postNo) {
         return '/post/' + postNo
       },
-      getNotiString: function (alarm) {
+      getNotiString(alarm) {
         let str = ""
         str = str + alarm.userFromName + '님이 '
         if (!alarm.replyNo) {
@@ -109,15 +107,12 @@
         }
         return str
       },
-      onClickNoti: function (alarm) {
+      onClickNoti(alarm) {
         axios.put('/Timeline/tag/readAlarm', {alarmPheedNo: alarm.alarmPheedNo}).then(() => {
           alarm.checked = 1
           this.showNotifi = false
           window.location.href = '/post/' + alarm.postNo
         })
-      },
-      fetchNoti: function () {
-        store.actions.getNewNoti()
       }
     },
     computed: {
@@ -135,12 +130,12 @@
         let isNew = store.getters.getUserAlarm.filter(
             function (alarm) {
               return alarm.checked === 0
-            })
-        if (isNew.length > 0) {
+            }).length
+
+        if (isNew) {
           return true
-        } else {
-          return false
         }
+        return false
       }
     }
   }
@@ -207,12 +202,12 @@
     margin-left: 30px;
   }
 
-  ::-webkit-scrollbar {
-    display: none;
+  .not-checked {
+    background-color: #337BFF30;
   }
 
-  .not-checked {
-    background-color: lightskyblue;
+  ::-webkit-scrollbar {
+    display: none;
   }
 
 </style>

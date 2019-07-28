@@ -2,7 +2,8 @@
   <div class="card">
     <div class="header border-bottom">
       <a :href="getAuthorUrl">
-        <img class="card-author-profile" src="../assets/profile.png" alt="">
+        <img v-if="!authorRepImg" class="card-author-profile" src="../assets/logo.png" alt="">
+        <img v-if="authorRepImg" class="card-author-profile" :src="getProfileImgUrl" alt="">
         <div class="card-author">{{author}}</div>
       </a>
     </div>
@@ -14,11 +15,14 @@
               <img class="d-block w-100" :src="getImgUrl" alt="First slide">
             </div>
           </div>
-          <a class="carousel-control-prev" v-on:click="onClickPreviousImgBtn" role="button" data-slide="prev">
+          <a v-if="postImgCount > 1" class="shadow carousel-control-prev" v-on:click="onClickPreviousImgBtn"
+             role="button"
+             data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
           </a>
-          <a class="carousel-control-next" v-on:click="onClickNextImgBtn" role="button" data-slide="next">
+          <a v-if="postImgCount > 1" class="shadow carousel-control-next" v-on:click="onClickNextImgBtn" role="button"
+             data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
           </a>
@@ -57,7 +61,9 @@
       text: String,
       author: String,
       authorNo: Number,
-      likeNum: Number
+      likeNum: Number,
+      postImgCount: Number,
+      authorRepImg: String
     },
     data() {
       return {
@@ -67,10 +73,10 @@
       }
     },
     methods: {
-      onClickLikeBtn: function () {
+      onClickLikeBtn() {
         axios.put('/Timeline/post/' + this.postNo)
             .then((res) => {
-              if (res) {
+              if (res.status === 200) {
                 if (!this.likedByAuthUser) {
                   this.likeNum += 1
                 } else {
@@ -80,7 +86,7 @@
               }
             })
       },
-      onClickImgBtn: function () {
+      onClickImgBtn() {
         axios.get('Timeline/post/' + this.postNo + '/loadPheedImg')
             .then((res) => {
               this.imgSrcList = res.data
@@ -88,7 +94,7 @@
               this.currentImgIndex += 1
             })
       },
-      onClickNextImgBtn: function () {
+      onClickNextImgBtn() {
         if (!this.isImgListLoaded) {
           this.onClickImgBtn()
         }
@@ -97,7 +103,7 @@
           this.currentImgIndex -= this.imgSrcList.length
         }
       },
-      onClickPreviousImgBtn: function () {
+      onClickPreviousImgBtn() {
         if (!this.isImgListLoaded) {
           this.onClickImgBtn()
         }
@@ -108,21 +114,22 @@
       }
     },
     computed: {
-      getDetailUrl: function () {
+      getDetailUrl() {
         return '/post/' + this.postNo
       },
-      getAuthorUrl: function () {
+      getAuthorUrl() {
         return 'user/' + this.authorNo
       },
-      getImgUrl: function () {
+      getImgUrl() {
         return env.awsS3BucketName + this.imgSrcList[this.currentImgIndex]
       },
+      getProfileImgUrl() {
+        return env.awsS3BucketName + this.authorRepImg
+      }
     },
     mounted() {
-      if (this.imgSrc) {
-        this.imgSrcList.push(this.imgSrc)
-        this.currentImgIndex = 0
-      }
+      this.imgSrcList.push(this.imgSrc)
+      this.currentImgIndex = 0
     }
   }
 </script>
@@ -130,7 +137,12 @@
 <style scoped>
   a {
     color: inherit;
-    text-decoration: none; /* no underline */
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: inherit;
+    text-decoration: none;
   }
 
   .card {
@@ -146,11 +158,6 @@
     display: inline-block;
     border: 1px solid #111;
     word-wrap: break-word;
-  }
-
-  a:hover {
-    color: inherit;
-    text-decoration: none;
   }
 
   .header {

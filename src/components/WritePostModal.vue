@@ -2,25 +2,23 @@
   <div class="my-modal"
        v-if="visible" @click.self="handleWrapperClick">
     <div class="my-modal__dialog">
-      <button class="close" @click="$emit('update:visible', !visible)">x</button>
+      <div class="card-header">
+        Write Post
+        <button class="close-btn float-right" @click="$emit('update:visible', !visible)">x</button>
+      </div>
       <div class="my-modal__body">
-        <div>
-          <file-pond
-                  ref="pond"
-                  label-idle="Drop files here..."
-                  allow-multiple="true"
-                  accepted-file-types="image/jpeg, image/png"
-          />
-        </div>
-        <div class="text-box m-3">
-          <textarea class="form-control input-group-text" type="text"
-                    v-model="postText"
-                    placeholder="write stories..."
-                    style="resize: none; text-align: left;"
-          ></textarea>
-          <TagInput @selectedTags="selectedTags"/>
-        </div>
-        <button class="btn bg-white border" v-on:click="submitPheed">submit</button>
+        <file-pond ref="pond"
+                   label-idle="Drop files here..."
+                   allow-multiple="true"
+                   accepted-file-types="image/jpeg, image/png"
+        />
+        <textarea class="form-control input-group-text" type="text"
+                  v-model="postText"
+                  placeholder="write stories..."
+                  style="resize: none; text-align: left;"
+        ></textarea>
+        <TagInput @selectedTags="selectedTags"/>
+        <button class="btn btn-primary" v-on:click="submitPheed">submit</button>
       </div>
     </div>
   </div>
@@ -54,11 +52,7 @@
         type: Boolean,
         require: true,
         default: false
-      },
-      title: {
-        type: String,
-        require: false,
-      },
+      }
     },
     data() {
       return {
@@ -75,7 +69,7 @@
       submitPheed() {
         axios.post('/Timeline/post', [this.imagePaths, this.selectedTagList, {postContent: this.postText}])
             .then((res) => {
-              if (res) {
+              if (res.status === 200) {
                 window.alert('포스팅이 업로드 되었습니다.')
                 this.visible = false
               } else {
@@ -83,38 +77,41 @@
               }
             })
       },
-      selectedTags: function (list) {
+      selectedTags(list) {
         this.selectedTagList = list
+      },
+      setS3UploadOptions() {
+        const context = this
+        setOptions({
+          server: {
+            process: (fieldName, file, metadata, load) => {
+              s3.upload({
+                    Bucket: 'd2-resources',
+                    Key: 'postimg_folder/' + Date.now(),
+                    Body: file,
+                    ContentType: file.type,
+                    ACL: 'public-read'
+                  },
+                  {},
+                  function (err, data) {
+                    if (err) {
+                      return;
+                    }
+                    load(data.Key);
+                    context.imagePaths.push(data.Key.toString())
+                  })
+            }
+          }
+        });
       }
     },
     mounted() {
-      const context = this
-      setOptions({
-        server: {
-          process: (fieldName, file, metadata, load) => {
-            s3.upload({
-                  Bucket: 'd2-resources',
-                  Key: 'postimg_folder/' + Date.now(),
-                  Body: file,
-                  ContentType: file.type,
-                  ACL: 'public-read'
-                },
-                {},
-                function (err, data) {
-                  if (err) {
-                    return;
-                  }
-                  load(data.Key);
-                  context.imagePaths.push(data.Key.toString())
-                })
-          }
-        }
-      });
+      this.setS3UploadOptions()
     }
   }
 </script>
 
-<style>
+<style scoped>
   .my-modal {
     text-align: center;
     background-color: rgba(0, 0, 0, .7);
@@ -128,20 +125,27 @@
   }
 
   .my-modal__dialog {
+    background-color: white;
     display: inline-block;
-    left: 15%;
     vertical-align: center;
-    top: 75px;
     width: 70%;
-    height: 80%;
+    height: 40%;
     position: absolute;
-    background: #fff;
     margin-bottom: 50px;
-    padding: 20px;
+    top: 75px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
   }
 
   .my-modal__body {
     height: 100%;
     overflow-y: scroll;
+    padding: 10px;
+  }
+
+  .close-btn {
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
   }
 </style>

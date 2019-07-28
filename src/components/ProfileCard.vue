@@ -24,10 +24,10 @@
       CardOn: Boolean,
     },
     computed: {
-      getImgUrl: function () {
+      getImgUrl() {
         return env.awsS3BucketName + this.userImg
       },
-      getUserPageUrl: function () {
+      getUserPageUrl() {
         return "/user/" + this.userNo
       }
     }
@@ -49,14 +49,6 @@
     padding-left: 1rem;
   }
 
-  .action-group {
-    width: 20%;
-  }
-
-  .profile-info-box {
-    width: 50%;
-  }
-
   .profile-img {
     width: 3rem;
     height: 3rem;
@@ -68,10 +60,20 @@
 
   .name {
     font-weight: bold;
+    text-overflow: ellipsis;
+    width: 80px;
+    overflow: hidden;
+    word-wrap: normal;
+    white-space: nowrap;
   }
 
   .id {
     font-size: smaller;
+    text-overflow: ellipsis;
+    width: 80px;
+    overflow: hidden;
+    word-wrap: normal;
+    white-space: nowrap;
     color: gray;
   }
 

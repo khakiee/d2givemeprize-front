@@ -1,7 +1,8 @@
 <template>
   <div class="r-box">
-    <div class="p-3 border bg-white">
-      <profileCard :user-name="userName"
+    <div class="pt-3 text-center">
+      <profileCard class="d-inline-block"
+                   :user-name="userName"
                    :user-id="userId"
                    :user-no="userNo"
                    :user-img="userProfileImg"
@@ -12,7 +13,6 @@
         게시글 작성하기
       </button>
     </div>
-
 
     <div v-if="recommendedFriends.length" class="font-weight-bold">
       <hr/>
@@ -25,7 +25,7 @@
                     :user-name="person.userName"
                     :user-img="person.userImg"
       />
-      <followBtn class="ml-3 d-inline-block"
+      <followBtn class="d-inline-block float-right"
                  :user-no="person.userNo"
                  :is-followed="person.followed"
       />
@@ -57,15 +57,15 @@
       }
     },
     methods: {
-      getUserPageUrl: function () {
+      getUserPageUrl() {
         return "/user/" + this.userNo
       },
-      onClickWriteBox: function () {
+      onClickWriteBox() {
         this.showWriteBox = !this.showWriteBox
       },
-      submitPheed: function () {
+      submitPheed() {
         axios.post('/Timeline/post', [this.imagePaths, {postContent: this.postText}]).then((res) => {
-          if (res) {
+          if (res.status === 200) {
             window.alert('포스팅이 업로드 되었습니다.')
             this.showWriteBox = false
           } else {
@@ -73,9 +73,9 @@
           }
         })
       },
-      getRecommendedFriends: function () {
+      getRecommendedFriends() {
         axios.get('/Timeline/user/recommend').then((res) => {
-          if (res) {
+          if (res.status === 200) {
             this.recommendedFriends = res.data
           }
         })
@@ -107,5 +107,6 @@
     vertical-align: top;
     display: inline-block;
     height: 100%;
+    width: 90%;
   }
 </style>

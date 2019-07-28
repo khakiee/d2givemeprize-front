@@ -11,14 +11,16 @@
              placeholder="tag friends..."
              type="text"
              v-model="input"/>
-      <div v-if="tagList" class="autocomplete shadow" v-for="item in tagList" v-bind:key="item.userNo"
-           v-on:click="onClickTag(item)">
-        <profile-card class="border p-3"
-                      :user-no="item.userNo"
-                      :user-id="item.userId"
-                      :user-img="item.userRepImg"
-                      :user-name="item.userName"
-        />
+      <div v-if="tagList" class="autocomplete shadow" >
+        <div v-for="item in tagList" v-bind:key="item.userNo"
+             v-on:click="onClickTag(item)">
+          <profile-card class="border p-3"
+                        :user-no="item.userNo"
+                        :user-id="item.userId"
+                        :user-img="item.userRepImg"
+                        :user-name="item.userName"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -61,7 +63,7 @@
       },
     },
     watch: {
-      tagInput: function (val) {
+      tagInput(val) {
         if (val && val.length > 1) {
           axios.post('/Timeline/tag/searchFriends', val.replace('@', ''))
               .then((res) => {
@@ -69,7 +71,7 @@
               })
         }
       },
-      input: function () {
+      input() {
         if (this.input.includes('@')) {
           const tagIdx = this.input.indexOf('@')
           this.tagInput = this.input.slice(tagIdx,)
@@ -81,11 +83,6 @@
 </script>
 
 <style scoped>
-
-  .hidden-input {
-    border: none;
-  }
-
   .autocomplete {
     margin-top: 4rem;
     z-index: 99;
