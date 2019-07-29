@@ -8,7 +8,6 @@
     "lint": "eslint --ext .js,.vue src/components src/views src/store"
   },
   "dependencies": {
-    "@melmacaluso/vue-modal": "^2.1.0",
     "@vue/cli": "^3.9.3",
     "aws-sdk": "^2.493.0",
     "bootstrap": "^4.3.1",
