@@ -33,7 +33,7 @@
                          alt="" class="nav-item"
                          v-on:click="updateNotifi"/>
                 </div>
-                <div class="dropdown-menu noti-item-box" aria-labelledby="notiBtn">
+                <div class="noti-box dropdown-menu noti-item-box" aria-labelledby="notiBtn">
                     <div class="card-header">
                         Notification
                     </div>
@@ -209,9 +209,12 @@
     margin-left: 30px;
   }
 
+  .noti-box {
+    border-radius: 15px;
+  }
+
   .dropdown-menu {
     padding: 0;
-    border-radius: 15px;
   }
 
   ::-webkit-scrollbar {
