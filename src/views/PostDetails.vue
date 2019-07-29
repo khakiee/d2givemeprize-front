@@ -31,14 +31,12 @@
         <div class="card-text p-4 comment-box">
           <div class="card-text">{{postContent}}</div>
         </div>
-        <div class="card-mid bg-white" style="color: #FA3623;">
+        <div class="card-mid like-btn-group bg-white">
           <img v-if="!likedByAuth" class="not-like-btn m-2"
-               style="cursor: pointer"
                src="../assets/like_btn_img/not_like.png"
                v-on:click="onClickLikeBtn"
                alt=""/>
           <img v-if="likedByAuth" class="like-btn m-2"
-               style="cursor: pointer"
                src="../assets/like_btn_img/like.png"
                v-on:click="onClickLikeBtn"
                alt=""/>
@@ -47,8 +45,7 @@
       </div>
     </div>
     <div class="bg-white p-3 border">
-      <TagInput style="width: 80%"
-                class="d-inline-block"
+      <TagInput class="tagInput d-inline-block"
                 @selectedTags="selectedTags"
                 @input="getInput"/>
       <button class="btn bg-light ml-3 d-inline-block" v-on:click="onClickCommentBtn">comment</button>
@@ -217,10 +214,6 @@
     text-align: left;
   }
 
-  .card-mid {
-    padding: 2rem;
-  }
-
   .card-text {
     text-align: left;
   }
@@ -255,6 +248,7 @@
   .not-like-btn, .like-btn {
     width: 40px;
     height: 40px;
+    cursor: pointer;
   }
 
   .card-author {
@@ -262,6 +256,11 @@
     vertical-align: center;
     margin-left: 10px;
     font-weight: bold;
+  }
+
+  .like-btn-group {
+    color: #FA3623;
+    padding: 20px;
   }
 
   .post-details {
@@ -272,6 +271,10 @@
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: none;
+  }
+
+  .tagInput {
+    width: 80%;
   }
 
   ::-webkit-scrollbar {

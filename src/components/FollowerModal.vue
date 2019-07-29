@@ -138,8 +138,8 @@
   }
 
   .tab-pane {
-    padding-left: 20%;
-    padding-right: 20%;
+    padding-left: 10%;
+    padding-right: 10%;
     text-align: center;
   }
 

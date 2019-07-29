@@ -16,11 +16,11 @@
           <div class="d-inline-block p-2">
             게시물 {{this.postList.length}}
           </div>
-          <div class="view-follower-btn d-inline-block p-2" style="cursor: pointer"
+          <div class="view-follower-btn d-inline-block p-2"
                v-on:click="toggleFollowersModal">
             팔로잉 {{this.following}}
           </div>
-          <div class="view-follower-btn d-inline-block p-2" style="cursor: pointer"
+          <div class="view-follower-btn d-inline-block p-2"
                v-on:click="toggleFollowersModal">
             팔로워 {{this.follower}}
           </div>
@@ -220,6 +220,10 @@
 
   .img-thumbnail {
     margin: 0.5rem;
+  }
+
+  .view-follower-btn {
+    cursor: pointer;
   }
 
   div.view-follower-btn:hover {

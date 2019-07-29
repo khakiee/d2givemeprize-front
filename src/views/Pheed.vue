@@ -1,6 +1,6 @@
 <template>
-  <div class="pheed-page" v-on:scroll="onScroll" ref="pheed" style="height: 90%; overflow-y: scroll;">
-    <div style="float: left;">
+  <div class="pheed-page" v-on:scroll="onScroll" ref="pheed">
+    <div class="float-left">
       <div class="wrapper">
         <div class="pheed">
           <Card v-for="item in postList" :key="item.postRegDate"
@@ -102,6 +102,8 @@
   .pheed-page {
     display: inline-block;
     text-align: center;
+    height: 90%;
+    overflow-y: scroll;
   }
 
   .wrapper {

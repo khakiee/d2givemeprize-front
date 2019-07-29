@@ -1,6 +1,6 @@
 <template>
   <div class="r-box">
-    <div class="pt-3 text-center">
+    <div class="pt-3 ml-4 text-left">
       <profileCard class="d-inline-block"
                    :user-name="userName"
                    :user-id="userId"
@@ -18,7 +18,7 @@
       <hr/>
       친구 추천 목록
     </div>
-    <div class="card" v-for="person in recommendedFriends" v-bind:key="person.userName">
+    <div class="card mb-4" v-for="person in recommendedFriends" v-bind:key="person.userName">
       <profile-card class="d-inline-block"
                     :user-no="person.userNo"
                     :user-id="person.userId"

@@ -20,15 +20,15 @@
       </button>
     </div>
 
-    <div v-if="isRecommentsShown" class="bg-white p-3 border">
-      <div class="bg-white mr-lg-5 ml-lg-5 p-3">
-        <input class="input-group-text d-inline-block text-xl-left" type="text" v-model="comment"
+    <div v-if="isRecommentsShown" class="bg-light p-3 border">
+      <div class="p-3">
+        <input class="input-group-text d-inline-block" type="text" v-model="comment"
                placeholder="Comment here...">
-        <button class="btn bg-light ml-3 " v-on:click="onClickCommentBtn">comment</button>
+        <button class="btn bg-white border text-black-50 ml-3 " v-on:click="onClickCommentBtn">comment</button>
       </div>
-      <div v-if="recommentsList">
+      <div v-if="recommentsList" class="ml-5">
         <div v-for="reply in recommentsList" v-bind:key="reply.orderNo">
-          <a :href="getUserPageUrl(reply.writerNo)" class="d-inline-block pl-5 pt-2 pr-4">
+          <a :href="getUserPageUrl(reply.writerNo)" class="d-inline-block">
             <div class="profile">
               <img v-if="reply.writerRepImg" class="profile-img" :src="getImgSrc(reply.writerRepImg)" alt=""/>
               <img v-if="!reply.writerRepImg" class="profile-img" src="../assets/NavBarIcon/logo.png" alt=""/>
@@ -37,7 +37,7 @@
               </div>
             </div>
           </a>
-          <div class="d-inline-block">
+          <div class="d-inline-block ml-3">
             {{reply.replyContent}}
           </div>
         </div>

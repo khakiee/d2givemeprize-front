@@ -10,7 +10,7 @@
       />
       <img v-if="input.userImg" class="img-thumbnail" :src="getImgUrl" alt=""/>
       <div>your profile image here!</div>
-      <form class="form-group form-control-lg" @submit="submitEdit" style="padding-top: 20px">
+      <form class="form-group form-control-lg pt-2" @submit="submitEdit">
         <input class="input-group-text" type="text" name="name" v-model="input.userName"
                placeholder="UserName"/>
         <p></p>

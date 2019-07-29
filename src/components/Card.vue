@@ -33,18 +33,16 @@
           <div class="card-text">{{text}}</div>
         </div>
       </a>
-      <div class="" role="group" style="color:#FA3623;">
-        <img v-if="!likedByAuthUser" class="not-like-btn mb-4 pt-0"
-             style="cursor: pointer"
+      <div class="like-btn-group" role="group">
+        <img v-if="!isLiked" class="not-like-btn mb-4 pt-0"
              src="../assets/like_btn_img/not_like.png"
              v-on:click="onClickLikeBtn"
              alt=""/>
-        <img v-if="likedByAuthUser" class="like-btn mb-4 pt-0"
-             style="cursor: pointer"
+        <img v-if="isLiked" class="like-btn mb-4 pt-0"
              src="../assets/like_btn_img/like.png"
              v-on:click="onClickLikeBtn"
              alt=""/>
-        {{likeNum}}
+        {{likeCount}}
       </div>
     </div>
   </div>
@@ -71,7 +69,9 @@
       return {
         imgSrcList: [],
         currentImgIndex: null,
-        isImgListLoaded: false
+        isImgListLoaded: false,
+        isLiked: false,
+        likeCount: null
       }
     },
     methods: {
@@ -79,12 +79,12 @@
         axios.put('/Timeline/post/' + this.postNo)
             .then((res) => {
               if (res.status === 200) {
-                if (!this.likedByAuthUser) {
-                  this.likeNum += 1
+                if (!this.isLiked) {
+                  this.likeCount += 1
                 } else {
-                  this.likeNum -= 1
+                  this.likeCount -= 1
                 }
-                this.likedByAuthUser = !this.likedByAuthUser
+                this.isLiked = !this.isLiked
               }
             })
       },
@@ -131,6 +131,8 @@
     },
     mounted() {
       this.imgSrcList.push(this.imgSrc)
+      this.isLiked = this.likedByAuthUser
+      this.likeCount = this.likeNum
       this.currentImgIndex = 0
     }
   }
@@ -180,6 +182,7 @@
   .not-like-btn, .like-btn {
     width: 40px;
     height: 40px;
+    cursor: pointer;
   }
 
   .card-author {
@@ -187,5 +190,9 @@
     vertical-align: center;
     margin-left: 10px;
     font-weight: bold;
+  }
+
+  .like-btn-group {
+    color: #FA3623;
   }
 </style>

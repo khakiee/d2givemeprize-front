@@ -5,8 +5,9 @@
         <img src="../assets/NavBarIcon/logo.png" alt="../assets/NavBarIcon/logo.png" class="logo nav-item"/>
       </a>
     </div>
+
     <div v-if="getAuthState" class="d-inline-block search-box">
-      <input v-model="query" v-on:keyup="getUserList" class="input-group-text"/>
+      <input v-model="query" class="input-group-text"/>
       <div v-if="query" class="autocomplete">
         <div v-for="item in searchList" v-bind:key="item.userNo">
           <a :href="getUserUrl(item.userNo)">
@@ -22,21 +23,20 @@
     </div>
 
     <div v-if="getAuthState" class="d-inline-block">
-      <div class="d-inline-block position-relative">
-        <img v-if="isNewNoti" src="../assets/NavBarIcon/notification/on.png"
-             alt="" class="nav-item"
-             style="cursor: pointer"
-             v-on:click="toggleNotifi"/>
-        <img v-if="!isNewNoti" src="../assets/NavBarIcon/notification/off.png"
-             alt="" class="nav-item"
-             style="cursor: pointer"
-             v-on:click="toggleNotifi"/>
-        <div v-if="showNotifi" class="wrapper notibox border flex-fill shadow">
-          <div v-for="item in getAlarmList" class="border" v-bind:key="item.alarmPheedNo">
-            <div class="noti-item-box align-text-top"
-                 :class="[!item.checked ? newNoti : '']"
-                 style="cursor: pointer"
-                 v-on:click="onClickNoti(item)">
+      <div class="d-inline-block dropdown nav-item">
+        <div id="notiBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+             class="nav-item dropdown-toggle">
+          <img v-if="isNewNoti" src="../assets/NavBarIcon/notification/on.png"
+               alt="" class="nav-item"
+               v-on:click="updateNotifi"/>
+          <img v-if="!isNewNoti" src="../assets/NavBarIcon/notification/off.png"
+               alt="" class="nav-item"
+               v-on:click="updateNotifi"/>
+        </div>
+        <div class="dropdown-menu noti-item-box" aria-labelledby="notiBtn">
+          <div v-for="item in getAlarmList" class="dropdown-item border-bottom"
+               v-bind:key="item.alarmPheedNo" :class="{'not-checked' : !item.checked}">
+            <div class="align-text-top" v-on:click="onClickNoti(item)">
               <img v-if="!item.postRepImg" src="../assets/logo.png" class="noti-img border d-inline-block">
               <img v-if="item.postRepImg" :src="getImgSrc(item.postRepImg)" class="noti-img border d-inline-block">
               <div class="noti-text d-inline-block pt-3 pl-2">
@@ -47,12 +47,12 @@
         </div>
       </div>
 
-      <div class="d-inline-block dropdown nav-item" style="cursor: pointer">
+      <div class="d-inline-block dropdown nav-item ml-3">
         <img src="../assets/NavBarIcon/user.png" id="dropdownMenuButton" data-toggle="dropdown"
-             aria-haspopup="true" aria-expanded="false" alt="" class="nav-item dropdown-toggle" style="margin: 0"/>
+             aria-haspopup="true" aria-expanded="false" alt="" class="nav-item dropdown-toggle"/>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <a class="dropdown-item" :href="getUserPage">My Page</a>
-          <a class="dropdown-item" style="cursor: pointer"
+          <a class="dropdown-item"
              v-on:click="submitSignOut">Logout</a>
         </div>
       </div>
@@ -75,29 +75,31 @@
       return {
         selectedUser: null,
         searchList: [],
-        notificationList: [],
-        query: "",
-        showNotifi: false,
-        newNotifi: Boolean,
-        newNotifiCount: null,
-        newNoti: 'not-checked'
+        query: ""
+      }
+    },
+    watch: {
+      query() {
+        if (this.query && this.query.length >= 1) {
+          axios.post('/Timeline/tag/searchUsers', this.query)
+              .then((res) => {
+                this.searchList = res.data
+              })
+        }
+        if (this.query.length < 1) {
+          this.searchList = []
+        }
       }
     },
     methods: {
       ...mapActions(['logout']),
+      ...mapActions(['getNewNoti']),
       submitSignOut() {
         this.logout()
         this.$router.push('/login')
       },
-      getUserList() {
-        axios.post('/Timeline/tag/searchUsers'
-            , this.query)
-            .then((res) => {
-              this.searchList = res.data
-            })
-      },
-      toggleNotifi() {
-        this.showNotifi = !this.showNotifi
+      updateNotifi() {
+        this.getNewNoti()
       },
       getImgSrc(src) {
         return env.awsS3BucketName + src
@@ -120,11 +122,12 @@
         return str
       },
       onClickNoti(alarm) {
-        axios.put('/Timeline/tag/readAlarm', {alarmPheedNo: alarm.alarmPheedNo}).then(() => {
-          alarm.checked = 1
-          this.showNotifi = false
-          window.location.href = '/post/' + alarm.postNo
-        })
+        axios.put('/Timeline/tag/readAlarm', {alarmPheedNo: alarm.alarmPheedNo})
+            .then(() => {
+              this.getNewNoti().then(() => {
+                window.location.href = '/post/' + alarm.postNo
+              })
+            })
       }
     },
     computed: {
@@ -163,7 +166,7 @@
   .nav-item {
     width: 40px;
     height: 40px;
-    margin-left: 20px;
+    cursor: pointer;
   }
 
   .autocomplete {
@@ -172,18 +175,6 @@
     position: absolute;
     background-color: white;
     width: 500px;
-  }
-
-  .notibox {
-    margin-top: 10px;
-    z-index: 99;
-    position: absolute;
-    right: -123px;
-    background-color: white;
-    width: 800%;
-    max-height: 300px;
-    overflow: hidden;
-    overflow-y: scroll;
   }
 
   .search-box {
@@ -200,12 +191,14 @@
   .noti-img {
     width: 60px;
     height: 60px;
-    margin: 5px;
   }
 
   .noti-item-box {
-    text-align: left;
-    height: 70px;
+    position: absolute;
+    left: -380px;
+    height: 500px;
+    overflow: hidden;
+    overflow-y: scroll;
   }
 
   .noti-text {
@@ -214,11 +207,15 @@
     margin-left: 30px;
   }
 
-  .not-checked {
-    background-color: #337BFF30;
+  ::-webkit-scrollbar {
+    display: none;
   }
 
-  ::-webkit-scrollbar {
+  .not-checked {
+    background-color: #337BFF40;
+  }
+
+  .dropdown-toggle::after {
     display: none;
   }
 

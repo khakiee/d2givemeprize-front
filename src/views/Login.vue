@@ -6,7 +6,7 @@
       </div>
       <div class="d-inline-block">
         <div class="login-box">
-          <form class="form-group form-control-lg" @submit.prevent="onSubmit" style="padding-top: 20px">
+          <form class="form-group form-control-lg pt-2" @submit.prevent="onSubmit">
             <input class="input-group-text" type="text" name="id" v-model="input.userId" placeholder="ID"/>
             <p></p>
             <input class="input-group-text" type="password" name="password" v-model="input.userPwd"

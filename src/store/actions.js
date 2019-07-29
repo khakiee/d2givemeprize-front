@@ -40,6 +40,7 @@ export default {
   async getNewNoti(store) {
     let alarmList = await axios.get('/Timeline/tag/checkAlarm')
     setAlarmList(store, alarmList.data)
+    return alarmList.status
   },
   logout(store) {
     setIsAuth(store, false)

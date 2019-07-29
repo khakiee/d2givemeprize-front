@@ -76,6 +76,9 @@
           const tagIdx = this.input.indexOf('@')
           this.tagInput = this.input.slice(tagIdx,)
         }
+        if (!this.input.includes('@')) {
+          this.tagList = []
+        }
         this.$emit('input', this.input)
       }
     },
@@ -84,7 +87,7 @@
 
 <style scoped>
   .autocomplete {
-    margin-top: 4rem;
+    margin-top: 65px;
     z-index: 99;
     position: absolute;
     background-color: white;

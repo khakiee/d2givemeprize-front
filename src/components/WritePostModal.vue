@@ -15,7 +15,6 @@
         <textarea class="form-control input-group-text" type="text"
                   v-model="postText"
                   placeholder="write stories..."
-                  style="resize: none; text-align: left;"
         ></textarea>
         <TagInput @selectedTags="selectedTags"/>
         <button class="btn btn-primary" v-on:click="submitPheed">submit</button>
@@ -112,6 +111,11 @@
 </script>
 
 <style scoped>
+  textarea {
+    resize: none;
+    text-align: left;
+  }
+
   .my-modal {
     text-align: center;
     background-color: rgba(0, 0, 0, .7);
@@ -139,7 +143,7 @@
   }
 
   .my-modal__body {
-    height: 100%;
+    height: 80%;
     overflow-y: scroll;
     padding: 10px;
   }

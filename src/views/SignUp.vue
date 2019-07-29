@@ -9,7 +9,7 @@
               accepted-file-types="image/jpeg, image/png"
       />
       <div>your profile image here!</div>
-      <form class="form-group form-control-lg" @submit="submitSignup" style="padding-top: 20px">
+      <form class="form-group form-control-lg pt-2" @submit="submitSignup">
         <input class="input-group-text" type="text" name="name" v-model="input.userName"
                placeholder="UserName"/>
         <p></p>
@@ -72,7 +72,7 @@
           userImg: ""
         },
         idDupCheck: null,
-        pwMatchCheck: null
+        pwMatchCheck: false
       }
     },
     methods: {
@@ -89,7 +89,7 @@
         axios.post('/Timeline/user/checkdupid', {
           userId: this.input.id
         }).then((res) => {
-          if (res.data) {
+          if (res.data.status === 'success') {
             this.idDupCheck = true
           } else {
             this.idDupCheck = false
