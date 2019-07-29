@@ -1,12 +1,12 @@
 <template>
-    <div class="my-modal"
+    <div class="follower-modal"
          v-if="visible" @click.self="handleWrapperClick">
-        <div class="my-modal__dialog">
+        <div class="follower-modal__dialog">
             <div class="card-header">
                 Followers / Followings
                 <button class="close-btn float-right" @click="$emit('update:visible', !visible)">x</button>
             </div>
-            <div class="my-modal__body">
+            <div class="follower-modal__body">
                 <div class="follow-cells">
                     <ul class="nav nav-tabs d-inline-block">
                         <li class="nav-item d-inline-block">
@@ -102,7 +102,7 @@
 </script>
 
 <style scoped>
-  .my-modal {
+  .follower-modal {
     text-align: center;
     background-color: rgba(0, 0, 0, .7);
     top: 0;
@@ -114,7 +114,7 @@
     margin: 0;
   }
 
-  .my-modal__dialog {
+  .follower-modal__dialog {
     background-color: white;
     display: inline-block;
     vertical-align: center;
@@ -128,7 +128,7 @@
     border-radius: 10px;
   }
 
-  .my-modal__body {
+  .follower-modal__body {
     height: 85%;
     overflow-y: scroll;
   }
