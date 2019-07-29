@@ -9,7 +9,6 @@ import store from './store/store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import env from '../static/settings_local'
-import 'expose-loader?$!expose-loader?jQuery!jquery'
 
 Vue.use(VueAxios, axios)
 
