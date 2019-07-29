@@ -86,7 +86,7 @@
       },
       checkIdDup (e) {
         e.preventDefault()
-        axios.post('/Timeline/user/checkdupid', {
+        axios.post('/user/checkdupid', {
           userId: this.input.id
         }).then((res) => {
           if (res.data.status === 'success') {
@@ -98,7 +98,7 @@
       },
       submitSignup (e) {
         e.preventDefault()
-        this.axios.post('/Timeline/user', {
+        this.axios.post('/user', {
           userId: this.input.id,
           userPwd: this.input.password,
           userName: this.input.userName,

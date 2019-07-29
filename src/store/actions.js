@@ -31,14 +31,14 @@ const processResponse = (store, loginResponse) => {
 
 export default {
   async login (store, { uid, password }) {
-    const loginResponse = await axios.post('/Timeline/user/login', { userId: uid, userPwd: password })
+    const loginResponse = await axios.post('/user/login', { userId: uid, userPwd: password })
     processResponse(store, loginResponse)
-    const alarmList = await axios.get('/Timeline/tag/checkAlarm')
+    const alarmList = await axios.get('/tag/checkAlarm')
     setAlarmList(store, alarmList.data)
     return loginResponse
   },
   async getNewNoti (store) {
-    const alarmList = await axios.get('/Timeline/tag/checkAlarm')
+    const alarmList = await axios.get('/tag/checkAlarm')
     setAlarmList(store, alarmList.data)
     return alarmList.status
   },

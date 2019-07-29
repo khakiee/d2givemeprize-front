@@ -65,7 +65,7 @@
     watch: {
       tagInput (val) {
         if (val && val.length > 1) {
-          axios.post('/Timeline/tag/searchFriends', val.replace('@', ''))
+          axios.post('/tag/searchFriends', val.replace('@', ''))
             .then((res) => {
               this.tagList = res.data
             })

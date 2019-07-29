@@ -64,7 +64,7 @@
         this.showWriteBox = !this.showWriteBox
       },
       submitPheed () {
-        axios.post('/Timeline/post', [this.imagePaths, { postContent: this.postText }]).then((res) => {
+        axios.post('/post', [this.imagePaths, { postContent: this.postText }]).then((res) => {
           if (res.status === 200) {
             window.alert('포스팅이 업로드 되었습니다.')
             this.showWriteBox = false
@@ -74,7 +74,7 @@
         })
       },
       getRecommendedFriends () {
-        axios.get('/Timeline/user/recommend').then((res) => {
+        axios.get('/user/recommend').then((res) => {
           if (res.status === 200) {
             this.recommendedFriends = res.data
           }

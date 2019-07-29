@@ -100,7 +100,7 @@
     methods: {
       async getPostDetails () {
         this.postNo = this.$route.params.postNo
-        this.$http.get('/Timeline/post/' + this.postNo)
+        this.$http.get('/post/' + this.postNo)
           .then((res) => {
             const post = res.data.post
             this.commentList = res.data.replyList
@@ -125,7 +125,7 @@
           })
       },
       onClickLikeBtn () {
-        axios.put('/Timeline/post/' + this.postNo,
+        axios.put('/post/' + this.postNo,
                   { postNo: this.postNo })
           .then((res) => {
             if (res.status === 200) {
@@ -136,7 +136,7 @@
       },
       onClickCommentBtn () {
         const kk = this
-        axios.post('/Timeline/reply',
+        axios.post('/reply',
                    [this.tagList, { postNo: this.postNo, replyContent: this.comment }])
           .then((res) => {
             if (res.status === 200) {
@@ -155,7 +155,7 @@
         this.comment = val
       },
       onClickImgBtn () {
-        axios.get('Timeline/post/' + this.postNo + '/loadPheedImg')
+        axios.get('/post/' + this.postNo + '/loadPheedImg')
           .then((res) => {
             this.imgSrcList = res.data
             this.isImgListLoaded = true

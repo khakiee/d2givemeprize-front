@@ -66,7 +66,7 @@
         this.$emit('update:showWriteBox', false)
       },
       submitPheed () {
-        axios.post('/Timeline/post', [this.imagePaths, this.selectedTagList, { postContent: this.postText }])
+        axios.post('/post', [this.imagePaths, this.selectedTagList, { postContent: this.postText }])
           .then((res) => {
             if (res.status === 200) {
               window.alert('포스팅이 업로드 되었습니다.')

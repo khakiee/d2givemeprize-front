@@ -86,7 +86,7 @@
         this.$emit('update:showWriteBox', false)
       },
       getUserFollower () {
-        axios.get('/Timeline/user/' + this.profileUserNo + '/relation')
+        axios.get('/user/' + this.profileUserNo + '/relation')
           .then((res) => {
             this.followers = res.data.followerList
             this.followings = res.data.followingList

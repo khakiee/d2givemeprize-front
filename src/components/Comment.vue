@@ -76,7 +76,7 @@
       },
       onClickCommentBtn () {
         const kk = this
-        axios.post('/Timeline/reply/' + this.replyNo,
+        axios.post('/reply/' + this.replyNo,
                    [[], { postNo: this.postNo.toString(), replyContent: this.comment }])
           .then((res) => {
             if (res.status === 200) {
@@ -92,7 +92,7 @@
         return env.awsS3BucketName + src
       },
       getRecomments () {
-        axios.get('/Timeline/reply/' + this.replyNo)
+        axios.get('/reply/' + this.replyNo)
           .then((res) => {
             this.recommentsList = res.data
           })

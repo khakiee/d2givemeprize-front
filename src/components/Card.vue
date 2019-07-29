@@ -76,7 +76,7 @@
     },
     methods: {
       onClickLikeBtn () {
-        axios.put('/Timeline/post/' + this.postNo)
+        axios.put('/post/' + this.postNo)
           .then((res) => {
             if (res.status === 200) {
               if (!this.isLiked) {
@@ -89,7 +89,7 @@
           })
       },
       onClickImgBtn () {
-        axios.get('Timeline/post/' + this.postNo + '/loadPheedImg')
+        axios.get('/post/' + this.postNo + '/loadPheedImg')
           .then((res) => {
             this.imgSrcList = res.data
             this.isImgListLoaded = true

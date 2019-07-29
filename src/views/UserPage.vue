@@ -102,7 +102,7 @@
     methods: {
       async getUserInfo () {
         this.profileId = parseInt(this.$route.params.userNo)
-        await this.$http.get('/Timeline/user/' + this.profileId)
+        await this.$http.get('/user/' + this.profileId)
           .then((res) => {
             if (res.status === 200 && res.data) {
               const selectedUser = res.data.selectedUser
@@ -128,13 +128,13 @@
       },
       onClickFollow () {
         if (confirm('팔로우 하시겠습니까?')) {
-          axios.get('/Timeline/user/' + this.userNo + '/follow')
+          axios.get('/user/' + this.userNo + '/follow')
           this.getUserInfo()
         }
       },
       onClickUnFollow () {
         if (confirm('팔로우를 취소하시겠습니까?')) {
-          axios.get('/Timeline/user/' + this.userNo + '/unfollow')
+          axios.get('/user/' + this.userNo + '/unfollow')
           this.getUserInfo()
         }
       },

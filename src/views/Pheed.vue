@@ -57,7 +57,7 @@
     },
     methods: {
       getAuthUserInfo () {
-        axios.get('/Timeline/user/authuserinfo').then((res) => {
+        axios.get('/user/authuserinfo').then((res) => {
           this.userId = res.data.userId
           this.userName = res.data.userName
           this.userNo = res.data.userNo
@@ -69,7 +69,7 @@
         if (this.maxPheedNum && this.pageNum > this.maxPheedNum) {
           return
         }
-        axios.get('/Timeline/post', {
+        axios.get('/post', {
           params: {
             pageNumber: this.pageNum
           }

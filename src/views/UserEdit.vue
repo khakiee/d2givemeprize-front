@@ -84,7 +84,7 @@
       },
       submitEdit (e) {
         e.preventDefault()
-        axios.put('/Timeline/user', {
+        axios.put('/user', {
           userId: this.input.id,
           userPwd: this.input.password,
           userName: this.input.userName,
@@ -100,7 +100,7 @@
         })
       },
       getUserInfo () {
-        axios.get('/Timeline/user/authuserinfo').then((res) => {
+        axios.get('/user/authuserinfo').then((res) => {
           this.input.id = res.data.userId
           this.input.userName = res.data.userName
           this.input.userNo = res.data.userNo

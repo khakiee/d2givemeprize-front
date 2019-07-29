@@ -83,7 +83,7 @@
     watch: {
       query () {
         if (this.query && this.query.length >= 1) {
-          axios.post('/Timeline/tag/searchUsers', this.query)
+          axios.post('/tag/searchUsers', this.query)
             .then((res) => {
               this.searchList = res.data
             })
@@ -124,7 +124,7 @@
         return str
       },
       onClickNoti (alarm) {
-        axios.put('/Timeline/tag/readAlarm', { alarmPheedNo: alarm.alarmPheedNo })
+        axios.put('/tag/readAlarm', { alarmPheedNo: alarm.alarmPheedNo })
           .then(() => {
             this.getNewNoti().then(() => {
               window.location.href = '/post/' + alarm.postNo
