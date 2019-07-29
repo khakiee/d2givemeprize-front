@@ -1,4 +1,4 @@
-# d2sns
+# D2stagram
 
 Social network service with Vue cli 3 😇
 
