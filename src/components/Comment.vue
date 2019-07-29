@@ -1,49 +1,49 @@
 <template>
-  <div class="comment-box border">
-    <a :href="getUserPageUrl(authorNo)" class="d-inline-block pl-5 pt-2 pr-4">
-      <div class="profile">
-        <img v-if="authorImg" class="profile-img" :src="getImgSrc(authorImg)" alt=""/>
-        <img v-if="!authorImg" class="profile-img" src="../assets/NavBarIcon/logo.png" alt=""/>
-        <div class="profile-namecard">
-          <div class="author">{{author}}</div>
-        </div>
-      </div>
-    </a>
-    <div class="d-inline-block">
-      {{content}}
-    </div>
-
-    <div class="float-right d-inline-block mt-3 mr-3">
-      <button class="btn bg-white text-black-50 border"
-              v-on:click="toggleShowRecomments"
-      >show replies
-      </button>
-    </div>
-
-    <div v-if="isRecommentsShown" class="bg-light p-3 border">
-      <div class="p-3">
-        <input class="input-group-text d-inline-block" type="text" v-model="comment"
-               placeholder="Comment here...">
-        <button class="btn bg-white border text-black-50 ml-3 " v-on:click="onClickCommentBtn">comment</button>
-      </div>
-      <div v-if="recommentsList" class="ml-5">
-        <div v-for="reply in recommentsList" v-bind:key="reply.orderNo">
-          <a :href="getUserPageUrl(reply.writerNo)" class="d-inline-block">
+    <div class="comment-box border">
+        <a :href="getUserPageUrl(authorNo)" class="d-inline-block pl-5 pt-2 pr-4">
             <div class="profile">
-              <img v-if="reply.writerRepImg" class="profile-img" :src="getImgSrc(reply.writerRepImg)" alt=""/>
-              <img v-if="!reply.writerRepImg" class="profile-img" src="../assets/NavBarIcon/logo.png" alt=""/>
-              <div class="profile-namecard">
-                <div class="author">{{reply.writerName}}</div>
-              </div>
+                <img v-if="authorImg" class="profile-img" :src="getImgSrc(authorImg)" alt=""/>
+                <img v-if="!authorImg" class="profile-img" src="../assets/NavBarIcon/logo.png" alt=""/>
+                <div class="profile-namecard">
+                    <div class="author">{{author}}</div>
+                </div>
             </div>
-          </a>
-          <div class="d-inline-block ml-3">
-            {{reply.replyContent}}
-          </div>
+        </a>
+        <div class="d-inline-block">
+            {{content}}
         </div>
-      </div>
+
+        <div class="float-right d-inline-block mt-3 mr-3">
+            <button class="btn bg-white text-black-50 border"
+                    v-on:click="toggleShowRecomments"
+            >show replies
+            </button>
+        </div>
+
+        <div v-if="isRecommentsShown" class="bg-light p-3 border">
+            <div class="p-3">
+                <input class="input-group-text d-inline-block" type="text" v-model="comment"
+                       placeholder="Comment here...">
+                <button class="btn bg-white border text-black-50 ml-3 " v-on:click="onClickCommentBtn">comment</button>
+            </div>
+            <div v-if="recommentsList" class="ml-5">
+                <div v-for="reply in recommentsList" v-bind:key="reply.orderNo">
+                    <a :href="getUserPageUrl(reply.writerNo)" class="d-inline-block">
+                        <div class="profile">
+                            <img v-if="reply.writerRepImg" class="profile-img" :src="getImgSrc(reply.writerRepImg)" alt=""/>
+                            <img v-if="!reply.writerRepImg" class="profile-img" src="../assets/NavBarIcon/logo.png" alt=""/>
+                            <div class="profile-namecard">
+                                <div class="author">{{reply.writerName}}</div>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="d-inline-block ml-3">
+                        {{reply.replyContent}}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -51,7 +51,7 @@
   import env from '../../static/settings_local'
 
   export default {
-    name: "CommentBox",
+    name: 'CommentBox',
     props: {
       author: String,
       authorNo: Number,
@@ -60,45 +60,45 @@
       postNo: Number,
       replyNo: Number
     },
-    data() {
+    data () {
       return {
         recommentsList: [],
         isRecommentsShown: false,
-        comment: ""
+        comment: ''
       }
     },
     methods: {
-      toggleShowRecomments() {
+      toggleShowRecomments () {
         if (this.isRecommentsShown === false) {
           this.getRecomments()
         }
         this.isRecommentsShown = !this.isRecommentsShown
       },
-      onClickCommentBtn() {
+      onClickCommentBtn () {
         const kk = this
         axios.post('/Timeline/reply/' + this.replyNo,
-            [[], {postNo: this.postNo.toString(), replyContent: this.comment}])
-            .then((res) => {
-              if (res.status === 200) {
-                window.alert('write comment success')
-                kk.comment = ""
-                this.getRecomments()
-              } else {
-                window.alert('write comment failed')
-              }
-            })
+                   [[], { postNo: this.postNo.toString(), replyContent: this.comment }])
+          .then((res) => {
+            if (res.status === 200) {
+              window.alert('write comment success')
+              kk.comment = ''
+              this.getRecomments()
+            } else {
+              window.alert('write comment failed')
+            }
+          })
       },
-      getImgSrc(src) {
+      getImgSrc (src) {
         return env.awsS3BucketName + src
       },
-      getRecomments() {
+      getRecomments () {
         axios.get('/Timeline/reply/' + this.replyNo)
-            .then((res) => {
-              this.recommentsList = res.data
-            })
+          .then((res) => {
+            this.recommentsList = res.data
+          })
       },
-      getUserPageUrl(authorNo) {
-        return "/user/" + authorNo
+      getUserPageUrl (authorNo) {
+        return '/user/' + authorNo
       }
     }
   }

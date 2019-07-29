@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
-    <navigation id="nav-bar"/>
-    <router-view/>
-  </div>
+    <div id="app">
+        <navigation id="nav-bar"/>
+        <router-view/>
+    </div>
 </template>
 
 <style>
@@ -28,9 +28,9 @@
 
 </style>
 <script>
-  import navigation from "./components/NavBar";
+  import navigation from './components/NavBar'
 
   export default {
-    components: {navigation}
+    components: { navigation }
   }
 </script>

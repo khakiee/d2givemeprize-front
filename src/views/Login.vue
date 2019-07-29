@@ -1,54 +1,54 @@
 <template>
-  <div class="login">
-    <div>
-      <div class="d-inline-block align-top logo-box">
-        <img class="login-logo" alt="Vue logo" src="../assets/NavBarIcon/logo.png">
-      </div>
-      <div class="d-inline-block">
-        <div class="login-box">
-          <form class="form-group form-control-lg pt-2" @submit.prevent="onSubmit">
-            <input class="input-group-text" type="text" name="id" v-model="input.userId" placeholder="ID"/>
-            <p></p>
-            <input class="input-group-text" type="password" name="password" v-model="input.userPwd"
-                   placeholder="Password"/>
-            <p></p>
-            <button class="btn btn-primary">Login</button>
-          </form>
-        </div>
+    <div class="login">
         <div>
-          <a href="/signup">
-            <button class="btn btn-primary">Sign Up</button>
-          </a>
+            <div class="d-inline-block align-top logo-box">
+                <img class="login-logo" alt="Vue logo" src="../assets/NavBarIcon/logo.png">
+            </div>
+            <div class="d-inline-block">
+                <div class="login-box">
+                    <form class="form-group form-control-lg pt-2" @submit.prevent="onSubmit">
+                        <input class="input-group-text" type="text" name="id" v-model="input.userId" placeholder="ID"/>
+                        <p></p>
+                        <input class="input-group-text" type="password" name="password" v-model="input.userPwd"
+                               placeholder="Password"/>
+                        <p></p>
+                        <button class="btn btn-primary">Login</button>
+                    </form>
+                </div>
+                <div>
+                    <a href="/signup">
+                        <button class="btn btn-primary">Sign Up</button>
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </template>
 
 <script>
-  import Router from 'vue-router';
+  import Router from 'vue-router'
   import Vue from 'vue'
   import store from '../store/store'
-  import {mapActions} from 'vuex'
+  import { mapActions } from 'vuex'
 
-  Vue.use(Router);
+  Vue.use(Router)
 
   export default {
 
     name: 'login',
-    data() {
+    data () {
       return {
         input: {
-          userId: "",
-          userPwd: ""
+          userId: '',
+          userPwd: ''
         }
       }
     },
     methods: {
       ...mapActions(['login']),
-      async onSubmit() {
+      async onSubmit () {
         try {
-          await this.login({uid: this.input.userId, password: this.input.userPwd})
+          await this.login({ uid: this.input.userId, password: this.input.userPwd })
           if (store.getters.getAccessToken) {
             this.$router.push({
               name: 'pheed'

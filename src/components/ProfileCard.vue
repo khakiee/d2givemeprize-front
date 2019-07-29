@@ -1,34 +1,34 @@
 <template>
-  <div class="profile">
-    <a :href="getUserPageUrl">
-      <img v-if="userImg" class="profile-img d-inline-block" :src="getImgUrl" alt=""/>
-      <img v-if="!userImg" class="profile-img d-inline-block" src="../assets/profile.png" alt=""/>
-      <div class="profile-namecard d-inline-block">
-        <div class="name overflow-hidden">{{this.userName}}</div>
-        <div class="id">{{this.userId}}</div>
-      </div>
-    </a>
-  </div>
+    <div class="profile">
+        <a :href="getUserPageUrl">
+            <img v-if="userImg" class="profile-img d-inline-block" :src="getImgUrl" alt=""/>
+            <img v-if="!userImg" class="profile-img d-inline-block" src="../assets/profile.png" alt=""/>
+            <div class="profile-namecard d-inline-block">
+                <div class="name overflow-hidden">{{this.userName}}</div>
+                <div class="id">{{this.userId}}</div>
+            </div>
+        </a>
+    </div>
 </template>
 
 <script>
-  import env from "../../static/settings_local"
+  import env from '../../static/settings_local'
 
   export default {
-    name: "profileCard",
+    name: 'profileCard',
     props: {
       userName: String,
       userId: String,
       userImg: String,
       userNo: Number,
-      CardOn: Boolean,
+      CardOn: Boolean
     },
     computed: {
-      getImgUrl() {
+      getImgUrl () {
         return env.awsS3BucketName + this.userImg
       },
-      getUserPageUrl() {
-        return "/user/" + this.userNo
+      getUserPageUrl () {
+        return '/user/' + this.userNo
       }
     }
   }

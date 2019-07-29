@@ -1,14 +1,14 @@
 <template>
-  <div class="footer border-top m-lg-3 p-2">
-    <div class="text-gray">
-      © 2019 d2givemeprize
+    <div class="footer border-top m-lg-3 p-2">
+        <div class="text-gray">
+            © 2019 d2givemeprize
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
   export default {
-    name: "Footer"
+    name: 'Footer'
   }
 </script>
 <style scoped>

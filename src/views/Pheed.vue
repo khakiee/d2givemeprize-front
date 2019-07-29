@@ -1,38 +1,38 @@
 <template>
-  <div class="pheed-page" v-on:scroll="onScroll" ref="pheed">
-    <div class="float-left">
-      <div class="wrapper">
-        <div class="pheed">
-          <Card v-for="item in postList" :key="item.postRegDate"
-                :img-src="item.postRepImg"
-                :post-no="item.postNo"
-                :text="item.postContent"
-                :author="item.userName"
-                :author-no="item.userNo"
-                :liked-by-auth-user="item.likedByAuth"
-                :like-num="item.liked"
-                :post-img-count="item.postImgCount"
-                :author-rep-img="item.authorRepImg"
-          />
+    <div class="pheed-page" v-on:scroll="onScroll" ref="pheed">
+        <div class="float-left">
+            <div class="wrapper">
+                <div class="pheed">
+                    <Card v-for="item in postList" :key="item.postRegDate"
+                          :img-src="item.postRepImg"
+                          :post-no="item.postNo"
+                          :text="item.postContent"
+                          :author="item.userName"
+                          :author-no="item.userNo"
+                          :liked-by-auth-user="item.likedByAuth"
+                          :like-num="item.liked"
+                          :post-img-count="item.postImgCount"
+                          :author-rep-img="item.authorRepImg"
+                    />
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="right-box">
-      <RightBox :user-id="userId"
-                :user-no="userNo"
-                :user-name="userName"
-                :user-profile-img="userImg"
+        <div class="right-box">
+            <RightBox :user-id="userId"
+                      :user-no="userNo"
+                      :user-name="userName"
+                      :user-profile-img="userImg"
 
-      ></RightBox>
-      <Footer/>
+            ></RightBox>
+            <Footer/>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
-  import Card from "../components/Card";
-  import RightBox from "../components/RightBox";
-  import Footer from "../components/Footer";
+  import Card from '../components/Card'
+  import RightBox from '../components/RightBox'
+  import Footer from '../components/Footer'
   import axios from 'axios'
 
   export default {
@@ -41,22 +41,22 @@
       RightBox,
       Card
     },
-    data() {
+    data () {
       return {
         count: 0,
         postList: [],
-        userId: "",
+        userId: '',
         userNo: null,
-        userName: "",
+        userName: '',
         visible: false,
-        userImg: "",
+        userImg: '',
         pageNum: 0,
         pheed: null,
         maxPheedNum: null
       }
     },
     methods: {
-      getAuthUserInfo() {
+      getAuthUserInfo () {
         axios.get('/Timeline/user/authuserinfo').then((res) => {
           this.userId = res.data.userId
           this.userName = res.data.userName
@@ -64,7 +64,7 @@
           this.userImg = res.data.userRepImg
         })
       },
-      getPheedPosts() {
+      getPheedPosts () {
         this.pageNum = this.pageNum + 1
         if (this.maxPheedNum && this.pageNum > this.maxPheedNum) {
           return
@@ -80,18 +80,17 @@
           })
         })
       },
-      onScroll() {
-        let bottomOfWindow = this.pheed.scrollTop + this.pheed.offsetHeight === this.pheed.scrollHeight;
+      onScroll () {
+        const bottomOfWindow = this.pheed.scrollTop + this.pheed.offsetHeight === this.pheed.scrollHeight
         if (bottomOfWindow) {
           this.getPheedPosts()
         }
-      },
+      }
     },
-    created() {
+    created () {
       this.getAuthUserInfo()
-    }
-    ,
-    mounted() {
+    },
+    mounted () {
       this.pheed = this.$refs.pheed
       this.getPheedPosts()
     }

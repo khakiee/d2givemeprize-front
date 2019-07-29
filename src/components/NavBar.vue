@@ -1,93 +1,92 @@
 <template>
-  <nav class="navbar border-bottom">
-    <div class="d-inline-block">
-      <a href="/">
-        <img src="../assets/NavBarIcon/logo.png" alt="../assets/NavBarIcon/logo.png" class="logo nav-item"/>
-      </a>
-    </div>
-
-    <div v-if="getAuthState" class="d-inline-block search-box">
-      <input v-model="query" class="input-group-text"/>
-      <div v-if="query" class="autocomplete">
-        <div v-for="item in searchList" v-bind:key="item.userNo">
-          <a :href="getUserUrl(item.userNo)">
-            <profile-card class="border p-3"
-                          :user-no="item.userNo"
-                          :user-id="item.userId"
-                          :user-img="item.userRepImg"
-                          :user-name="item.userName"
-            />
-          </a>
+    <nav class="navbar border-bottom">
+        <div class="d-inline-block">
+            <a href="/">
+                <img src="../assets/NavBarIcon/logo.png" alt="../assets/NavBarIcon/logo.png" class="logo nav-item"/>
+            </a>
         </div>
-      </div>
-    </div>
 
-    <div v-if="getAuthState" class="d-inline-block">
-      <div class="d-inline-block dropdown nav-item">
-        <div id="notiBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-             class="nav-item dropdown-toggle">
-          <img v-if="isNewNoti" src="../assets/NavBarIcon/notification/on.png"
-               alt="" class="nav-item"
-               v-on:click="updateNotifi"/>
-          <img v-if="!isNewNoti" src="../assets/NavBarIcon/notification/off.png"
-               alt="" class="nav-item"
-               v-on:click="updateNotifi"/>
-        </div>
-        <div class="dropdown-menu noti-item-box" aria-labelledby="notiBtn">
-          <div class="card-header">
-            Notification
-          </div>
-          <div v-for="item in getAlarmList" class="dropdown-item border-bottom"
-               v-bind:key="item.alarmPheedNo" :class="{'not-checked' : !item.checked}">
-            <div class="align-text-top" v-on:click="onClickNoti(item)">
-              <img v-if="!item.postRepImg" src="../assets/logo.png" class="noti-img border d-inline-block">
-              <img v-if="item.postRepImg" :src="getImgSrc(item.postRepImg)" class="noti-img border d-inline-block">
-              <div class="noti-text d-inline-block pt-3 pl-2">
-                {{getNotiString(item)}}
-              </div>
+        <div v-if="getAuthState" class="d-inline-block search-box">
+            <input v-model="query" class="input-group-text"/>
+            <div v-if="query" class="autocomplete">
+                <div v-for="item in searchList" v-bind:key="item.userNo">
+                    <a :href="getUserUrl(item.userNo)">
+                        <profile-card class="border p-3"
+                                      :user-no="item.userNo"
+                                      :user-id="item.userId"
+                                      :user-img="item.userRepImg"
+                                      :user-name="item.userName"
+                        />
+                    </a>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
 
-      <div class="d-inline-block dropdown nav-item ml-3">
-        <img src="../assets/NavBarIcon/user.png" id="dropdownMenuButton" data-toggle="dropdown"
-             aria-haspopup="true" aria-expanded="false" alt="" class="nav-item dropdown-toggle"/>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item" :href="getUserPage">My Page</a>
-          <a class="dropdown-item"
-             v-on:click="submitSignOut">Logout</a>
+        <div v-if="getAuthState" class="d-inline-block">
+            <div class="d-inline-block dropdown nav-item">
+                <div id="notiBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                     class="nav-item dropdown-toggle">
+                    <img v-if="isNewNoti" src="../assets/NavBarIcon/notification/on.png"
+                         alt="" class="nav-item"
+                         v-on:click="updateNotifi"/>
+                    <img v-if="!isNewNoti" src="../assets/NavBarIcon/notification/off.png"
+                         alt="" class="nav-item"
+                         v-on:click="updateNotifi"/>
+                </div>
+                <div class="dropdown-menu noti-item-box" aria-labelledby="notiBtn">
+                    <div class="card-header">
+                        Notification
+                    </div>
+                    <div v-for="item in getAlarmList" class="dropdown-item border-bottom"
+                         v-bind:key="item.alarmPheedNo" :class="{'not-checked' : !item.checked}">
+                        <div class="align-text-top" v-on:click="onClickNoti(item)">
+                            <img v-if="!item.postRepImg" src="../assets/logo.png" class="noti-img border d-inline-block">
+                            <img v-if="item.postRepImg" :src="getImgSrc(item.postRepImg)" class="noti-img border d-inline-block">
+                            <div class="noti-text d-inline-block pt-3 pl-2">
+                                {{getNotiString(item)}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-inline-block dropdown nav-item ml-3">
+                <img src="../assets/NavBarIcon/user.png" id="dropdownMenuButton" data-toggle="dropdown"
+                     aria-haspopup="true" aria-expanded="false" alt="" class="nav-item dropdown-toggle"/>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" :href="getUserPage">My Page</a>
+                    <a class="dropdown-item"
+                       v-on:click="submitSignOut">Logout</a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </nav>
+    </nav>
 </template>
-
 
 <script>
   import store from '../store/store'
   import axios from 'axios'
-  import ProfileCard from "./ProfileCard";
+  import ProfileCard from './ProfileCard'
   import env from '../../static/settings_local'
-  import {mapActions} from 'vuex'
+  import { mapActions } from 'vuex'
 
   export default {
-    name: "navigation",
-    components: {ProfileCard},
-    data() {
+    name: 'navigation',
+    components: { ProfileCard },
+    data () {
       return {
         selectedUser: null,
         searchList: [],
-        query: ""
+        query: ''
       }
     },
     watch: {
-      query() {
+      query () {
         if (this.query && this.query.length >= 1) {
           axios.post('/Timeline/tag/searchUsers', this.query)
-              .then((res) => {
-                this.searchList = res.data
-              })
+            .then((res) => {
+              this.searchList = res.data
+            })
         }
         if (this.query.length < 1) {
           this.searchList = []
@@ -97,24 +96,24 @@
     methods: {
       ...mapActions(['logout']),
       ...mapActions(['getNewNoti']),
-      submitSignOut() {
+      submitSignOut () {
         this.logout()
         this.$router.push('/login')
       },
-      updateNotifi() {
+      updateNotifi () {
         this.getNewNoti()
       },
-      getImgSrc(src) {
+      getImgSrc (src) {
         return env.awsS3BucketName + src
       },
-      getUserUrl(userNo) {
+      getUserUrl (userNo) {
         return '/user/' + userNo
       },
-      getPostUrl(postNo) {
+      getPostUrl (postNo) {
         return '/post/' + postNo
       },
-      getNotiString(alarm) {
-        let str = ""
+      getNotiString (alarm) {
+        let str = ''
         str = str + alarm.userFromName + '님이 '
         if (!alarm.replyNo) {
           str = str + '게시글을 공유하셨습니다.'
@@ -124,31 +123,31 @@
         }
         return str
       },
-      onClickNoti(alarm) {
-        axios.put('/Timeline/tag/readAlarm', {alarmPheedNo: alarm.alarmPheedNo})
-            .then(() => {
-              this.getNewNoti().then(() => {
-                window.location.href = '/post/' + alarm.postNo
-              })
+      onClickNoti (alarm) {
+        axios.put('/Timeline/tag/readAlarm', { alarmPheedNo: alarm.alarmPheedNo })
+          .then(() => {
+            this.getNewNoti().then(() => {
+              window.location.href = '/post/' + alarm.postNo
             })
+          })
       }
     },
     computed: {
-      getUserPage() {
+      getUserPage () {
         const uid = store.getters.getUid
         return '/user/' + uid
       },
-      getAuthState() {
+      getAuthState () {
         return store.getters.getIsAuth
       },
-      getAlarmList() {
+      getAlarmList () {
         return store.getters.getUserAlarm
       },
-      isNewNoti() {
-        let isNew = store.getters.getUserAlarm.filter(
-            function (alarm) {
-              return alarm.checked === 0
-            }).length
+      isNewNoti () {
+        const isNew = store.getters.getUserAlarm.filter(
+          function (alarm) {
+            return alarm.checked === 0
+          }).length
         if (isNew) {
           return true
         }

@@ -1,59 +1,59 @@
 <template>
-  <div class="card">
-    <div class="header border-bottom">
-      <a :href="getAuthorUrl">
-        <img v-if="!authorRepImg" class="card-author-profile" src="../assets/logo.png" alt="">
-        <img v-if="authorRepImg" class="card-author-profile" :src="getProfileImgUrl" alt="">
-        <div class="card-author">{{author}}</div>
-      </a>
-    </div>
-    <div class="card-body">
-      <div v-if="imgSrc">
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img class="d-block w-100" :src="getImgUrl" alt="First slide">
+    <div class="card">
+        <div class="header border-bottom">
+            <a :href="getAuthorUrl">
+                <img v-if="!authorRepImg" class="card-author-profile" src="../assets/logo.png" alt="">
+                <img v-if="authorRepImg" class="card-author-profile" :src="getProfileImgUrl" alt="">
+                <div class="card-author">{{author}}</div>
+            </a>
+        </div>
+        <div class="card-body">
+            <div v-if="imgSrc">
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img class="d-block w-100" :src="getImgUrl" alt="First slide">
+                        </div>
+                    </div>
+                    <a v-if="postImgCount > 1" class="shadow carousel-control-prev" v-on:click="onClickPreviousImgBtn"
+                       role="button"
+                       data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a v-if="postImgCount > 1" class="shadow carousel-control-next" v-on:click="onClickNextImgBtn" role="button"
+                       data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
             </div>
-          </div>
-          <a v-if="postImgCount > 1" class="shadow carousel-control-prev" v-on:click="onClickPreviousImgBtn"
-             role="button"
-             data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a v-if="postImgCount > 1" class="shadow carousel-control-next" v-on:click="onClickNextImgBtn" role="button"
-             data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-          </a>
+            <a :href="getDetailUrl">
+                <div class="card-text p-4">
+                    <div class="card-text">{{text}}</div>
+                </div>
+            </a>
+            <div class="like-btn-group" role="group">
+                <img v-if="!isLiked" class="not-like-btn mb-4 pt-0"
+                     src="../assets/like_btn_img/not_like.png"
+                     v-on:click="onClickLikeBtn"
+                     alt=""/>
+                <img v-if="isLiked" class="like-btn mb-4 pt-0"
+                     src="../assets/like_btn_img/like.png"
+                     v-on:click="onClickLikeBtn"
+                     alt=""/>
+                {{likeCount}}
+            </div>
         </div>
-      </div>
-      <a :href="getDetailUrl">
-        <div class="card-text p-4">
-          <div class="card-text">{{text}}</div>
-        </div>
-      </a>
-      <div class="like-btn-group" role="group">
-        <img v-if="!isLiked" class="not-like-btn mb-4 pt-0"
-             src="../assets/like_btn_img/not_like.png"
-             v-on:click="onClickLikeBtn"
-             alt=""/>
-        <img v-if="isLiked" class="like-btn mb-4 pt-0"
-             src="../assets/like_btn_img/like.png"
-             v-on:click="onClickLikeBtn"
-             alt=""/>
-        {{likeCount}}
-      </div>
     </div>
-  </div>
 </template>
 
 <script>
-  import axios from "axios";
+  import axios from 'axios'
   import env from '../../static/settings_local'
 
   export default {
-    name: "Card",
+    name: 'Card',
     props: {
       likedByAuthUser: Number,
       postNo: Number,
@@ -65,7 +65,7 @@
       postImgCount: Number,
       authorRepImg: String
     },
-    data() {
+    data () {
       return {
         imgSrcList: [],
         currentImgIndex: null,
@@ -75,28 +75,28 @@
       }
     },
     methods: {
-      onClickLikeBtn() {
+      onClickLikeBtn () {
         axios.put('/Timeline/post/' + this.postNo)
-            .then((res) => {
-              if (res.status === 200) {
-                if (!this.isLiked) {
-                  this.likeCount += 1
-                } else {
-                  this.likeCount -= 1
-                }
-                this.isLiked = !this.isLiked
+          .then((res) => {
+            if (res.status === 200) {
+              if (!this.isLiked) {
+                this.likeCount += 1
+              } else {
+                this.likeCount -= 1
               }
-            })
+              this.isLiked = !this.isLiked
+            }
+          })
       },
-      onClickImgBtn() {
+      onClickImgBtn () {
         axios.get('Timeline/post/' + this.postNo + '/loadPheedImg')
-            .then((res) => {
-              this.imgSrcList = res.data
-              this.isImgListLoaded = true
-              this.currentImgIndex += 1
-            })
+          .then((res) => {
+            this.imgSrcList = res.data
+            this.isImgListLoaded = true
+            this.currentImgIndex += 1
+          })
       },
-      onClickNextImgBtn() {
+      onClickNextImgBtn () {
         if (!this.isImgListLoaded) {
           this.onClickImgBtn()
         }
@@ -105,7 +105,7 @@
           this.currentImgIndex -= this.imgSrcList.length
         }
       },
-      onClickPreviousImgBtn() {
+      onClickPreviousImgBtn () {
         if (!this.isImgListLoaded) {
           this.onClickImgBtn()
         }
@@ -116,20 +116,20 @@
       }
     },
     computed: {
-      getDetailUrl() {
+      getDetailUrl () {
         return '/post/' + this.postNo
       },
-      getAuthorUrl() {
+      getAuthorUrl () {
         return '/user/' + this.authorNo
       },
-      getImgUrl() {
+      getImgUrl () {
         return env.awsS3BucketName + this.imgSrcList[this.currentImgIndex]
       },
-      getProfileImgUrl() {
+      getProfileImgUrl () {
         return env.awsS3BucketName + this.authorRepImg
       }
     },
-    mounted() {
+    mounted () {
       this.imgSrcList.push(this.imgSrc)
       this.isLiked = this.likedByAuthUser
       this.likeCount = this.likeNum

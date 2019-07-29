@@ -1,29 +1,29 @@
 <template>
-  <div class="text-box m-3">
-    <div class="input-group-text form-control mt-3 p-0 position-relative">
-      <div v-if="selectedTagNames">
-        <div class="d-inline-block tag-box btn border bg-light" v-for="tag in selectedTagNames" v-bind:key="tag">
-          {{tag}}
-          <div class="d-inline-block" onclick=""> x </div>
+    <div class="text-box m-3">
+        <div class="input-group-text form-control mt-3 p-0 position-relative">
+            <div v-if="selectedTagNames">
+                <div class="d-inline-block tag-box btn border bg-light" v-for="tag in selectedTagNames" v-bind:key="tag">
+                    {{tag}}
+                    <div class="d-inline-block" onclick=""> x </div>
+                </div>
+            </div>
+            <input class="input-group-text form-control"
+                   placeholder="tag friends..."
+                   type="text"
+                   v-model="input"/>
+            <div v-if="tagList" class="autocomplete shadow" >
+                <div v-for="item in tagList" v-bind:key="item.userNo"
+                     v-on:click="onClickTag(item)">
+                    <profile-card class="border p-3"
+                                  :user-no="item.userNo"
+                                  :user-id="item.userId"
+                                  :user-img="item.userRepImg"
+                                  :user-name="item.userName"
+                    />
+                </div>
+            </div>
         </div>
-      </div>
-      <input class="input-group-text form-control"
-             placeholder="tag friends..."
-             type="text"
-             v-model="input"/>
-      <div v-if="tagList" class="autocomplete shadow" >
-        <div v-for="item in tagList" v-bind:key="item.userNo"
-             v-on:click="onClickTag(item)">
-          <profile-card class="border p-3"
-                        :user-no="item.userNo"
-                        :user-id="item.userId"
-                        :user-img="item.userRepImg"
-                        :user-name="item.userName"
-          />
-        </div>
-      </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -31,22 +31,22 @@
   import axios from 'axios'
 
   export default {
-    name: "TagInput",
-    components: {profileCard},
-    data() {
+    name: 'TagInput',
+    components: { profileCard },
+    data () {
       return {
         tagList: [],
         selectedTagList: [],
         selectedTagNumbers: [],
         selectedTagNames: [],
-        tagInput: "",
-        input: ""
+        tagInput: '',
+        input: ''
       }
     },
     methods: {
-      onClickTag(val) {
+      onClickTag (val) {
         if (this.selectedTagNumbers.includes(val.userNo)) {
-          this.tagInput = ""
+          this.tagInput = ''
           this.tagList = []
           return
         }
@@ -57,31 +57,31 @@
         const tagIdx = this.input.indexOf('@')
         this.input = this.input.slice(0, tagIdx)
 
-        this.tagInput = ""
+        this.tagInput = ''
         this.tagList = []
         this.$emit('selectedTags', this.selectedTagNumbers)
-      },
+      }
     },
     watch: {
-      tagInput(val) {
+      tagInput (val) {
         if (val && val.length > 1) {
           axios.post('/Timeline/tag/searchFriends', val.replace('@', ''))
-              .then((res) => {
-                this.tagList = res.data
-              })
+            .then((res) => {
+              this.tagList = res.data
+            })
         }
       },
-      input() {
+      input () {
         if (this.input.includes('@')) {
           const tagIdx = this.input.indexOf('@')
-          this.tagInput = this.input.slice(tagIdx,)
+          this.tagInput = this.input.slice(tagIdx)
         }
         if (!this.input.includes('@')) {
           this.tagList = []
         }
         this.$emit('input', this.input)
       }
-    },
+    }
   }
 </script>
 

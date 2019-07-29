@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "eslint --ext .js,.vue src/components src/views src/store"
   },
   "dependencies": {
     "@melmacaluso/vue-modal": "^2.1.0",
@@ -13,19 +13,21 @@
     "aws-sdk": "^2.493.0",
     "bootstrap": "^4.3.1",
     "core-js": "^2.6.5",
+    "eslint-config-standard": "^13.0.1",
+    "eslint-plugin-html": "^6.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
     "filepond": "^4.4.11",
     "filepond-plugin-file-validate-type": "^1.2.4",
     "filepond-plugin-image-preview": "^4.2.1",
     "jquery": "^3.4.1",
-    "jquery-ui": "^1.12.1",
-    "lodash": "^4.17.14",
     "popper.js": "^1.15.0",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.4",
     "vue-filepond": "^5.1.1",
     "vue-router": "^3.0.3",
-    "vue-scroll-list": "^0.7.0",
-    "vue-virtual-scroll-list": "^1.4.1",
     "vuex": "^3.1.1",
     "vuex-localstorage": "^1.0.0",
     "vuex-persistedstate": "^2.5.4"
@@ -37,7 +39,7 @@
     "axios": "^0.18.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
+    "eslint-plugin-vue": "^5.2.3",
     "expose-loader": "^0.7.5",
     "vue-cli-plugin-axios": "0.0.4",
     "vue-cli-plugin-bootstrap-vue": "^0.4.0",

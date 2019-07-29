@@ -2,11 +2,11 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from './views/Login.vue'
 import store from './store/store'
-import SignUp from "./views/SignUp";
-import Pheed from "./views/Pheed";
-import UserPage from "./views/UserPage";
-import PostDetails from "./views/PostDetails";
-import UserEdit from "./views/UserEdit";
+import SignUp from './views/SignUp'
+import Pheed from './views/Pheed'
+import UserPage from './views/UserPage'
+import PostDetails from './views/PostDetails'
+import UserEdit from './views/UserEdit'
 
 Vue.use(Router)
 
