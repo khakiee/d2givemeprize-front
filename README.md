@@ -1,4 +1,4 @@
-![GitHub last commit](https://img.shields.io/github/last-commit/veatoriche/D2-SNS-FRONT)
+![GitHub last commit](https://img.shields.io/github/last-commit/veatoriche/D2stagram)
 # D2stagram
 
 Social network service with Vue cli 3 😇
