@@ -34,6 +34,9 @@
                v-on:click="updateNotifi"/>
         </div>
         <div class="dropdown-menu noti-item-box" aria-labelledby="notiBtn">
+          <div class="card-header">
+            Notification
+          </div>
           <div v-for="item in getAlarmList" class="dropdown-item border-bottom"
                v-bind:key="item.alarmPheedNo" :class="{'not-checked' : !item.checked}">
             <div class="align-text-top" v-on:click="onClickNoti(item)">
@@ -205,6 +208,11 @@
     width: 65%;
     text-align: left;
     margin-left: 30px;
+  }
+
+  .dropdown-menu {
+    padding: 0;
+    border-radius: 15px;
   }
 
   ::-webkit-scrollbar {
