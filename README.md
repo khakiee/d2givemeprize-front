@@ -3,6 +3,8 @@
 
 Social network service with Vue cli 3 😇
 
+backend Server -> https://github.com/9oominsoo/d2timeline
+
 visit http://d2snsfront.ap-northeast-2.elasticbeanstalk.com/
 
 ## 🔨 Project setup
