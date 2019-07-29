@@ -1,39 +1,26 @@
 # d2sns
 
-## Project setup
-```
-npm install
-```
+Social network service with Vue cli 3 😇
 
-### Compiles and hot-reloads for development
+visit http://d2snsfront.ap-northeast-2.elasticbeanstalk.com/
+
+## 🔨 Project setup
+
+1. install dependency with `npm install`
+2. set `static/settings_local.js` with your aws informations
+3. run server with `npm run serve`
+
+### 🔧 Compiles and hot-reloads for development
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### 🖥 Compiles and minifies for production
 ```
 npm run build
 ```
 
-### Run your tests
+### 📝 Check Lints
 ```
-npm run test
+lint : npm run lint
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### TODO
-
-- [x] Add router
-- [x] Add login page
-- [x] Add axios
-- [x] Add navigation bar
-- [x] Add Footer
-- [x] Redirect to feed page
-- [x] Add feed page
-- [ ] Add Vuex, SPA login system
-- [x] Create Dockerfile
-- [x] Build and fix routing problem
