@@ -35,6 +35,8 @@
   import Footer from '../components/Footer'
   import axios from 'axios'
 
+  import { mapActions } from 'vuex'
+
   export default {
     components: {
       Footer,
@@ -56,6 +58,7 @@
       }
     },
     methods: {
+      ...mapActions(['getNewNoti']),
       getAuthUserInfo () {
         axios.get('/user/authuserinfo').then((res) => {
           this.userId = res.data.userId
@@ -92,6 +95,7 @@
     },
     mounted () {
       this.pheed = this.$refs.pheed
+      this.getNewNoti()
       this.getPheedPosts()
     }
   }

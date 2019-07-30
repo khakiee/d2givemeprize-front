@@ -69,6 +69,8 @@
   import env from '../../static/settings_local'
   import TagInput from '../components/TagInput'
 
+  import { mapActions } from 'vuex'
+
   export default {
     name: 'PostDetails',
     components: {
@@ -98,6 +100,7 @@
       }
     },
     methods: {
+      ...mapActions(['getNewNoti']),
       async getPostDetails () {
         this.postNo = this.$route.params.postNo
         this.$http.get('/post/' + this.postNo)
@@ -195,6 +198,7 @@
     },
     mounted () {
       this.getPostDetails()
+      this.getNewNoti()
     }
   }
 </script>

@@ -77,6 +77,8 @@
   import env from '../../static/settings_local'
   import followers from '../components/FollowerModal'
 
+  import { mapActions } from 'vuex'
+
   export default {
     name: 'UserPage.vue',
     props: {},
@@ -100,6 +102,7 @@
       }
     },
     methods: {
+      ...mapActions(['getNewNoti']),
       async getUserInfo () {
         this.profileId = parseInt(this.$route.params.userNo)
         await this.$http.get('/user/' + this.profileId)
@@ -160,6 +163,7 @@
     mounted () {
       this.getUserInfo()
       this.Uid = store.getters.getUid
+      this.getNewNoti()
     }
   }
 </script>

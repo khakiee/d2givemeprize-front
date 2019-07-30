@@ -45,6 +45,7 @@
   import AWS from 'aws-sdk'
   import axios from 'axios'
   import env from '../../static/settings_local'
+  import { mapActions } from 'vuex'
 
   const filePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview)
   const s3 = new AWS.S3({
@@ -74,6 +75,7 @@
       }
     },
     methods: {
+      ...mapActions(['getNewNoti']),
       checkPwMatch (e) {
         e.preventDefault()
         if (this.input.password === this.input.re_password) {
@@ -140,6 +142,7 @@
     mounted () {
       this.getUserInfo()
       this.setS3Options()
+      this.getNewNoti()
     }
   }
 </script>
