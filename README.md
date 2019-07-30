@@ -3,7 +3,7 @@
 
 Social network service with Vue cli 3 😇
 
-backend Server -> https://github.com/9oominsoo/d2timeline
+backend Server -> https://github.com/9oominsoo/d2givemeprize-backend
 
 visit http://d2snsfront.ap-northeast-2.elasticbeanstalk.com/
 
