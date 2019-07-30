@@ -23,7 +23,7 @@
                           :user-no="person.userNo"
                           :user-id="person.userId"
                           :user-name="person.userName"
-                          :user-img="person.userImg"
+                          :user-img="person.userRepImg"
             />
             <followBtn class="d-inline-block float-right"
                        :user-no="person.userNo"

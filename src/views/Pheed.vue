@@ -12,7 +12,7 @@
                           :liked-by-auth-user="item.likedByAuth"
                           :like-num="item.liked"
                           :post-img-count="item.postImgCount"
-                          :author-rep-img="item.authorRepImg"
+                          :author-rep-img="item.userRepImg"
                     />
                 </div>
             </div>
