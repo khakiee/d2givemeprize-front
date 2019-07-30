@@ -29,29 +29,8 @@
 </style>
 <script>
   import navigation from './components/NavBar'
-  import { mapActions } from 'vuex'
 
   export default {
-    components: { navigation },
-    data () {
-      return {
-        getAlarmTimer: null
-      }
-    },
-    methods: {
-      ...mapActions(['getNewNoti']),
-      updateNotifi () {
-        this.getNewNoti()
-      }
-    },
-    mounted () {
-      const self = this
-      this.getAlarmTimer = setInterval(function () {
-        self.getNewNoti()
-      }, 5000)
-    },
-    destroyed () {
-      clearInterval(this.getAlarmTimer)
-    }
+    components: { navigation }
   }
 </script>

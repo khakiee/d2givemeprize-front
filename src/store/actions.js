@@ -30,10 +30,14 @@ const processResponse = (store, loginResponse) => {
 }
 
 export default {
+  getAlarmTimer: null,
   async login (store, { uid, password }) {
     const loginResponse = await axios.post('/user/login', { userId: uid, userPwd: password })
     processResponse(store, loginResponse)
     const alarmList = await axios.get('/tag/checkAlarm')
+    this.getAlarmTimer = setInterval(function () {
+      self.getNewNoti()
+    }, 5000)
     setAlarmList(store, alarmList.data)
     return loginResponse
   },
@@ -43,6 +47,7 @@ export default {
     return alarmList.status
   },
   logout (store) {
+    clearInterval(this.getAlarmTimer)
     setIsAuth(store, false)
     setAccessToken(store, '')
     setUID(store, -1)
