@@ -7,6 +7,10 @@ backend Server -> https://github.com/9oominsoo/d2timeline
 
 visit http://d2snsfront.ap-northeast-2.elasticbeanstalk.com/
 
+## 🚪 Introduction
+
+This repository is for example for vue cli 3 frontend for SNS 
+
 ## 🔨 Project setup
 
 1. install dependency with `npm install`
