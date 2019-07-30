@@ -7,7 +7,7 @@
         </div>
 
         <div v-if="getAuthState" class="d-inline-block search-box">
-            <input v-model="query" class="input-group-text"/>
+            <input v-model="query" class="input-group-text" placeholder="Search Friends..."/>
             <div v-if="query" class="autocomplete">
                 <div v-for="item in searchList" v-bind:key="item.userNo">
                     <a :href="getUserUrl(item.userNo)">
@@ -38,7 +38,7 @@
                         Notification
                     </div>
                     <div v-for="item in getAlarmList" class="dropdown-item border-bottom"
-                         v-bind:key="item.alarmPheedNo" :class="{'not-checked' : !item.checked}">
+                         v-bind:key="item.alarmRegDate" :class="{'not-checked' : !item.checked}">
                         <div class="align-text-top" v-on:click="onClickNoti(item)">
                             <img v-if="!item.postRepImg" src="../assets/logo.png" class="noti-img border d-inline-block">
                             <img v-if="item.postRepImg" :src="getImgSrc(item.postRepImg)" class="noti-img border d-inline-block">
