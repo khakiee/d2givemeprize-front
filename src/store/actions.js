@@ -48,5 +48,6 @@ export default {
     setUID(store, -1)
     setAlarmList(store, [])
     window.localStorage.removeItem('d2sns')
+    window.localStorage.clear()
   }
 }
