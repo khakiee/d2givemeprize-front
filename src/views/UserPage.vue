@@ -128,14 +128,20 @@
       },
       onClickFollow () {
         if (confirm('팔로우 하시겠습니까?')) {
-          axios.get('/user/' + this.userNo + '/follow')
-          this.getUserInfo()
+          axios.get('/user/' + this.userNo + '/follow').then((res) => {
+            if (res.status === 200) {
+              this.getUserInfo()
+            }
+          })
         }
       },
       onClickUnFollow () {
         if (confirm('팔로우를 취소하시겠습니까?')) {
-          axios.get('/user/' + this.userNo + '/unfollow')
-          this.getUserInfo()
+          axios.get('/user/' + this.userNo + '/unfollow').then((res) => {
+            if (res.status === 200) {
+              this.getUserInfo()
+            }
+          })
         }
       },
       onClickEdit () {
